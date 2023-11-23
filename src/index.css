@@ -1,3 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@font-face {
+  font-family: 'Hero', sans-serif;
+  src: url('./Assets/Hero.otf');
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +18,38 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.font-hero {
+  font-family: 'Hero', sans-serif;
+}
+
+input:focus ~ label,
+input:not(:placeholder-shown) ~ label {
+  @apply transform;
+  font-size: 75%;
+  @apply -translate-y-5;
+}
+
+input:focus ~ label {
+  @apply text-black;
+  @apply left-0;
+}
+
+textarea:focus ~ label,
+textarea:not(:placeholder-shown) ~ label {
+  @apply transform;
+  font-size: 75%;
+  @apply -translate-y-5;
+}
+
+textarea:focus ~ label {
+  @apply text-black;
+  @apply left-0;
+}
+
+.dropdown-label {
+  @apply transform;
+  font-size: 75% !important;
+  @apply -translate-y-5;
 }
