@@ -40,7 +40,6 @@ export const authenticateRegisterToken = async (name, email, phone) => {
 export const authenticateRegister = async (name, email, phone, password, token, campus, location, profilePicture) => {
     const newMerchantRequestDB = collection(getFirestore(), 'newMerchantRequest')
     const userDB = collection(getFirestore(), 'user')
-    const storage = getStorage();
     const docRef = doc(newMerchantRequestDB, token);
     try {
         const userRef = await createUserWithEmailAndPassword(
@@ -51,7 +50,7 @@ export const authenticateRegister = async (name, email, phone, password, token, 
 
         updateDoc(docRef, {'used': true})
 
-        const userPictureRef = ref(storage, ('userprofile/' + userRef.user.email + '.jpg'))
+        const userPictureRef = ref(getStorage(), ('userprofile/' + userRef.user.email + '.jpg'))
         await uploadBytes(userPictureRef, profilePicture)
 
         await addDoc(userDB, {
@@ -61,10 +60,8 @@ export const authenticateRegister = async (name, email, phone, password, token, 
             phone: phone,
             campus: campus,
             location: location,
-            profilePicture: userPictureRef.name
+            profilePicture: 'userprofile/' + userRef.user.email + '.jpg'
         })
-
-        await deleteDoc(docRef);
         
         return "0"
     } catch(e) {
@@ -122,6 +119,39 @@ export const getUserData = async (email) => {
         const profilePictureRef = ref(getStorage(), userData.profilePicture)
         userData.profilePicture = await getDownloadURL(profilePictureRef)
         return userData;
+    } else {
+        return null;
+    }
+}
+
+export const updateUserData = async (name, email, phone, campus, location, profilePicture) => {
+    const userDB = collection(getFirestore(), 'user')
+    const snapshots = await getDocs(query(userDB, where('email', '==', email), limit(1)));
+
+    if (!snapshots.empty) {
+        const userData = snapshots.docs[0].data();
+        const userRef = doc(userDB, snapshots.docs[0].id);
+
+        if(profilePicture) {
+            const userPictureRef = ref(getStorage(), ('userprofile/' + userRef.user.email + '.jpg'))
+            await uploadBytes(userPictureRef, profilePicture)
+        }
+
+        await updateDoc(userRef, {
+            name: name || userData.name,
+            email: email || userData.email,
+            phone: phone || userData.phone,
+            campus: campus || userData.campus,
+            location: location || userData.location,
+            profilePicture: profilePicture,
+        })
+
+        const updatedSnapshots = await getDocs(query(userDB, where('email', '==', email), limit(1)));
+        const updatedUserData = updatedSnapshots.docs[0].data();
+        const profilePictureRef = ref(getStorage(), updatedUserData.profilePicture);
+        updatedUserData.profilePicture = await getDownloadURL(profilePictureRef);
+
+        return updatedUserData;
     } else {
         return null;
     }

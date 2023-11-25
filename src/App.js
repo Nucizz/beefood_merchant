@@ -12,7 +12,7 @@ import Error, { Unlisted } from './Layout/Error.jsx'
 import AddMerchant from './Layout/AddMerchant.jsx';
 import { onAuthStateChanged, getAuth } from 'firebase/auth';
 import { app } from './firebase-config.js';
-import { getUserData } from './Javascript/AuthenticationScript.js';
+import { getUserData } from './Javascript/UserHandler.js';
 import FeedbackLayout from './Layout/Feedback.jsx';
 
 export default function App() {
@@ -84,12 +84,12 @@ export default function App() {
         }>
         </Route>
 
-        <Route path='/adminaddmerchant' element={
+        <Route path='/admin/addmerchant' element={
           <AddMerchant />
         }>
         </Route>
 
-        <Route path='/feedback' element={
+        <Route path='/event/feedback' element={
           <FeedbackLayout />
         }>
         </Route>
@@ -97,8 +97,8 @@ export default function App() {
         <Route path='/dashboard' element={
           <ProtectedRoute allow={user}>
             <NavbarLayout/>
-            <div className="px-12 py-8 sm:ml-64">
-              <DashboardLayout />
+            <div className="xl:px-12 xl:py-8 md:px-8 md:py-6 px-4 py-2 sm:ml-64">
+              <DashboardLayout user={user} />
             </div>
           </ProtectedRoute>
         }>
@@ -107,7 +107,7 @@ export default function App() {
         <Route path='/products' element={
           <ProtectedRoute allow={user}>
             <NavbarLayout/>
-            <div className="px-12 py-8 sm:ml-64">
+            <div className="xl:px-12 xl:py-8 md:px-8 md:py-6 px-4 py-2 sm:ml-64">
               <ProductsLayout />
             </div>
           </ProtectedRoute>
@@ -117,7 +117,7 @@ export default function App() {
         <Route path='/analytics' element={
           <ProtectedRoute allow={user}>
             <NavbarLayout/>
-            <div className="px-12 py-8 sm:ml-64">
+            <div className="xl:px-12 xl:py-8 md:px-8 md:py-6 px-4 py-2 sm:ml-64">
               <AnalyticsLayout />
             </div>
           </ProtectedRoute>
@@ -127,8 +127,8 @@ export default function App() {
         <Route path='/account' element={
           <ProtectedRoute allow={user}>
             <NavbarLayout/>
-            <div className="px-12 py-8 sm:ml-64">
-              <AccountLayout user={user} />
+            <div className="xl:px-12 xl:py-8 md:px-8 md:py-6 px-4 py-2 sm:ml-64">
+              <AccountLayout user={user} setUserRef={setUser} />
             </div>
           </ProtectedRoute>
         }>

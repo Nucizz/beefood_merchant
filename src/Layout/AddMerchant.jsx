@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import logo from '../Assets/BeeFood Icon.png'
-import { authenticateLogin, authenticateRegisterToken, authenticateLogout } from "../Javascript/AuthenticationScript";
-import { LINK } from '../Javascript/Global'
-import { TextField } from './Authentication'
+import { authenticateLogin, authenticateRegisterToken, authenticateLogout } from "../Javascript/UserHandler";
+import { LINK, validatePhoneNumber } from '../Javascript/Global'
 import { app } from '../firebase-config'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { TextField } from '../Class/Component'
 
 export default function AddMerchant() {
     var [user, setUser] = useState(null)
@@ -25,7 +25,7 @@ export default function AddMerchant() {
 
     try {
         if(user && user.email !== "beefood.contact@gmail.com") {
-            authenticateLogout('/adminaddMerchant')
+            authenticateLogout('/admin/addMerchant')
         }
     } catch {
         
@@ -100,18 +100,6 @@ function MerchantRegisterForm() {
     var [email, setEmail] = useState("")
     var [phone, setPhone] = useState("")
     var [token, setToken] = useState("")
-
-    const validatePhoneNumber = (input) => {
-        var lastInput = input;
-        var regExpPhone = /^\+62[0-9]*$/;
-
-        if(!input.startsWith("+62")) {
-            input = (input.length < 3) ? "+62" : ("+62" + input);
-        } else if(!regExpPhone.test(input)) {
-            input = lastInput.slice(0, -1)
-        }
-        return input;
-    }
 
     const onRegisterValidate = async () => {
         var regExpEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;

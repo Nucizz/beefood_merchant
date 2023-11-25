@@ -2,9 +2,9 @@ import icon from '../Assets/BeeFood Icon.png'
 import logo from '../Assets/BeeFood Text Black.png'
 import qrCode from '../Assets/Prototype QR Code.svg'
 import '../App.css'
-import { TextField } from './Authentication'
 import { useState, useEffect } from 'react'
 import { addDoc, collection, getDocs, getFirestore, query, where } from 'firebase/firestore'
+import { TextField, LongTextField } from '../Class/Component'
 
 async function addFeedback(name, email, instagram, positiveFB, negativeFB, tipsFB) {
     try {
@@ -65,17 +65,6 @@ export default function FeedbackLayout() {
     )
 }
 
-function LongTextField({ label, name, ...rest }) {
-    return(
-        <div className="relative z-0 w-full">
-            <textarea {...rest} id={name} placeholder=" " className="h-32 md:text-base text-sm md:pt-3 md:pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200 rounded-none" />
-            <label htmlFor={name} className="absolute duration-300 top-3 -z-1 origin-0 text-gray-500 md:text-base text-sm w-full">
-                {label}
-            </label>
-        </div>
-    );
-}
-
 function FeedbackMainMenu({viewRef}) {
     return(
         <div className='w-full flex flex-col'>
@@ -85,12 +74,12 @@ function FeedbackMainMenu({viewRef}) {
 
                 <img src={qrCode} alt="" className='w-2/5' />
 
-                <p className='text-gray-500 font-base text-lg text-justify'>
+                <p className='text-gray-500 font-base text-md text-justify'>
                     <span className='font-semibold'>BeeFood</span> adalah sebuah aplikasi layanan pemesanan makanan digital di area <span className='font-semibold'>BINUS</span> yang dibuat untuk <span className='font-semibold'>Mahasiswa</span>, <span className='font-semibold'>Dosen</span>, <span className='font-semibold'>Staff</span> serta <span className='font-semibold'>Tenant</span> yang berada di area kampus <span className='font-semibold'>BINUS</span>.
                     <ol className='font-semibold'>
                         <li>• Pesan makan tanpa mengantri</li>
                         <li>• Menghemat waktu Anda</li>
-                        <li>• Tarif lebih murah dari platform lain</li>
+                        <li>• Tarif lebih terjangkau</li>
                     </ol>
                 </p>
 
@@ -196,12 +185,12 @@ function FeedbackThankYou({viewRef}) {
             viewRef("MENU")
         }, delay);
         return () => clearTimeout(redirectTimeout);
-    }, []);
+    }, [viewRef]);
 
     return (
         <div className='flex flex-col justify-center items-center gap-5'>
             <span className='text-4xl font-bold'>Thank You for your Feedback!</span>
-            <iframe className='rounded-lg' src={randomGiphy} width="480" height="360" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+            <iframe title="ThankyouGIF" className='rounded-lg' src={randomGiphy} width="480" height="360" class="giphy-embed" allowFullScreen></iframe>
             <p className='text-xl text-gray-500'>Please take some freebies as a part of our appreciation.</p>
         </div>
     );

@@ -1,8 +1,9 @@
 import logo from '../Assets/BeeFood Icon.png'
 import '../App.css'
 import { useState } from 'react'
-import { authenticateRegister, authenticateLogin, validateToken } from '../Javascript/AuthenticationScript';
-import Profile from '../Assets/Default Profile.webp'
+import { authenticateRegister, authenticateLogin, validateToken } from '../Javascript/UserHandler'
+import { TextField, DropdownField, ChangePhoto } from '../Class/Component'
+import { validatePhoneNumber, CAMPUS_LOCATION } from '../Javascript/Global'
 
 export default function Aunthentication({type}) {
     return (
@@ -64,27 +65,21 @@ function LoginForm() {
 }
 
 function RegisterForm() {
-    const CAMPUS_LOCATION = [
-        { campus: "Kemanggisan Angggrek", location: ["Kantin Payung", "Kantin Basement", "Foodcourt Lt.1", "Foodcourt Lt.5"] },
-        { campus: "Kemanggisan Syahdan", location: ["Deret Creative Space"] },
-        { campus: "Kemanggisan Kijang", location: ["Kantin Belakang"] },
-    ]
-
-    var [error, setError] = useState("")
-    var [profilePicture, setProfilePicture] = useState(null)
-    var [name, setName] = useState("")
-    var [token, setToken] = useState("")
-    var [campus, setCampus] = useState(CAMPUS_LOCATION[0].campus)
-    var [location, setLocation] = useState(CAMPUS_LOCATION[0].location[0])
-    var [email, setEmail] = useState("")
-    var [phone, setPhone] = useState("")
-    var [password, setPassword] = useState("")
-    var [conpword, setConpword] = useState("")
+    const [error, setError] = useState("")
+    const [profilePicture, setProfilePicture] = useState(null)
+    const [name, setName] = useState("")
+    const [token, setToken] = useState("")
+    const [campus, setCampus] = useState(CAMPUS_LOCATION[0].campus)
+    const [location, setLocation] = useState(CAMPUS_LOCATION[0].location[0])
+    const [email, setEmail] = useState("")
+    const [phone, setPhone] = useState("")
+    const [password, setPassword] = useState("")
+    const [conpword, setConpword] = useState("")
 
     const onRegisterValidate = async () => {
         var regExpEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
         const regExpPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-_+=<>?])[A-Za-z\d!@#$%^&*()-_+=<>?]{8,32}$/;
-        if(password === "" || conpword === "" || email === "" || location === "") {
+        if(password === "" || conpword === "" || phone === "" || email === "" || location === "" || campus === "" || name === "" || !profilePicture) {
             setError("Please fill in the forms.")
         } else if(!profilePicture) {
             setError("Please upload your logo.")
@@ -113,11 +108,11 @@ function RegisterForm() {
 
             {error ? <div className="mb-2 w-full md:h-9 h-8 bg-red-100 rounded-md text-red-600 flex flex-row items-center md:px-3 px-2 md:text-base text-sm">{error}</div> : <></>}
             <div className='w-full flex items-center justify-center'>
-                <ChangePhoto photoRef={profilePicture} setPhotoRef={setProfilePicture} />
+                <ChangePhoto photoRef={profilePicture ? URL.createObjectURL(profilePicture) : null} setPhotoRef={setProfilePicture} classSize={"xl:w-32 xl:h-32 md:w-24 md:h-24 w-16 h-16"} />
             </div>
             <TextField label="Name" name="name" value={name} onChange={(e) => setName(e.target.value)} />
-            <TextField label="Email" name="email" type="email" value={email} disabled={true} />
-            <TextField label="Phone" name="phone" type="tel" value={phone} disabled={true} />
+            <TextField label="Email" name="email" type="email" value={email} disabled={true}  />
+            <TextField label="Phone" name="phone" type="tel" onClick={() => {if (phone.length < 3){setPhone("+62")}}} value={phone} onChange={(e) => setPhone(validatePhoneNumber(e.target.value))} disabled={true} disable />
             <DropdownField label="Campus" name="campus" onChange={(e) => {setCampus(e.target.value)}} options={CAMPUS_LOCATION.map((campusInfo) => (
                     <option key={campusInfo.campus} value={campusInfo.campus}>
                         {campusInfo.campus}
@@ -165,57 +160,4 @@ function TokenForm({nameRef, emailRef, phoneRef, tokenRef}) {
 
         </form>
     );
-}
-
-export function TextField({ label, name, type = "text", ...rest }) {
-    return (
-        <div className="relative z-0 w-full">
-            <input {...rest} id={name} type={type} placeholder=" " className="h-12 md:text-base text-sm md:pt-3 md:pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200 rounded-none" />
-            <label htmlFor={name} className="absolute duration-300 top-3 -z-1 origin-0 text-gray-500 md:text-base text-sm w-full" >
-            {label}
-            </label>
-        </div>
-    )
-}
-
-export function DropdownField({ label, name, options, isFilled=true, ...rest }) {
-    return (
-        <div className="relative z-0 w-full">
-            <div className="relative">
-                <select {...rest} id={name} className="cursor-pointer w-full h-12 md:text-base text-sm md:pt-3 md:pb-2 block px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200 rounded-none">
-                    {options}
-                </select>
-                <label htmlFor={name} className={"absolute top-3 -z-1 origin-0 text-gray-500 md:text-base text-sm w-full " + ( isFilled ? "dropdown-label" : "")} >
-                    {label}
-                </label>
-                <span className="absolute top-3 right-0 h-full text-gray-500 cursor-pointer md:text-base text-sm">
-                    ▼
-                </span>
-            </div>
-        </div>
-    )
-}
-
-function ChangePhoto({photoRef, setPhotoRef}) {
-    return(
-        <div className='flex flex-col gap-4'>
-            <img
-            src={photoRef ? URL.createObjectURL(photoRef) : Profile}
-            alt="Profile"
-            className="object-cover xl:w-32 xl:h-32 md:w-24 md:h-24 w-16 h-16 rounded-full cursor-pointer"
-            />
-            <label htmlFor="fileInput" className='text-transparent hover:bg-black/25 hover:text-white text-semibold transition-all duration-300 absolute flex items-center justify-center xl:w-32 xl:h-32 md:w-24 md:h-24 w-16 h-16 rounded-full cursor-pointer'>
-                Change Photo
-            </label>
-            <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => {
-                setPhotoRef(e.target.files[0]);
-                }}
-                className="hidden" 
-                id="fileInput"
-            />
-        </div>
-    )
 }
