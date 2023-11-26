@@ -28,15 +28,15 @@ function ProfileInformation({user}) {
 
             <ChangePhoto photoRef={user.profilePicture} classSize={"xl:w-52 xl:h-52 w-36 h-36"} disabled={true} />
             
-            <div className="w-full flex flex-col justify-evenly lg:items-start items-center h-full w-fit">
+            <div className="flex flex-col justify-evenly lg:items-start items-center h-full w-fit">
                 <span className="xl:text-6xl md:text-4xl text-2xl font-bold text-center md:text-left">{user.name}</span>
                 <span className="xl:text-3xl md:text-xl text-md font-bold text-center md:text-left">{(user.campus) + ", " + (user.location)}</span>
                 <span className="xl:text-2xl md:text-lg text-md text-gray-500 text-center md:text-left">{user.email}</span>
                 <span className="xl:text-2xl md:text-lg text-md text-gray-500 text-center md:text-left">{user.phone}</span>
             </div>
 
-            <button onClick={() => setLogoutConfirmation(true)} className="px-4 transition-all duration-300 bg-red-500 hover:bg-red-600 md:h-9 h-8 rounded-md font-medium text-white flex flex-row gap-2 items-center ml-auto">
-                <svg className="lg:h-8 lg:w-8 md:w-6 md:h-6 w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <button onClick={() => setLogoutConfirmation(true)} className="px-4 transition-all duration-300 bg-red-500 hover:bg-red-600 md:h-9 h-8 rounded-md font-medium text-white flex flex-row gap-2 items-center md:ml-auto">
+                <svg className="lg:h-8 lg:w-8 md:w-6 md:h-6 w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
                 </svg>
                 Logout
@@ -80,12 +80,12 @@ function SettingsList({user, setUserRef}) {
 function AccountSettings({user, setUserRef}) {
     const [error, setError] = useState("")
     const [editable, setEditable] = useState(false)
-    const [profilePicture, setProfilePicture] = useState(user.profilePicture)
     const [name, setName] = useState(user.name)
     const [email, setEmail] = useState(user.email)
     const [phone, setPhone] = useState(user.phone)
     const [campus, setCampus] = useState(user.campus)
     const [location, setLocation] = useState(user.location)
+    const [profilePicture, setProfilePicture] = useState(user.profilePicture)
 
     const updateData = async () => {
         const regExpEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
@@ -110,8 +110,11 @@ function AccountSettings({user, setUserRef}) {
     return(
         <div className='grid grid-cols-1 gap-3'>
 
-            <div className='w-full flex items-center justify-center'> 
-                <ChangePhoto photoRef={profilePicture !== user.profilePicture ? URL.createObjectURL(profilePicture) : profilePicture} setPhotoRef={setProfilePicture} classSize={"xl:w-32 xl:h-32 md:w-24 md:h-24 w-16 h-16"} disabled={!editable} />
+            <div className='w-full flex md:flex-row flex-col items-center justify-evenly mb-5 md:gap-0 gap-5'> 
+                <ChangePhoto setPhotoRef={setProfilePicture} photoRef={profilePicture !== user.profilePicture ? URL.createObjectURL(profilePicture) : profilePicture} classSize={"xl:w-32 xl:h-32 md:w-24 md:h-24 w-28 h-28"} disabled={!editable} />
+                <p className="rounded-md bg-green-200 text-green-500 py-1 px-2 md:py-2 md:px-3 md:w-2/3 w-full h-fit lg:text-base text-sm">
+                    <b>Note!</b> to change your contact information such as email and phone please contact BeeFood admin.   
+                </p>
             </div>
             {error ? <div className={"mb-2 w-full md:h-9 h-8 rounded-md flex flex-row items-center md:px-3 px-2 md:text-base text-sm " + (error.startsWith("TOKEN: ") ? "text-green-600 bg-green-100" : "text-red-600 bg-red-100")}>{error}</div> : <></>}
             <TextField label="Name" name="name" value={name} onChange={(e) => setName(e.target.value)} disabled={!editable} />

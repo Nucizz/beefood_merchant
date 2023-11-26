@@ -55,7 +55,7 @@ export function ChangePhoto({photoRef, setPhotoRef, classSize, disabled=false}) 
                 type="file"
                 accept="image/*"
                 onChange={(e) => {
-                setPhotoRef(e.target.files[0]);
+                    setPhotoRef(e.target.files[0]);
                 }}
                 className="hidden" 
                 id="fileInput"

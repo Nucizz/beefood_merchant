@@ -24,4 +24,5 @@
 
 .bg-pattern-overlay {
     background-image: url("./Assets/Background Pattern.png");
+    background-repeat: repeat;
 }

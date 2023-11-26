@@ -7,8 +7,8 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { TextField } from '../Class/Component'
 
 export default function AddMerchant() {
-    var [user, setUser] = useState(null)
-    var [authLoaded, setAuthLoaded] = useState(false);
+    const [user, setUser] = useState(null)
+    const [authLoaded, setAuthLoaded] = useState(false);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(getAuth(app), (user) => {
@@ -44,7 +44,7 @@ export default function AddMerchant() {
 
                     <h1 className="lg:text-3xl md:text-2xl text-xl">{user ? "Add Merchant" : "Login as Admin"}</h1>
 
-                    {user ? <button className="text-red-400 ml-auto" onClick={() => authenticateLogout('/adminaddmerchant')}>
+                    {user ? <button className="text-red-400 ml-auto" onClick={() => authenticateLogout('/admin/addmerchant')}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="lg:h-8 lg:w-8 md:h-7 md:w-7 w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
                         </svg>
@@ -62,9 +62,9 @@ export default function AddMerchant() {
 }
 
 function AdminLoginForm({setCurrentUser}) {
-    var [error, setError] = useState("")
-    var [email, setEmail] = useState("")
-    var [password, setPassword] = useState("")
+    const [error, setError] = useState("")
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
 
     const onLoginValidate = async () => {
         if(email === "" || password === "") {
@@ -85,7 +85,7 @@ function AdminLoginForm({setCurrentUser}) {
     return(
         <form className="grid grid-cols-1 gap-3">
 
-            {error ? <div className="mb-2 w-full md:h-9 h-8 bg-red-100 rounded-md text-red-600 flex flex-row items-center md:px-3 px-2 md:text-base text-sm">{error}</div> : <></>}
+            {error ? <div className="mb-2 w-full md:py-2 py-1 bg-red-100 rounded-md text-red-600 flex flex-row items-center md:px-3 px-2 md:text-base text-sm">{error}</div> : <></>}
             <TextField label="Email" name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             <TextField label="Password" name="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
             <button className="w-full bf-bg-color md:h-9 h-8 rounded-md font-medium text-white mt-5" type="button" onClick={onLoginValidate}>Submit</button>
@@ -95,15 +95,15 @@ function AdminLoginForm({setCurrentUser}) {
 }
 
 function MerchantRegisterForm() {
-    var [error, setError] = useState("")
-    var [merchantName, setMerchantName] = useState("")
-    var [email, setEmail] = useState("")
-    var [phone, setPhone] = useState("")
-    var [token, setToken] = useState("")
+    const [error, setError] = useState("")
+    const [merchantName, setMerchantName] = useState("")
+    const [email, setEmail] = useState("")
+    const [phone, setPhone] = useState("")
+    const [token, setToken] = useState("")
 
     const onRegisterValidate = async () => {
-        var regExpEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-        var regExpPhone = /^\+62[0-9]*$/;
+        const regExpEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+        const regExpPhone = /^\+62[0-9]*$/;
         if(merchantName === "" || email === "" || phone === "") {
             setError("Please fill in the forms.")
         } else if(merchantName.length < 2 || merchantName.length > 16) {
@@ -132,7 +132,7 @@ function MerchantRegisterForm() {
     return(
         <form className="grid grid-cols-1 gap-3">
 
-            {error ? <div className={"mb-2 w-full md:h-9 h-8 rounded-md flex flex-row items-center md:px-3 px-2 md:text-base text-sm " + (error.startsWith("TOKEN: ") ? "text-green-600 bg-green-100" : "text-red-600 bg-red-100")}>{error}</div> : <></>}
+            {error ? <div className={"mb-2 w-full md:py-2 py-1 rounded-md flex flex-row items-center md:px-3 px-2 md:text-base text-sm " + (error.startsWith("TOKEN: ") ? "text-green-600 bg-green-100" : "text-red-600 bg-red-100")}>{error}</div> : <></>}
             <TextField label="Merchant Name" name="merchantName" value={merchantName} onChange={(e) => setMerchantName(e.target.value)} />
             <TextField label="Email" name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             <TextField label="Phone" name="phone" type="tel" onClick={() => {if (phone.length < 3){setPhone("+62")}}} value={phone} onChange={(e) => setPhone(validatePhoneNumber(e.target.value))} />

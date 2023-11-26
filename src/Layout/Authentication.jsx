@@ -7,11 +7,11 @@ import { validatePhoneNumber, CAMPUS_LOCATION } from '../Javascript/Global'
 
 export default function Aunthentication({type}) {
     return (
-        <div className="w-screen h-screen bg-black flex items-center justify-center bg-pattern">
+        <div className="w-screen min-h-screen bg-black flex items-center justify-center bg-pattern relative">
 
-            <div className="w-screen h-screen bg-pattern-overlay absolute z-0" />
+            <div className="inset-0 h-auto bg-pattern-overlay absolute -z-1" />
 
-            <div className="z-10 shadow-lg xl:w-1/3 lg:w-2/5 md:w-1/2 w-full md:mx-0 mx-8 lg:px-7 md:px-6 px-4 lg:py-6 md:py-5 py-4 bg-white rounded-lg text-black">
+            <div className="my-16 z-0 shadow-lg xl:w-1/3 lg:w-2/5 md:w-1/2 w-full md:mx-0 mx-8 lg:px-7 md:px-6 px-4 lg:py-6 md:py-5 py-4 bg-white rounded-lg text-black">
 
                 <div className="font-bold flex flex-row items-center mb-4">
 
@@ -35,9 +35,9 @@ export default function Aunthentication({type}) {
 }
 
 function LoginForm() {
-    var [error, setError] = useState("")
-    var [email, setEmail] = useState("")
-    var [password, setPassword] = useState("")
+    const [error, setError] = useState("")
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
 
     const onLoginValidate = async () => {
         if(email === "" || password === "") {
@@ -55,7 +55,7 @@ function LoginForm() {
     return(
         <form className="grid grid-cols-1 gap-3">
 
-            {error ? <div className="mb-2 w-full md:h-9 h-8 bg-red-100 rounded-md text-red-600 flex flex-row items-center md:px-3 px-2 md:text-base text-sm">{error}</div> : <></>}
+            {error ? <div className="mb-2 w-full bg-red-100 rounded-md text-red-600 flex flex-row items-center md:px-3 px-2 md:py-2 py-1 md:text-base text-sm">{error}</div> : <></>}
             <TextField label="Email" name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             <TextField label="Password" name="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
             <button className="w-full bf-bg-color md:h-9 h-8 rounded-md font-medium text-white mt-5" type="button" onClick={onLoginValidate}>Submit</button>
@@ -106,7 +106,7 @@ function RegisterForm() {
     return(
         <form className="grid grid-cols-1 gap-3">
 
-            {error ? <div className="mb-2 w-full md:h-9 h-8 bg-red-100 rounded-md text-red-600 flex flex-row items-center md:px-3 px-2 md:text-base text-sm">{error}</div> : <></>}
+            {error ? <div className="mb-2 w-full bg-red-100 rounded-md text-red-600 flex flex-row items-center md:px-3 px-2 md:py-2 py-1 md:text-base text-sm">{error}</div> : <></>}
             <div className='w-full flex items-center justify-center'>
                 <ChangePhoto photoRef={profilePicture ? URL.createObjectURL(profilePicture) : null} setPhotoRef={setProfilePicture} classSize={"xl:w-32 xl:h-32 md:w-24 md:h-24 w-16 h-16"} />
             </div>
@@ -135,9 +135,9 @@ function RegisterForm() {
 }
 
 function TokenForm({nameRef, emailRef, phoneRef, tokenRef}) {
-    var [error, setError] = useState("")
-    var [email, setEmail] = useState("")
-    var [token, setToken] = useState("")
+    const [error, setError] = useState("")
+    const [email, setEmail] = useState("")
+    const [token, setToken] = useState("")
 
     const onTokenValidate = async () => {
         const res = await validateToken(token, email, nameRef, phoneRef)
@@ -152,7 +152,7 @@ function TokenForm({nameRef, emailRef, phoneRef, tokenRef}) {
     return(
         <form className="grid grid-cols-1 gap-3">
 
-            {error ? <div className="mb-2 w-full md:h-9 h-8 bg-red-100 rounded-md text-red-600 flex flex-row items-center md:px-3 px-2 md:text-base text-sm">{error}</div> : <></>}
+            {error ? <div className="mb-2 w-full md:py-2 py-1 bg-red-100 rounded-md text-red-600 flex flex-row items-center md:px-3 px-2 md:text-base text-sm">{error}</div> : <></>}
             <TextField label="Email" name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             <TextField label="Token" name="token" value={token} onChange={(e) => setToken(e.target.value)} />
 

@@ -143,7 +143,7 @@ export const updateUserData = async (name, email, phone, campus, location, profi
             phone: phone || userData.phone,
             campus: campus || userData.campus,
             location: location || userData.location,
-            profilePicture: profilePicture,
+            profilePicture: 'userprofile/' + userRef.user.email + '.jpg',
         })
 
         const updatedSnapshots = await getDocs(query(userDB, where('email', '==', email), limit(1)));
