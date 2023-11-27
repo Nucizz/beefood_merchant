@@ -47,7 +47,7 @@ function LoginForm() {
                 await authenticateLogin(email, password)
                 window.location.href = "/dashboard";
             } catch {
-                setError("Wrong username or password.")
+                setError("Wrong email or password.")
             }
         } 
     }
@@ -75,6 +75,16 @@ function RegisterForm() {
     const [phone, setPhone] = useState("")
     const [password, setPassword] = useState("")
     const [conpword, setConpword] = useState("")
+
+    const onCampusChange = (campusName) => {
+        setCampus(campusName);
+        for (const campusInfo of CAMPUS_LOCATION) {
+            if (campusInfo.campus === campusName) {
+                setLocation(campusInfo.location[0])
+                break
+            }
+        }
+    }
 
     const onRegisterValidate = async () => {
         var regExpEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
@@ -113,12 +123,12 @@ function RegisterForm() {
             <TextField label="Name" name="name" value={name} onChange={(e) => setName(e.target.value)} />
             <TextField label="Email" name="email" type="email" value={email} disabled={true}  />
             <TextField label="Phone" name="phone" type="tel" onClick={() => {if (phone.length < 3){setPhone("+62")}}} value={phone} onChange={(e) => setPhone(validatePhoneNumber(e.target.value))} disabled={true} disable />
-            <DropdownField label="Campus" name="campus" onChange={(e) => {setCampus(e.target.value)}} options={CAMPUS_LOCATION.map((campusInfo) => (
+            <DropdownField label="Campus" name="campus" value={campus} onChange={(e) => {onCampusChange(e.target.value)}} options={CAMPUS_LOCATION.map((campusInfo) => (
                     <option key={campusInfo.campus} value={campusInfo.campus}>
                         {campusInfo.campus}
                     </option>
                 ))} />
-            <DropdownField label="Location" name="location" onChange={(e) => {setLocation(e.target.value)}} options={campus
+            <DropdownField label="Location" name="location" value={location} onChange={(e) => {setLocation(e.target.value)}} options={campus
         ? CAMPUS_LOCATION.find((campusInfo) => campusInfo.campus === campus)?.location.map((location) => (
               <option key={location} value={location} className="cursor-pointer">
                   {location} 

@@ -1,5 +1,5 @@
 import { app } from '../firebase-config';
-import { getAuth, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from 'firebase/auth'
+import { getAuth, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword, sendPasswordResetEmail  } from 'firebase/auth'
 import { addDoc, collection, getDoc, getDocs, deleteDoc, doc, getFirestore, query, where, or, updateDoc, limit } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
@@ -54,10 +54,10 @@ export const authenticateRegister = async (name, email, phone, password, token, 
         await uploadBytes(userPictureRef, profilePicture)
 
         await addDoc(userDB, {
-            ref: userRef.providerId,
             name: name,
             email: email,
             phone: phone,
+            description: "This is a new merchant.",
             campus: campus,
             location: location,
             profilePicture: 'userprofile/' + userRef.user.email + '.jpg'
@@ -124,7 +124,7 @@ export const getUserData = async (email) => {
     }
 }
 
-export const updateUserData = async (name, email, phone, campus, location, profilePicture) => {
+export const updateUserData = async (email, name, description, campus, location, profilePicture) => {
     const userDB = collection(getFirestore(), 'user')
     const snapshots = await getDocs(query(userDB, where('email', '==', email), limit(1)));
 
@@ -133,17 +133,15 @@ export const updateUserData = async (name, email, phone, campus, location, profi
         const userRef = doc(userDB, snapshots.docs[0].id);
 
         if(profilePicture) {
-            const userPictureRef = ref(getStorage(), ('userprofile/' + userRef.user.email + '.jpg'))
+            const userPictureRef = ref(getStorage(), ('userprofile/' + userData.email + '.jpg'))
             await uploadBytes(userPictureRef, profilePicture)
         }
 
         await updateDoc(userRef, {
             name: name || userData.name,
-            email: email || userData.email,
-            phone: phone || userData.phone,
             campus: campus || userData.campus,
             location: location || userData.location,
-            profilePicture: 'userprofile/' + userRef.user.email + '.jpg',
+            description: description || userData.description,
         })
 
         const updatedSnapshots = await getDocs(query(userDB, where('email', '==', email), limit(1)));
@@ -156,3 +154,7 @@ export const updateUserData = async (name, email, phone, campus, location, profi
         return null;
     }
 }
+
+export const sendPasswordResetMail = async (email) => {
+    await sendPasswordResetEmail(getAuth(), email);
+  }

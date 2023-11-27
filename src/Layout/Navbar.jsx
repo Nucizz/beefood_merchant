@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import logo from "../Assets/BeeFood Text Monochrome.png"
 
 export default function NavbarLayout() {
-    var [isExpanded, setIsExpanded] = useState(false)
+    const [isExpanded, setIsExpanded] = useState(false)
     const buttonRef = useRef(null);
 
     const handleClickOutside = (event) => {

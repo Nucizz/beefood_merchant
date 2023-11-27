@@ -118,7 +118,7 @@ function FeedbackForm({viewRef}) {
     }
 
     const onFeedbackValidate = async () => {
-        var regExpEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+        const regExpEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
         if(name === "" || email === "" || instagram === "") {
             setError("Please fill in the forms.")
         } else if(!regExpEmail.test(email)) {

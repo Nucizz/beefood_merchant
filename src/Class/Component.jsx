@@ -1,10 +1,10 @@
 import Profile from '../Assets/Default Profile.webp'
 
-export function DropdownField({ label, name, options, isFilled=true, disabled=false, ...rest }) {
+export function DropdownField({ label, name, options, isFilled=true, disabled=false, value, ...rest }) {
     return (
         <div className="relative z-0 w-full">
             <div className="relative">
-                <select {...rest} id={name} disabled={disabled} className={"cursor-pointer w-full h-12 md:text-base text-sm md:pt-3 md:pb-2 block px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200 rounded-none " + (disabled ? "text-gray-400" : "")} >
+                <select {...rest} id={name} disabled={disabled} value={value} className={"cursor-pointer w-full h-12 md:text-base text-sm md:pt-3 md:pb-2 block px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200 rounded-none " + (disabled ? "text-gray-400" : "")} >
                     {options}
                 </select>
                 <label htmlFor={name} className={"absolute top-3 -z-1 origin-0 text-gray-500 md:text-base text-sm w-full " + ( isFilled ? "dropdown-label" : "")} >
@@ -29,10 +29,10 @@ export function TextField({ label, name, type = "text", disabled=false, ...rest 
     )
 }
 
-export function LongTextField({ label, name, ...rest }) {
+export function LongTextField({ label, name, disabled=false, ...rest }) {
     return(
         <div className="relative z-0 w-full">
-            <textarea {...rest} id={name} placeholder=" " className="h-32 md:text-base text-sm md:pt-3 md:pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200 rounded-none" />
+            <textarea {...rest} disabled={disabled} id={name} placeholder=" " className={"h-32 md:text-base text-sm md:pt-3 md:pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200 rounded-none " + (disabled ? "text-gray-400" : "")} />
             <label htmlFor={name} className="absolute duration-300 top-3 -z-1 origin-0 text-gray-500 md:text-base text-sm w-full">
                 {label}
             </label>
@@ -55,7 +55,7 @@ export function ChangePhoto({photoRef, setPhotoRef, classSize, disabled=false}) 
                 type="file"
                 accept="image/*"
                 onChange={(e) => {
-                    setPhotoRef(e.target.files[0]);
+                    setPhotoRef(e.target.files[0])
                 }}
                 className="hidden" 
                 id="fileInput"
@@ -64,7 +64,7 @@ export function ChangePhoto({photoRef, setPhotoRef, classSize, disabled=false}) 
     )
 }
 
-export function Accordion({setAccordionRef, index, Children, Icon}) {
+export function Accordion({setAccordionRef, index, indexId, title, Children, Icon}) {
     const toggleAccordion = (newIndex) => {
         setAccordionRef(index === newIndex ? null : newIndex);
     }
@@ -72,15 +72,15 @@ export function Accordion({setAccordionRef, index, Children, Icon}) {
     return(
         <div>
             <div
-                className={"group flex items-center justify-between cursor-pointer lg:px-6 lg:py-4 md:px-4 md:py-3 px-3 py-2 rounded-lg transition-all duration-300 hover:bg-amber-400 hover:text-white " + (index === 1 ? "bg-amber-500 text-white" : "bg-gray-100")}
-                onClick={() => toggleAccordion(1)}
+                className={"group flex items-center justify-between cursor-pointer lg:px-6 lg:py-4 md:px-4 md:py-3 px-3 py-2 rounded-lg transition-all duration-300 hover:bg-amber-400 hover:text-white " + (index === indexId ? "bg-amber-500 text-white" : "bg-gray-100")}
+                onClick={() => toggleAccordion(indexId)}
             >
                 <div className='flex flex-row gap-2 lg:text-lg md:text-md text-base font-semibold items-center'>
                     {Icon}
-                    Account Settings
+                    {title}
                 </div>
                 <svg
-                className={`md:w-6 md:h-6 w-4 h-4 transition-transform ${index === 1 ? 'transform rotate-180' : ''}`}
+                className={`md:w-6 md:h-6 w-4 h-4 transition-transform ${index === indexId ? 'transform rotate-180' : ''}`}
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -90,11 +90,12 @@ export function Accordion({setAccordionRef, index, Children, Icon}) {
                 </svg>
             </div>
     
-            {index === 1 && (
-                <div className="bg-gray-100 p-4 rounded-lg mt-2">
+            {index === indexId && (
+                <div className={`bg-gray-100 p-4 rounded-lg mt-2 ${index === indexId ? 'h-fit' : 'h-0'}`}>
                     {Children}
                 </div>
             )}
+            
         </div>
     )
 }
