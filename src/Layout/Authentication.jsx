@@ -1,7 +1,7 @@
 import logo from '../Assets/BeeFood Icon.png'
 import '../App.css'
 import { useState } from 'react'
-import { authenticateRegister, authenticateLogin, validateToken } from '../Javascript/UserHandler'
+import { authenticateRegister, authenticateLogin, validateToken } from '../Javascript/MerchantHandler'
 import { TextField, DropdownField, ChangePhoto } from '../Class/Component'
 import { validatePhoneNumber, CAMPUS_LOCATION } from '../Javascript/Global'
 
@@ -121,7 +121,7 @@ function RegisterForm() {
                 <ChangePhoto photoRef={profilePicture ? URL.createObjectURL(profilePicture) : null} setPhotoRef={setProfilePicture} classSize={"xl:w-32 xl:h-32 md:w-24 md:h-24 w-16 h-16"} />
             </div>
             <TextField label="Name" name="name" value={name} onChange={(e) => setName(e.target.value)} />
-            <TextField label="Email" name="email" type="email" value={email} disabled={true}  />
+            <TextField label="Email" name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} disabled={true}  />
             <TextField label="Phone" name="phone" type="tel" onClick={() => {if (phone.length < 3){setPhone("+62")}}} value={phone} onChange={(e) => setPhone(validatePhoneNumber(e.target.value))} disabled={true} disable />
             <DropdownField label="Campus" name="campus" value={campus} onChange={(e) => {onCampusChange(e.target.value)}} options={CAMPUS_LOCATION.map((campusInfo) => (
                     <option key={campusInfo.campus} value={campusInfo.campus}>
@@ -152,8 +152,8 @@ function TokenForm({nameRef, emailRef, phoneRef, tokenRef}) {
     const onTokenValidate = async () => {
         const res = await validateToken(token, email, nameRef, phoneRef)
         if(res === "0") {
-            tokenRef(token)
             emailRef(email)
+            tokenRef(token)
         } else {
             setError(res)
         }

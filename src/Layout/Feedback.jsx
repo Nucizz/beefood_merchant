@@ -53,12 +53,16 @@ export default function FeedbackLayout() {
 
             <div className="w-screen h-screen bg-pattern-overlay absolute z-0" />
 
-            <div className="z-10 shadow-lg xl:w-1/3 lg:w-2/5 md:w-1/2 w-full md:mx-0 mx-8 lg:px-7 md:px-6 px-4 lg:py-6 md:py-5 py-4 bg-white rounded-lg text-black">
+            <div className="z-10 shadow-lg xl:w-1/3 lg:w-1/2 w-full lg:mx-0 mx-8 lg:px-7 md:px-6 px-4 lg:py-6 md:py-5 py-4 bg-white rounded-lg text-black">
                 {viewSelector()}
             </div>
 
-            <div className="z-10 shadow-lgl md:mx-0 mx-8 px-6 py-6 bg-white rounded-lg text-black">
+            <div className="z-10 shadow-lg md:mx-0 mx-8 px-6 py-6 bg-white rounded-lg text-black xl:block hidden">
                 <iframe className='rounded-lg' width="405" height="720" src="https://www.youtube.com/embed/videoseries?si=PJoBQwKGXK80BHER&amp;list=PLen1QA2KaXf8_IhwK6DuJKP-Z8_vXvj5t&loop=1&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+
+            <div className="z-10 shadow-lg md:mx-0 mx-8 px-6 py-6 bg-white rounded-lg text-black xl:hidden lg:block hidden">
+                <iframe className='rounded-lg' width="270" height="480" src="https://www.youtube.com/embed/videoseries?si=PJoBQwKGXK80BHER&amp;list=PLen1QA2KaXf8_IhwK6DuJKP-Z8_vXvj5t&loop=1&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             </div>
 
         </div>
@@ -67,14 +71,18 @@ export default function FeedbackLayout() {
 
 function FeedbackMainMenu({viewRef}) {
     return(
-        <div className='w-full flex flex-col'>
+        <div className='w-full flex flex-col md:items-start items-center'>
+
             <img src={logo} alt="" className="w-3/5" />
 
-            <div className='flex flex-row gap-5 mt-5'>
+            <div className='flex md:flex-row flex-col items-center gap-5 mt-5'>
 
-                <img src={qrCode} alt="" className='w-2/5' />
+                <div className='md:w-2/5 w-3/5 md:my-5'>
+                    <img src={qrCode} alt="" className='w-full' />
+                    <div className='w-full text-black font-bold xl:text-lg lg:text-base md:text-lg text-center'>Scan to see Prototype</div>
+                </div>
 
-                <p className='text-gray-500 font-base text-md text-justify'>
+                <p className='md:w-3/5 w-full text-gray-500 font-base lg:text-md md:text-lg text-base text-justify'>
                     <span className='font-semibold'>BeeFood</span> adalah sebuah aplikasi layanan pemesanan makanan digital di area <span className='font-semibold'>BINUS</span> yang dibuat untuk <span className='font-semibold'>Mahasiswa</span>, <span className='font-semibold'>Dosen</span>, <span className='font-semibold'>Staff</span> serta <span className='font-semibold'>Tenant</span> yang berada di area kampus <span className='font-semibold'>BINUS</span>.
                     <ol className='font-semibold'>
                         <li>• Pesan makan tanpa mengantri</li>
@@ -85,7 +93,7 @@ function FeedbackMainMenu({viewRef}) {
 
             </div>
 
-            <div className='mt-2 text-gray-500 font-semibold text-2xl text-center'>Follow our Instagram <a href='https://instagram.com/beefood_binus' className='bf-text-color cursor-pointer'>@beefood_binus</a></div>
+            <div className='w-full mt-2 text-gray-500 font-semibold lg:text-2xl md:text-xl text-lg text-center'>Follow our Instagram <a href='https://instagram.com/beefood_binus' className='bf-text-color cursor-pointer'>@beefood_binus</a></div>
 
             <button className="mt-5 w-full bf-bg-color md:h-9 h-8 rounded-md font-medium text-white mt-5" type="button" onClick={() => {viewRef("FORM")}}>Give Feedback</button>
 

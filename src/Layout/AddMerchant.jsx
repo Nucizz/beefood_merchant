@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
 import logo from '../Assets/BeeFood Icon.png'
-import { authenticateLogin, authenticateRegisterToken, authenticateLogout } from "../Javascript/UserHandler";
+import { authenticateLogin, authenticateRegisterToken, authenticateLogout } from "../Javascript/MerchantHandler";
 import { LINK, validatePhoneNumber } from '../Javascript/Global'
 import { app } from '../firebase-config'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { TextField } from '../Class/Component'
 
 export default function AddMerchant() {
-    const [user, setUser] = useState(null)
+    const [merchant, setMerchant] = useState(null)
     const [authLoaded, setAuthLoaded] = useState(false);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(getAuth(app), (user) => {
-            setUser(user)
+        const unsubscribe = onAuthStateChanged(getAuth(app), (merchant) => {
+            setMerchant(merchant)
             setAuthLoaded(true)
         })
 
@@ -24,7 +24,7 @@ export default function AddMerchant() {
     }
 
     try {
-        if(user && user.email !== "beefood.contact@gmail.com") {
+        if(merchant && merchant.email !== "beefood.contact@gmail.com") {
             authenticateLogout('/admin/addMerchant')
         }
     } catch {
@@ -42,9 +42,9 @@ export default function AddMerchant() {
 
                     <img src={logo} alt="" className="lg:h-12 lg:w-12 md:h-10 md:w-10 w-9 h-9 rounded-md mr-3" />
 
-                    <h1 className="lg:text-3xl md:text-2xl text-xl">{user ? "Add Merchant" : "Login as Admin"}</h1>
+                    <h1 className="lg:text-3xl md:text-2xl text-xl">{merchant ? "Add Merchant" : "Login as Admin"}</h1>
 
-                    {user ? <button className="text-red-400 ml-auto" onClick={() => authenticateLogout('/admin/addmerchant')}>
+                    {merchant ? <button className="text-red-400 ml-auto" onClick={() => authenticateLogout('/admin/addmerchant')}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="lg:h-8 lg:w-8 md:h-7 md:w-7 w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
                         </svg>
@@ -53,7 +53,7 @@ export default function AddMerchant() {
 
                 </div>
 
-                {user ? <MerchantRegisterForm /> : <AdminLoginForm setCurrentUser={setUser} /> }
+                {merchant ? <MerchantRegisterForm /> : <AdminLoginForm setCurrentMerchant={setMerchant} /> }
 
             </div>
 
@@ -61,7 +61,7 @@ export default function AddMerchant() {
     );
 }
 
-function AdminLoginForm({setCurrentUser}) {
+function AdminLoginForm({setCurrentMerchant}) {
     const [error, setError] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -72,13 +72,13 @@ function AdminLoginForm({setCurrentUser}) {
         } else if(email === "beefood.contact@gmail.com") {
             try {
                 await authenticateLogin(email, password)
-                setCurrentUser(getAuth(app).currentUser)
+                setCurrentMerchant(getAuth(app).currentMerchant)
                 setError("")
             } catch(e) {
                 setError("Unauthorized!")
             }
         } else {
-            setError("Wrong username or password.")
+            setError("Wrong merchantname or password.")
         }
     }
 

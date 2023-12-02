@@ -1,18 +1,18 @@
 import { useState } from 'react';
-import { ChangePhoto, Accordion, TextField, DropdownField, LongTextField } from '../Class/Component'
-import { authenticateLogout, updateUserData, sendPasswordResetMail } from '../Javascript/UserHandler';
+import { ChangePhoto, Accordion, TextField, DropdownField, LongTextField, TimeField } from '../Class/Component'
+import { authenticateLogout, updateMerchantData, sendPasswordResetMail } from '../Javascript/MerchantHandler';
 import { CAMPUS_LOCATION } from '../Javascript/Global'
 
-export default function AccountLayout({user, setUserRef}) {
+export default function AccountLayout({merchant, setMerchantRef}) {
     return (
         <div className="w-full">
             <h1 className="mb-4 text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-4xl lg:text-4xl">Account</h1>
             
             <div className="w-full flex flex-col-reverse lg:gap-16 gap-8">
 
-                <SettingsList user={user} setUserRef={setUserRef} />
+                <SettingsList merchant={merchant} setMerchantRef={setMerchantRef} />
 
-                <ProfileInformation user={user} /> 
+                <ProfileInformation merchant={merchant} /> 
 
             </div>
 
@@ -20,19 +20,18 @@ export default function AccountLayout({user, setUserRef}) {
     );
 }
 
-function ProfileInformation({user}) {
+function ProfileInformation({merchant}) {
     const [logoutConfirmation, setLogoutConfirmation] = useState(false);
 
     return (
-        <div className="w-full flex flex-col lg:flex-row gap-4 lg:gap-10 lg:items-start items-center xl:h-52 lg:h-36">
+        <div className="w-full flex flex-col lg:flex-row gap-4 lg:gap-10 lg:items-start items-center lg:h-36">
 
-            <ChangePhoto photoRef={user.profilePicture} classSize={"xl:w-52 xl:h-52 w-36 h-36"} disabled={true} />
+            <ChangePhoto photoRef={merchant.profilePicture} classSize={"w-36 h-36"} disabled={true} />
             
             <div className="flex flex-col justify-evenly lg:items-start items-center h-full w-fit">
-                <span className="xl:text-6xl md:text-4xl text-2xl font-bold text-center md:text-left">{user.name}</span>
-                <span className="xl:text-3xl md:text-xl text-md font-bold text-center md:text-left">{(user.campus) + ", " + (user.location)}</span>
-                <span className="xl:text-2xl md:text-lg text-md text-gray-500 text-center md:text-left">{user.email}</span>
-                <span className="xl:text-2xl md:text-lg text-md text-gray-500 text-center md:text-left">{user.phone}</span>
+                <span className="xl:text-6xl md:text-4xl text-2xl font-bold text-center md:text-left">{merchant.name}</span>
+                <span className="xl:text-2xl lg:text-xl md:text-lg text-md text-gray-500 text-center md:text-left">{merchant.email}</span>
+                <span className="xl:text-2xl lg:text-xl md:text-lg text-md text-gray-500 text-center md:text-left">{merchant.phone}</span>
             </div>
 
             <button onClick={() => setLogoutConfirmation(true)} className="px-4 transition-all duration-300 bg-red-500 hover:bg-red-600 md:h-10 h-8 rounded-md font-medium text-white flex flex-row gap-2 items-center md:ml-auto">
@@ -58,7 +57,7 @@ function ProfileInformation({user}) {
     )
 }
 
-function SettingsList({user, setUserRef}) {
+function SettingsList({merchant, setMerchantRef}) {
     const [openAccordion, setOpenAccordion] = useState(null);
 
     return (
@@ -72,7 +71,7 @@ function SettingsList({user, setUserRef}) {
 
             }
             Children={
-                <GeneralSettings user={user} setUserRef={setUserRef} />
+                <GeneralSettings merchant={merchant} setMerchantRef={setMerchantRef} />
             }
             />
     
@@ -81,7 +80,7 @@ function SettingsList({user, setUserRef}) {
                 <svg className='md:w-6 md:h-6 w-4 h-4' fill='currentColor' viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><title>Account Settings</title><path d="M9.6,3.32a3.86,3.86,0,1,0,3.86,3.85A3.85,3.85,0,0,0,9.6,3.32M16.35,11a.26.26,0,0,0-.25.21l-.18,1.27a4.63,4.63,0,0,0-.82.45l-1.2-.48a.3.3,0,0,0-.3.13l-1,1.66a.24.24,0,0,0,.06.31l1,.79a3.94,3.94,0,0,0,0,1l-1,.79a.23.23,0,0,0-.06.3l1,1.67c.06.13.19.13.3.13l1.2-.49a3.85,3.85,0,0,0,.82.46l.18,1.27a.24.24,0,0,0,.25.2h1.93a.24.24,0,0,0,.23-.2l.18-1.27a5,5,0,0,0,.81-.46l1.19.49c.12,0,.25,0,.32-.13l1-1.67a.23.23,0,0,0-.06-.3l-1-.79a4,4,0,0,0,0-.49,2.67,2.67,0,0,0,0-.48l1-.79a.25.25,0,0,0,.06-.31l-1-1.66c-.06-.13-.19-.13-.31-.13L19.5,13a4.07,4.07,0,0,0-.82-.45l-.18-1.27a.23.23,0,0,0-.22-.21H16.46M9.71,13C5.45,13,2,14.7,2,16.83v1.92h9.33a6.65,6.65,0,0,1,0-5.69A13.56,13.56,0,0,0,9.71,13m7.6,1.43a1.45,1.45,0,1,1,0,2.89,1.45,1.45,0,0,1,0-2.89Z"></path></g></svg>
             }
             Children={
-                <AccountSettings user={user} />
+                <AccountSettings merchant={merchant} />
             }
             />
 
@@ -101,15 +100,15 @@ function SettingsList({user, setUserRef}) {
     );
 }
 
-function AccountSettings({user}){
+function AccountSettings({merchant}){
     const [buttonUsable, setButtonUsable] = useState(true)
     const [resetConfirmation, setResetConfirmation] = useState(false);
     const [confirmationMessage, setConfirmationMessage] = useState("Are you sure you want to reset your password?");
 
     const onResetPasswordPressed = () => {
-        sendPasswordResetMail(user.email)
+        sendPasswordResetMail(merchant.email)
         setButtonUsable(false)
-        setConfirmationMessage(`An email has been sent to ${user.email} for password reset.`);
+        setConfirmationMessage(`An email has been sent to ${merchant.email} for password reset.`);
         setTimeout(() => {
             setResetConfirmation(false)
             setButtonUsable(true)
@@ -123,8 +122,8 @@ function AccountSettings({user}){
             <p className="rounded-md bg-green-200 text-green-500 py-1 px-2 md:py-2 md:px-3 w-full h-fit lg:text-base text-sm">
                 <b>Note:</b> to change your contact information such as email and phone please contact BeeFood admin.   
             </p>
-            <TextField label="Email" name="email" value={user.email} type="email" onChange={() => {}} disabled={true} />
-            <TextField label="Phone" name="phone" type="tel" onClick={() => {}} value={user.phone} onChange={() => {}} disabled={true} />
+            <TextField label="Email" name="email" value={merchant.email} type="email" onChange={() => {}} disabled={true} />
+            <TextField label="Phone" name="phone" type="tel" onClick={() => {}} value={merchant.phone} onChange={() => {}} disabled={true} />
 
             <button className="ml-auto px-8 bg-red-500 md:h-9 h-8 rounded-md font-medium text-white mt-5" type="button" onClick={() => setResetConfirmation(true)}>Reset Password</button>
 
@@ -144,14 +143,14 @@ function AccountSettings({user}){
     )
 }
 
-function GeneralSettings({user, setUserRef}) {
+function GeneralSettings({merchant, setMerchantRef}) {
     const [error, setError] = useState("")
     const [editable, setEditable] = useState(false)
     const [profilePicture, setProfilePicture] = useState(null)
-    const [name, setName] = useState(user.name)
-    const [campus, setCampus] = useState(user.campus)
-    const [location, setLocation] = useState(user.location)
-    const [description, setDescritpion] = useState(user.description)
+    const [name, setName] = useState(merchant.name)
+    const [campus, setCampus] = useState(merchant.campus)
+    const [location, setLocation] = useState(merchant.location)
+    const [description, setDescritpion] = useState(merchant.description)
 
 
     const init = (data) => {
@@ -176,10 +175,10 @@ function GeneralSettings({user, setUserRef}) {
         if(location === "" || campus === "" || name === "") {
             setError("Please fill in the forms.")
         } else {
-            const newProfilePicture = profilePicture !== user.profilePicture ? profilePicture : null
-            const res = await updateUserData(user.email, name, description, campus, location, newProfilePicture)
+            const newProfilePicture = profilePicture !== merchant.profilePicture ? profilePicture : null
+            const res = await updateMerchantData(merchant.id, name, description, campus, location, newProfilePicture)
             if(res) {
-                setUserRef(res)
+                setMerchantRef(res)
                 setEditable(false)
                 init(res)
             } else {
@@ -192,9 +191,9 @@ function GeneralSettings({user, setUserRef}) {
         <div className='grid grid-cols-1 gap-3'>
 
             <div className='w-full flex md:flex-row flex-col items-center justify-evenly mb-5 md:gap-0 gap-5'> 
-                <ChangePhoto photoRef={profilePicture ? URL.createObjectURL(profilePicture) : user.profilePicture} setPhotoRef={setProfilePicture} classSize={"xl:w-32 xl:h-32 md:w-24 md:h-24 w-28 h-28"} disabled={!editable} />
+                <ChangePhoto photoRef={profilePicture ? URL.createObjectURL(profilePicture) : merchant.profilePicture} setPhotoRef={setProfilePicture} classSize={"xl:w-32 xl:h-32 md:w-24 md:h-24 w-28 h-28"} disabled={!editable} />
                 <p className="rounded-md bg-green-200 text-green-500 py-1 px-2 md:py-2 md:px-3 md:w-2/3 w-full h-fit lg:text-base text-sm">
-                    <b>Note:</b> This changes applies right away and will be visible to all of BeeFood users. 
+                    <b>Note:</b> This changes applies right away and will be visible to all of BeeFood merchants. 
                 </p>
             </div>
             {error ? <div className={"mb-2 w-full md:h-9 h-8 rounded-md flex flex-row items-center md:px-3 px-2 md:text-base text-sm text-red-600 bg-red-100"}>{error}</div> : <></>}
@@ -212,6 +211,10 @@ function GeneralSettings({user, setUserRef}) {
               </option>
                 ))
             : null} disabled={!editable} />
+            <div className="w-full flex flex-row gap-8">
+                <TimeField label="Open Time" name="opentime" />
+                <TimeField label="Close Time" name="closetime" />
+            </div>
 
             {!editable ? 
             <button className="ml-auto px-8 bf-bg-color md:h-9 h-8 rounded-md font-medium text-white mt-5" type="button" onClick={() => setEditable(true)}>Edit</button>

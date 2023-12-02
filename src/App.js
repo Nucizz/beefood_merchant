@@ -11,22 +11,24 @@ import Authentication from './Layout/Authentication'
 import Error, { Unlisted } from './Layout/Error.jsx'
 import AddMerchant from './Layout/AddMerchant.jsx';
 import { onAuthStateChanged, getAuth } from 'firebase/auth';
-import { app } from './firebase-config.js';
-import { getUserData } from './Javascript/UserHandler.js';
+import { app, getFCMToken } from './firebase-config.js';
+import { getMerchantData } from './Javascript/MerchantHandler.js';
 import FeedbackLayout from './Layout/Feedback.jsx';
 
 export default function App() {
 
-  const [user, setUser] = useState(null);
+  const [merchant, setMerchant] = useState(null);
   const [authLoaded, setAuthLoaded] = useState(false);
+  const [isTokenFound, setTokenFound] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(getAuth(app), async (user) => {
-      if(user){
-        const userData = await getUserData(user.email)
-        setUser(userData)
+    const unsubscribe = onAuthStateChanged(getAuth(app), async (merchant) => {
+      if(merchant){
+        await getFCMToken(setTokenFound)
+        const merchantData = await getMerchantData(merchant.email)
+        setMerchant(merchantData)
       } else {
-        setUser(null)
+        setMerchant(null)
       }
       setAuthLoaded(true);
     });
@@ -54,31 +56,31 @@ export default function App() {
     <Router>
       <Routes>
 
-        <Route path='/' element={ user ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
+        <Route path='/' element={ merchant ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
 
         <Route path='/login' element={
-          <ProtectedRoute allow={!user} redirectPath={'/dashboard'} >
+          <ProtectedRoute allow={!merchant} redirectPath={'/dashboard'} >
             <Authentication type={"Login"}/>
          </ProtectedRoute>
         }>
         </Route>
 
         <Route path='/register' element={
-          <ProtectedRoute allow={!user} redirectPath={'/dashboard'} >
+          <ProtectedRoute allow={!merchant} redirectPath={'/dashboard'} >
             <Authentication type={"Register"}/>
           </ProtectedRoute>
         }>
         </Route>
 
         <Route path='/register/success' element={
-          <ProtectedRoute allow={!user} redirectPath={'/dashboard'}>
+          <ProtectedRoute allow={!merchant} redirectPath={'/dashboard'}>
             <Error description="Thank you for registering!" />
           </ProtectedRoute>
         }>
         </Route>
 
         <Route path='/register/unlisted' element={
-          <ProtectedRoute allow={!user} redirectPath={'/dashboard'}>
+          <ProtectedRoute allow={!merchant} redirectPath={'/dashboard'}>
             <Unlisted />
           </ProtectedRoute>
         }>
@@ -95,17 +97,17 @@ export default function App() {
         </Route>
 
         <Route path='/dashboard' element={
-          <ProtectedRoute allow={user}>
+          <ProtectedRoute allow={merchant}>
             <NavbarLayout/>
             <div className="xl:px-12 xl:py-8 md:px-8 md:py-6 px-4 py-2 sm:ml-64">
-              <DashboardLayout user={user} />
+              <DashboardLayout merchant={merchant} />
             </div>
           </ProtectedRoute>
         }>
         </Route>
 
         <Route path='/products' element={
-          <ProtectedRoute allow={user}>
+          <ProtectedRoute allow={merchant}>
             <NavbarLayout/>
             <div className="xl:px-12 xl:py-8 md:px-8 md:py-6 px-4 py-2 sm:ml-64">
               <ProductsLayout />
@@ -115,7 +117,7 @@ export default function App() {
         </Route>
 
         <Route path='/analytics' element={
-          <ProtectedRoute allow={user}>
+          <ProtectedRoute allow={merchant}>
             <NavbarLayout/>
             <div className="xl:px-12 xl:py-8 md:px-8 md:py-6 px-4 py-2 sm:ml-64">
               <AnalyticsLayout />
@@ -125,10 +127,10 @@ export default function App() {
         </Route>
 
         <Route path='/account' element={
-          <ProtectedRoute allow={user}>
+          <ProtectedRoute allow={merchant}>
             <NavbarLayout/>
             <div className="xl:px-12 xl:py-8 md:px-8 md:py-6 px-4 py-2 sm:ml-64">
-              <AccountLayout user={user} setUserRef={setUser} />
+              <AccountLayout merchant={merchant} setMerchantRef={setMerchant} />
             </div>
           </ProtectedRoute>
         }>
