@@ -86,12 +86,12 @@ export default function App() {
         }>
         </Route>
 
-        <Route path='/admin/addmerchant' element={
+        <Route path='/super/addmerchant' element={
           <AddMerchant />
         }>
         </Route>
 
-        <Route path='/event/feedback' element={
+        <Route path='/super/feedback' element={
           <FeedbackLayout />
         }>
         </Route>

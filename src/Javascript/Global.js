@@ -17,3 +17,11 @@ export const validatePhoneNumber = (input) => {
     }
     return input;
 }
+
+export const timeConverter = (UNIX_timestamp) => {
+    const a = new Date(UNIX_timestamp * 1000)
+    const hour = ('0' + a.getHours()).slice(-2)
+    const min = ('0' + a.getMinutes()).slice(-2)
+    const sec = ('0' + a.getSeconds()).slice(-2)
+    return hour + ':' + min + ':' + sec
+}

@@ -1,8 +1,23 @@
 import { useState, useEffect } from "react";
 import { getTodayOrderList } from "../Javascript/OrderHandler";
 import { ChangePhoto } from "../Class/Component";
+import { timeConverter } from "../Javascript/Global";
 
 export default function DashboardLayout({merchant}) {
+    const dummyOrderList = [
+        { id: '3HrXQf1iQ0XsgHE2Op9b', name: 'John Doe', status: 'Processing', price: 24000, time: 1670237700000 },
+        { id: '4ZsOYv8aD6RwKcJ0Lm5x', name: 'Jane Smith', status: 'Delivered', price: 19000, time: 1670242200000 },
+        { id: '1GtUxL9pV3NnAcX5bH7o', name: 'Bob Johnson', status: 'Processing', price: 32500, time: 1670249100000 },
+        { id: '2PbDqR6cE8QjSgH1Oz9p', name: 'Alice Williams', status: 'Delivered', price: 15750, time: 1670253600000 },
+        { id: '9WjIuO4nH5YbV3A6oQ2x', name: 'Charlie Brown', status: 'Processing', price: 28400, time: 1670257500000 },
+        { id: '8AqBpX2eD7RrH3C0W1jK', name: 'Eva Martinez', status: 'Delivered', price: 22100, time: 1670261400000 },
+        { id: '7SsYhE3nW6OoL1F8wK1l', name: 'David Miller', status: 'Processing', price: 18950, time: 1670265300000 },
+        { id: '5LjJfQ4zI2A0T8C6eD8x', name: 'Grace Davis', status: 'Delivered', price: 36800, time: 1670272200000 },
+        { id: '6VvWmX3kY2ZpO1D4gH3v', name: 'Frank Turner', status: 'Processing', price: 14500, time: 1670276100000 },
+        { id: '0KcEgH8uV2BwP9Y3xZ4o', name: 'Sophie Johnson', status: 'Delivered', price: 30250, time: 1670280600000 },
+    ]
+      
+
     const [order, setOrder] = useState(null)
     const [isLoading, setIsLoading] = useState(true);
 
@@ -10,7 +25,7 @@ export default function DashboardLayout({merchant}) {
         const fetchTodayOrderList = async () => {
             try {
                 const todayOrderList = await getTodayOrderList(merchant.id);
-                setOrder(todayOrderList);
+                setOrder(dummyOrderList); //Change to todayOrderList if finish
             } catch (e) {
 
             } finally {
@@ -19,7 +34,7 @@ export default function DashboardLayout({merchant}) {
         }
         fetchTodayOrderList();
     }, [merchant.id])
-  
+
     if (isLoading) {
       return <></>
     }
@@ -30,7 +45,9 @@ export default function DashboardLayout({merchant}) {
             
             <GeneralInformation merchant={merchant} />
 
-            <ToDoLayout orderRef={order} />
+            <ToDoListLayout orderRef={order} />
+
+            <OrderListLayout orderRef={order} />
 
         </div>
     )
@@ -51,7 +68,7 @@ function GeneralInformation({merchant}) {
     )
 }
 
-function ToDoLayout({orderRef}) {
+function ToDoListLayout({orderRef}) {
     var needConfirmation = 0
     var needProcessing = 0
     var onProcess = 0
@@ -110,6 +127,71 @@ function ToDoLayout({orderRef}) {
                     <span className="text-sm md:text-base lg:text-lg font-semibold w-full text-center">Order Finished</span>
                 </li>
             </ol>
+        </div>
+    )
+}
+
+
+function OrderListLayout({ orderRef }) {
+    const [sortBy, setSortBy] = useState('time')
+    const [sortOrder, setSortOrder] = useState('desc')
+  
+    const handleSort = (criteria) => {
+        if (criteria === sortBy) {
+            setSortOrder((prevOrder) => (prevOrder === 'asc' ? 'desc' : 'asc'))
+        } else {
+            setSortBy(criteria)
+            setSortOrder('asc')
+        }
+    }
+  
+    const sortedOrderRef = orderRef ? [...orderRef].sort((a, b) => {
+        const orderA = sortBy === 'price' ? parseFloat(a[sortBy]) : a[sortBy];
+        const orderB = sortBy === 'price' ? parseFloat(b[sortBy]) : b[sortBy];
+
+        if (sortOrder === 'asc') {
+            return orderA < orderB ? -1 : orderA > orderB ? 1 : 0;
+        } else {
+            return orderA > orderB ? -1 : orderA < orderB ? 1 : 0;
+        }
+    }):[]
+
+    const handleRowClick = (orderId) => {
+        window.alert(orderId)
+    }
+  
+    return (
+        <div className="w-full flex flex-col xl:gap-4 md:gap-3 gap-2">
+            <h2 className="w-full text-lg md:text-xl lg:text-2xl font-bold">Order List</h2>
+        
+            <table className="w-full table-auto rounded-lg overflow-hidden xl:text-lg lg:text-base text-sm">
+                <thead className="bg-gray-300">
+                    <tr>
+                        <th className="p-2 lg:pl-4 text-left cursor-pointer group transition-all duration-300 hover:text-amber-500" onClick={() => handleSort('name')}>Name <span className="text-gray-400 rounded-full ml-2 transition-all duration-300 group-hover:text-amber-500">{sortBy === 'name' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
+                        <th className="p-2 text-left cursor-pointer group transition-all duration-300 hover:text-amber-500" onClick={() => handleSort('status')}>Status <span className="text-gray-400 rounded-full ml-2 transition-all duration-300 group-hover:text-amber-500">{sortBy === 'status' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
+                        <th className="p-2 text-left cursor-pointer group transition-all duration-300 hover:text-amber-500" onClick={() => handleSort('price')}>Price <span className="text-gray-400 rounded-full ml-2 transition-all duration-300 group-hover:text-amber-500">{sortBy === 'price' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
+                        <th className="p-2 text-left cursor-pointer group transition-all duration-300 hover:text-amber-500" onClick={() => handleSort('time')}>Time <span className="text-gray-400 rounded-full ml-2 transition-all duration-300 group-hover:text-amber-500">{sortBy === 'time' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {sortedOrderRef.length > 0 ? (
+                        sortedOrderRef.map((order, index) => (
+                            <tr key={order.id} className={"transition-all duration-300 hover:bg-amber-400 hover:text-white " + (index % 2 === 0 ? 'bg-gray-200' : 'bg-gray-300')} onClick={() => handleRowClick(order.id)}>
+                                <td className="p-2 cursor-pointer lg:pl-4 text-left">{order.name}</td>
+                                <td className="p-2 cursor-pointer text-left">{order.status}</td>
+                                <td className="p-2 cursor-pointer text-left">{`Rp${order.price}`}</td>
+                                <td className="p-2 cursor-pointer text-left">{timeConverter(order.time)}</td>
+                            </tr>
+                        ))
+                        ) : (
+                        <tr>
+                            <td colSpan="5" className="p-2 text-center bg-gray-200">
+                            No order available for now.
+                            </td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
         </div>
     )
 }
