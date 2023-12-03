@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getTodayOrderList } from "../Javascript/OrderHandler";
+import { OrderDetails } from "./Order";
 import { ChangePhoto } from "../Class/Component";
 import { timeConverter } from "../Javascript/Global";
 
@@ -16,7 +17,6 @@ export default function DashboardLayout({merchant}) {
         { id: '6VvWmX3kY2ZpO1D4gH3v', name: 'Frank Turner', status: 'Processing', price: 14500, time: 1670276100000 },
         { id: '0KcEgH8uV2BwP9Y3xZ4o', name: 'Sophie Johnson', status: 'Delivered', price: 30250, time: 1670280600000 },
     ]
-      
 
     const [order, setOrder] = useState(null)
     const [isLoading, setIsLoading] = useState(true);
@@ -135,6 +135,7 @@ function ToDoListLayout({orderRef}) {
 function OrderListLayout({ orderRef }) {
     const [sortBy, setSortBy] = useState('time')
     const [sortOrder, setSortOrder] = useState('desc')
+    const [selectedOrder, setSelectedOrder] = useState(null)
   
     const handleSort = (criteria) => {
         if (criteria === sortBy) {
@@ -155,10 +156,6 @@ function OrderListLayout({ orderRef }) {
             return orderA > orderB ? -1 : orderA < orderB ? 1 : 0;
         }
     }):[]
-
-    const handleRowClick = (orderId) => {
-        window.alert(orderId)
-    }
   
     return (
         <div className="w-full flex flex-col xl:gap-4 md:gap-3 gap-2">
@@ -176,7 +173,7 @@ function OrderListLayout({ orderRef }) {
                 <tbody>
                     {sortedOrderRef.length > 0 ? (
                         sortedOrderRef.map((order, index) => (
-                            <tr key={order.id} className={"transition-all duration-300 hover:bg-amber-400 hover:text-white " + (index % 2 === 0 ? 'bg-gray-200' : 'bg-gray-300')} onClick={() => handleRowClick(order.id)}>
+                            <tr key={order.id} className={"transition-all duration-300 hover:bg-amber-400 hover:text-white " + (index % 2 === 0 ? 'bg-gray-200' : 'bg-gray-300')} onClick={() => setSelectedOrder(order)}>
                                 <td className="p-2 cursor-pointer lg:pl-4 text-left">{order.name}</td>
                                 <td className="p-2 cursor-pointer text-left">{order.status}</td>
                                 <td className="p-2 cursor-pointer text-left">{`Rp${order.price}`}</td>
@@ -192,6 +189,8 @@ function OrderListLayout({ orderRef }) {
                     )}
                 </tbody>
             </table>
+
+            {selectedOrder ? <OrderDetails orderRef={selectedOrder} setOrderRef={setSelectedOrder} /> : <></>}
         </div>
     )
 }
