@@ -95,7 +95,7 @@ export function TimeField({ label, name, disabled = false, ...rest }) {
           {label}
         </label>
       </div>
-    );
+    )
   }
 
 export function ChangePhoto({photoRef, setPhotoRef, classSize, disabled=false}) {

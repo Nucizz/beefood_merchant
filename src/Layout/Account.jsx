@@ -120,7 +120,7 @@ function AccountSettings({merchant}){
         <div className='grid grid-cols-1 gap-3'>
             
             <p className="rounded-md bg-green-200 text-green-500 py-1 px-2 md:py-2 md:px-3 w-full h-fit lg:text-base text-sm">
-                <b>Note:</b> to change your contact information such as email and phone please contact BeeFood admin.   
+                <b>Note:</b> To change your contact information such as email and phone please contact BeeFood admin.   
             </p>
             <TextField label="Email" name="email" value={merchant.email} type="email" onChange={() => {}} disabled={true} />
             <TextField label="Phone" name="phone" type="tel" onClick={() => {}} value={merchant.phone} onChange={() => {}} disabled={true} />
@@ -151,6 +151,8 @@ function GeneralSettings({merchant, setMerchantRef}) {
     const [campus, setCampus] = useState(merchant.campus)
     const [location, setLocation] = useState(merchant.location)
     const [description, setDescritpion] = useState(merchant.description)
+    const [openTime, setOpenTime] = useState(merchant.openTime)
+    const [closeTime, setCloseTime] = useState(merchant.closeTime)
 
 
     const init = (data) => {
@@ -176,7 +178,7 @@ function GeneralSettings({merchant, setMerchantRef}) {
             setError("Please fill in the forms.")
         } else {
             const newProfilePicture = profilePicture !== merchant.profilePicture ? profilePicture : null
-            const res = await updateMerchantData(merchant.id, name, description, campus, location, newProfilePicture)
+            const res = await updateMerchantData(merchant.id, name, description, campus, location, newProfilePicture, openTime, closeTime)
             if(res) {
                 setMerchantRef(res)
                 setEditable(false)
@@ -212,8 +214,8 @@ function GeneralSettings({merchant, setMerchantRef}) {
                 ))
             : null} disabled={!editable} />
             <div className="w-full flex flex-row gap-8">
-                <TimeField label="Open Time" name="opentime" />
-                <TimeField label="Close Time" name="closetime" />
+                <TimeField label="Open Time" name="opentime" value={openTime} onChange={(e) => {setOpenTime(e.target.value)}} disabled={!editable} />
+                <TimeField label="Close Time" name="closetime" value={closeTime} onChange={(e) => {setCloseTime(e.target.value)}} disabled={!editable} />
             </div>
 
             {!editable ? 
