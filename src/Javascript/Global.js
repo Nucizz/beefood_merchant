@@ -1,7 +1,7 @@
 export const LINK = "https://beefood.com/"
 
 export const CAMPUS_LOCATION = [
-    { campus: "Kemanggisan Angggrek", location: ["Kantin Payung", "Kantin Basement", "Foodcourt Lt.1", "Foodcourt Lt.5"] },
+    { campus: "Kemanggisan Anggrek", location: ["Kantin Payung", "Kantin Basement", "Foodcourt Lt.1", "Foodcourt Lt.5"] },
     { campus: "Kemanggisan Syahdan", location: ["Deret Creative Space"] },
     { campus: "Kemanggisan Kijang", location: ["Kantin Belakang"] },
 ]

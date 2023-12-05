@@ -62,7 +62,10 @@ export const authenticateRegister = async (name, email, phone, password, token, 
             location: location,
             profilePicture: 'userprofile/' + merchantRef.user.email + '.jpg',
             openTime: "09:00:00",
-            closeTime: "17:30:00"
+            closeTime: "17:30:00",
+            halal: false,
+            rating: -1,
+            time: 5,
         })
         
         return "0"

@@ -24,7 +24,9 @@ export function AdminMerchant({page}) {
     }
 
     try {
-        if(user && user.email !== "beefood.contact@gmail.com") {
+        if(!user) {
+            window.location.href = "/admin"
+        } else if(user.email !== "beefood.contact@gmail.com") {
             authenticateLogout('/admin')
         }
     } catch {
@@ -52,7 +54,7 @@ export function AdminMerchant({page}) {
 
                 </div>
 
-                { page === "Add Merhant" ? <MerchantRegisterForm /> : <VerifyHalal />}
+                { page === "Add Merchant" ? <MerchantRegisterForm /> : <VerifyHalal />}
 
             </div>
 

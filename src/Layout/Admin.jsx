@@ -97,7 +97,7 @@ function AdminLaunchpad() {
     return (
         <div className="grid grid-cols-1 gap-3">
 
-            <button onClick={() => window.location.href = "/admin/addmerchant"} className="w-full bf-bg-color md:h-9 h-8 rounded-md font-medium text-white" type="button">Add Merhant</button>
+            <button onClick={() => window.location.href = "/admin/addmerchant"} className="w-full bf-bg-color md:h-9 h-8 rounded-md font-medium text-white" type="button">Add Merchant</button>
             <button onClick={() => window.location.href = "/admin/verifyhalal"} className="w-full bf-bg-color md:h-9 h-8 rounded-md font-medium text-white" type="button">Verify Halal</button>
             <button onClick={() => window.location.href = "/admin/feedback"} className="w-full bf-bg-color md:h-9 h-8 rounded-md font-medium text-white" type="button">Feedback Form</button>
 
