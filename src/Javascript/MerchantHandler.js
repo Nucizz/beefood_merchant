@@ -161,4 +161,22 @@ export const updateMerchantData = async (id, name, description, campus, location
 
 export const sendPasswordResetMail = async (email) => {
     await sendPasswordResetEmail(getAuth(), email);
-  }
+}
+
+export const updateMerhcantHalal = async (id) => {
+    const merchantDB = collection(getFirestore(), 'merchant')
+    const docRef = doc(merchantDB, id)
+
+    try {
+        const queueData = await getDoc(docRef);
+        const merchantData = queueData.data()
+
+        await updateDoc(docRef, {
+            halal: !merchantData.halal,
+        })
+
+        return "0"
+    } catch {
+        return "Something went wrong."
+    }
+}

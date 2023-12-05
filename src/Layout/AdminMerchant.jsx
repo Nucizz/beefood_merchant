@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
 import logo from '../Assets/BeeFood Icon.png'
-import { authenticateLogin, authenticateRegisterToken, authenticateLogout } from "../Javascript/MerchantHandler";
+import { authenticateRegisterToken, authenticateLogout, getMerchantData, updateMerhcantHalal } from "../Javascript/MerchantHandler";
 import { LINK, validatePhoneNumber } from '../Javascript/Global'
 import { app } from '../firebase-config'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { TextField } from '../Class/Component'
+import { JustifiedInfo, TextField } from '../Class/Component'
 
-export default function AddMerchant() {
-    const [merchant, setMerchant] = useState(null)
+export function AdminMerchant({page}) {
+    const [user, setUser] = useState(null)
     const [authLoaded, setAuthLoaded] = useState(false);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(getAuth(app), (merchant) => {
-            setMerchant(merchant)
+        const unsubscribe = onAuthStateChanged(getAuth(app), (user) => {
+            setUser(user)
             setAuthLoaded(true)
         })
 
@@ -24,8 +24,8 @@ export default function AddMerchant() {
     }
 
     try {
-        if(merchant && merchant.email !== "beefood.contact@gmail.com") {
-            authenticateLogout('/admin/addMerchant')
+        if(user && user.email !== "beefood.contact@gmail.com") {
+            authenticateLogout('/admin')
         }
     } catch {
         
@@ -42,55 +42,21 @@ export default function AddMerchant() {
 
                     <img src={logo} alt="" className="lg:h-12 lg:w-12 md:h-10 md:w-10 w-9 h-9 rounded-md mr-3" />
 
-                    <h1 className="lg:text-3xl md:text-2xl text-xl">{merchant ? "Add Merchant" : "Login as Admin"}</h1>
+                    <h1 className="lg:text-3xl md:text-2xl text-xl">{page}</h1>
 
-                    {merchant ? <button className="text-red-400 ml-auto" onClick={() => authenticateLogout('/admin/addmerchant')}>
+                    <button className="text-red-400 ml-auto" onClick={() => authenticateLogout('/admin')}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="lg:h-8 lg:w-8 md:h-7 md:w-7 w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
                         </svg>
                     </button>
-                        : <></>}
 
                 </div>
 
-                {merchant ? <MerchantRegisterForm /> : <AdminLoginForm setCurrentMerchant={setMerchant} /> }
+                { page === "Add Merhant" ? <MerchantRegisterForm /> : <VerifyHalal />}
 
             </div>
 
         </div>
-    );
-}
-
-function AdminLoginForm({setCurrentMerchant}) {
-    const [error, setError] = useState("")
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-
-    const onLoginValidate = async () => {
-        if(email === "" || password === "") {
-            setError("Please fill in the forms.")
-        } else if(email === "beefood.contact@gmail.com") {
-            try {
-                await authenticateLogin(email, password)
-                setCurrentMerchant(getAuth(app).currentMerchant)
-                setError("")
-            } catch(e) {
-                setError("Unauthorized!")
-            }
-        } else {
-            setError("Wrong merchantname or password.")
-        }
-    }
-
-    return(
-        <form className="grid grid-cols-1 gap-3">
-
-            {error ? <div className="mb-2 w-full md:py-2 py-1 bg-red-100 rounded-md text-red-600 flex flex-row items-center md:px-3 px-2 md:text-base text-sm">{error}</div> : <></>}
-            <TextField label="Email" name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <TextField label="Password" name="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-            <button className="w-full bf-bg-color md:h-9 h-8 rounded-md font-medium text-white mt-5" type="button" onClick={onLoginValidate}>Submit</button>
-
-        </form>
     );
 }
 
@@ -142,5 +108,58 @@ function MerchantRegisterForm() {
             href={`mailto:${email}?subject=${encodeURIComponent(EMAIL_SUBJECT)}&body=${encodeURIComponent(EMAIL_BODY)}`}>Send to {email}</a>
 
         </form>
-    );
+    )
+}
+
+function VerifyHalal() {
+    const [merchant, setMerchant] = useState(null)
+    const [error, setError] = useState("")
+    const [email, setEmail] = useState("")
+
+    const onFindMerchant = async () => {
+        const regExpEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+        if(email === "") {
+            setError("Please fill in the forms.")
+        }else if(!regExpEmail.test(email)) {
+            setError("Invalid email address.")
+        } else {
+            try {
+                setMerchant(await getMerchantData(email))
+            } catch {
+                setError("No such user found.")
+            }
+        }
+    }
+
+    const onVerifyHalal = async () => {
+        const res = await updateMerhcantHalal(merchant.id)
+        if(res === "0") {
+            setError("Updated merhant as " + (!merchant.halal ? "halal." : "not halal."))
+            setMerchant(await getMerchantData(email))
+        } else {
+            setError(res)
+        }
+    }
+
+    return(
+        <form className="grid grid-cols-1 gap-3">
+
+{error ? <div className={"mb-2 w-full md:py-2 py-1 rounded-md flex flex-row items-center md:px-3 px-2 md:text-base text-sm " + (error.startsWith("Updated ") ? "text-green-600 bg-green-100" : "text-red-600 bg-red-100")}>{error}</div> : <></>}
+            { !merchant ? <>
+                <TextField label="Email" name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <button className="w-full bf-bg-color md:h-9 h-8 rounded-md font-medium text-white mt-5" type="button" onClick={onFindMerchant}>Find Merchant</button>
+            </> : <>
+                <JustifiedInfo title={"ID"} content={merchant.id} />
+                <JustifiedInfo title={"Name"} content={merchant.name} />
+                <JustifiedInfo title={"Email"} content={merchant.email} />
+                <JustifiedInfo title={"Phone"} content={merchant.phone} />
+                <JustifiedInfo title={"Campus"} content={merchant.campus} />
+                <JustifiedInfo title={"Location"} content={merchant.location} />
+                <JustifiedInfo title={"Halal Verification"} content={merchant.halal ? "YES" : "NO"} />
+                <button className="w-full bf-bg-color md:h-9 h-8 rounded-md font-medium text-white mt-5" type="button" onClick={onVerifyHalal}>{merchant.halal ? "Revoke Halal Verification" : "Give Halal Verification"}</button>
+                <a className="w-full font-medium bf-text-color hover:cursor-pointer text-center" onClick={() => {setMerchant(null);setError("")}}>Verify Other Merchant</a>
+            </> }
+
+        </form>
+    )
 }

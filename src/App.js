@@ -9,11 +9,12 @@ import AnalyticsLayout from './Layout/Analytics';
 import AccountLayout from './Layout/Account';
 import Authentication from './Layout/Authentication'
 import Error, { Unlisted } from './Layout/Error.jsx'
-import AddMerchant from './Layout/AddMerchant.jsx';
+import { AdminMerchant } from './Layout/AdminMerchant.jsx';
 import { onAuthStateChanged, getAuth } from 'firebase/auth';
 import { app, getFCMToken } from './firebase-config.js';
 import { getMerchantData } from './Javascript/MerchantHandler.js';
 import FeedbackLayout from './Layout/Feedback.jsx';
+import AdminLayout from './Layout/Admin.jsx';
 
 export default function App() {
 
@@ -46,11 +47,11 @@ export default function App() {
     children,
   }) {
     if (!allow) {
-      return <Navigate to={redirectPath} />;
+      return <Navigate to={redirectPath} />
     }
   
-    return children;
-  };
+    return children
+  }
 
   return  (
     <Router>
@@ -86,12 +87,22 @@ export default function App() {
         }>
         </Route>
 
-        <Route path='/super/addmerchant' element={
-          <AddMerchant />
+        <Route path='/admin' element={
+          <AdminLayout />
         }>
         </Route>
 
-        <Route path='/super/feedback' element={
+        <Route path='/admin/addmerchant' element={
+          <AdminMerchant page={"Add Merchant"} />
+        }>
+        </Route>
+
+        <Route path='/admin/verifyhalal' element={
+          <AdminMerchant page={"Verify Halal"} />
+        }>
+        </Route>
+
+        <Route path='/admin/feedback' element={
           <FeedbackLayout />
         }>
         </Route>

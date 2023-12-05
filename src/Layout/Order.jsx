@@ -1,4 +1,5 @@
 import { timeConverter } from "../Javascript/Global"
+import { JustifiedInfo  } from "../Class/Component";
 import '../App.css';
 
 export function OrderDetails({orderRef, setOrderRef}) {
@@ -8,30 +9,16 @@ export function OrderDetails({orderRef, setOrderRef}) {
                 <h2 className="w-full text-lg md:text-xl lg:text-2xl font-bold" >Order Details</h2>
 
                 <div className="flex flex-col lg:text-lg xl:text-xl">
-                    <OrderDetailsList title={"ID"} content={orderRef.id} />
-                    <OrderDetailsList title={"Name"} content={orderRef.name} />
-                    <OrderDetailsList title={"Status"} content={orderRef.status} />
-                    <OrderDetailsList title={"Price"} content={`Rp${orderRef.price}`} />
-                    <OrderDetailsList title={"Time"} content={timeConverter(orderRef.time)} />
+                    <JustifiedInfo title={"ID"} content={orderRef.id} />
+                    <JustifiedInfo title={"Name"} content={orderRef.name} />
+                    <JustifiedInfo title={"Status"} content={orderRef.status} />
+                    <JustifiedInfo title={"Price"} content={`Rp${orderRef.price}`} />
+                    <JustifiedInfo title={"Time"} content={timeConverter(orderRef.time)} />
                 </div>
 
                 <button onClick={() => setOrderRef(null)} className="px-4 transition-all duration-300 bf-bg-color md:h-9 h-8 rounded-md font-medium text-white">Close</button>
 
             </div>
-        </div>
-    )
-}
-
-function OrderDetailsList({title, content}) {
-    return (
-        <div className="flex flex-row">
-            <div className="w-1/4 flex flex-row justify-between font-semibold">
-                <span>{title}</span>
-                <span>:&nbsp;</span>
-            </div>
-            <p className="w-3/4">
-                {content}
-            </p>
         </div>
     )
 }

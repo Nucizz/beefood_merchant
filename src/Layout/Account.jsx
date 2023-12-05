@@ -119,13 +119,13 @@ function AccountSettings({merchant}){
     return(
         <div className='grid grid-cols-1 gap-3'>
             
-            <p className="rounded-md bg-green-200 text-green-500 py-1 px-2 md:py-2 md:px-3 w-full h-fit lg:text-base text-sm">
+            <p className="rounded-md bg-amber-200 text-amber-500 py-1 px-2 md:py-2 md:px-3 w-full h-fit lg:text-base text-sm">
                 <b>Note:</b> To change your contact information such as email and phone please contact BeeFood admin.   
             </p>
             <TextField label="Email" name="email" value={merchant.email} type="email" onChange={() => {}} disabled={true} />
             <TextField label="Phone" name="phone" type="tel" onClick={() => {}} value={merchant.phone} onChange={() => {}} disabled={true} />
 
-            <button className="ml-auto px-8 bg-red-500 md:h-9 h-8 rounded-md font-medium text-white mt-5" type="button" onClick={() => setResetConfirmation(true)}>Reset Password</button>
+            <button className="ml-auto px-8 bg-red-500 hover:bg-red-600 md:h-9 h-8 transition-all duration-300 rounded-md font-medium text-white mt-5" type="button" onClick={() => setResetConfirmation(true)}>Reset Password</button>
 
             {resetConfirmation && (
                 <div className="z-30 fixed inset-0 flex items-center justify-center bg-black/50">
@@ -194,7 +194,7 @@ function GeneralSettings({merchant, setMerchantRef}) {
 
             <div className='w-full flex md:flex-row flex-col items-center justify-evenly mb-5 md:gap-0 gap-5'> 
                 <ChangePhoto photoRef={profilePicture ? URL.createObjectURL(profilePicture) : merchant.profilePicture} setPhotoRef={setProfilePicture} classSize={"xl:w-32 xl:h-32 md:w-24 md:h-24 w-28 h-28"} disabled={!editable} />
-                <p className="rounded-md bg-green-200 text-green-500 py-1 px-2 md:py-2 md:px-3 md:w-2/3 w-full h-fit lg:text-base text-sm">
+                <p className="rounded-md bg-amber-200 text-amber-500 py-1 px-2 md:py-2 md:px-3 md:w-2/3 w-full h-fit lg:text-base text-sm">
                     <b>Note:</b> This changes applies right away and will be visible to all of BeeFood merchants. 
                 </p>
             </div>

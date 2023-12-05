@@ -157,3 +157,17 @@ export function Accordion({setAccordionRef, index, indexId, title, Children, Ico
         </div>
     )
 }
+
+export function JustifiedInfo({title, content}) {
+  return (
+      <div className="flex flex-row">
+          <div className="w-1/4 flex flex-row justify-between font-semibold">
+              <span>{title}</span>
+              <span>:&nbsp;</span>
+          </div>
+          <p className="w-3/4">
+              {content}
+          </p>
+      </div>
+  )
+}
