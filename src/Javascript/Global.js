@@ -18,6 +18,18 @@ export const validatePhoneNumber = (input) => {
     return input;
 }
 
+export const validatePrice = (input) => {
+    var lastInput = input;
+    var regExpPrice = /^Rp[0-9]*$/;
+
+    if(!input.startsWith("Rp")) {
+        input = (input.length < 3) ? "Rp" : ("Rp" + input);
+    } else if(!regExpPrice.test(input)) {
+        input = lastInput.slice(0, -1)
+    }
+    return input;
+}
+
 export const timeConverter = (UNIX_timestamp) => {
     const a = new Date(UNIX_timestamp * 1000)
     const hour = ('0' + a.getHours()).slice(-2)

@@ -1,17 +1,18 @@
 import Profile from '../Assets/Default Profile.webp'
-import { useState } from 'react'
+import BeeFood from '../Assets/Beefood Icon White.png'
+import { useState, useEffect } from 'react'
 
 export function DropdownField({ label, name, options, isFilled=true, disabled=false, value, ...rest }) {
     return (
         <div className="relative z-0 w-full">
             <div className="relative">
-                <select {...rest} id={name} disabled={disabled} value={value} className={"cursor-pointer w-full h-12 md:text-base text-sm md:pt-3 md:pb-2 block px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200 rounded-none " + (disabled ? "text-gray-400" : "")} >
+                <select {...rest} id={name} disabled={disabled} value={value} className={"cursor-pointer w-full h-12 md:text-base text-sm pt-3 md:pb-2 block px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200 rounded-none " + (disabled ? "text-gray-400" : "")} >
                     {options}
                 </select>
-                <label htmlFor={name} className={"absolute top-3 -z-1 origin-0 text-gray-500 md:text-base text-sm w-full " + ( isFilled ? "dropdown-label" : "")} >
+                <label htmlFor={name} className={"absolute top-5 md:top-3 -z-1 origin-0 text-gray-500 md:text-base text-sm w-full cursor-pointer " + ( isFilled ? "dropdown-label" : "")} >
                     {label}
                 </label>
-                <span className="absolute top-3 right-0 h-full text-gray-500 cursor-pointer md:text-base text-sm">
+                <span className="absolute top-5 md:top-3  right-0 h-full text-gray-500 cursor-pointer md:text-base text-sm">
                     ▼
                 </span>
             </div>
@@ -34,11 +35,11 @@ export function TextField({ label, name, type = "text", disabled = false, ...res
           type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
           placeholder=" "
           className={
-            "h-12 md:text-base text-sm md:pt-3 md:pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200 rounded-none " +
+            "h-12 md:text-base text-sm pt-3 md:pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200 rounded-none " +
             (disabled ? "text-gray-400" : "")
           }
         />
-        <label htmlFor={name} className="absolute duration-300 top-3 -z-1 origin-0 text-gray-500 md:text-base text-sm w-full">
+        <label htmlFor={name} className="absolute duration-300 top-5 md:top-3 -z-1 origin-0 text-gray-500 md:text-base text-sm w-full cursor-text">
           {label}
         </label>
         {type === 'password' && (
@@ -66,8 +67,8 @@ export function TextField({ label, name, type = "text", disabled = false, ...res
 export function LongTextField({ label, name, disabled=false, ...rest }) {
     return(
         <div className="relative z-0 w-full">
-            <textarea {...rest} disabled={disabled} id={name} placeholder=" " className={"h-32 md:text-base text-sm md:pt-3 md:pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200 rounded-none " + (disabled ? "text-gray-400" : "")} />
-            <label htmlFor={name} className="absolute duration-300 top-3 -z-1 origin-0 text-gray-500 md:text-base text-sm w-full">
+            <textarea {...rest} disabled={disabled} id={name} placeholder=" " className={"h-32 md:text-base text-sm pt-4 md:pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200 rounded-none " + (disabled ? "text-gray-400" : "")} />
+            <label htmlFor={name} className="absolute duration-300 top-4 -z-1 origin-0 text-gray-500 md:text-base text-sm w-full cursor-text">
                 {label}
             </label>
         </div>
@@ -84,13 +85,13 @@ export function TimeField({ label, name, disabled = false, ...rest }) {
           type="time"
           placeholder=" "
           className={
-            "h-12 md:text-base text-sm md:pt-3 md:pb-2 block w-fit px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200 rounded-none " +
+            "h-12 md:text-base text-sm pt-3 md:pb-2 block w-fit px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200 rounded-none " +
             (disabled ? "text-gray-400" : "")
           }
         />
         <label
           htmlFor={name}
-          className="absolute duration-300 top-3 -z-1 origin-0 text-gray-500 md:text-base text-sm w-full"
+          className="absolute duration-300 top-5 md:top-3 -z-1 origin-0 text-gray-500 md:text-base text-sm w-full cursor-pointer"
         >
           {label}
         </label>
@@ -98,28 +99,41 @@ export function TimeField({ label, name, disabled = false, ...rest }) {
     )
   }
 
-export function ChangePhoto({photoRef, setPhotoRef, classSize, disabled=false}) {
-    return(
-        <div className={"flex flex-col gap-4 " + classSize}>
-            <img
-            src={photoRef ?? Profile}
-            alt="Profile"
-            className={(!disabled ? "cursor-pointer" : "") + " object-cover rounded-full " + classSize}
-            />
-            <label htmlFor="fileInput" className={(!disabled ? "cursor-pointer" : "hidden") + " text-transparent hover:bg-black/25 hover:text-white text-semibold transition-all duration-300 absolute flex items-center justify-center rounded-full " + classSize}>
-                Change Photo
-            </label>
-            <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => {
-                    setPhotoRef(e.target.files[0])
-                }}
-                className="hidden" 
-                id="fileInput"
-            />
-        </div>
-    )
+export function ChangePhoto({photoRef, setPhotoRef, classSize, disabled=false, type="profile"}) {
+  const [defaultVal, setDefaultVal] = useState(Profile)
+
+  useEffect(() => {
+    switch (type) {
+      case "food":
+        setDefaultVal(BeeFood);
+        break;
+      default:
+        setDefaultVal(Profile);
+        break;
+    }
+  }, [type])
+
+  return(
+      <div className={"flex flex-col gap-4 " + classSize}>
+          <img
+          src={photoRef ?? defaultVal}
+          alt="Profile"
+          className={(!disabled ? "cursor-pointer" : "") + " object-cover rounded-full border " + classSize}
+          />
+          <label htmlFor="fileInput" className={(!disabled ? "cursor-pointer" : "hidden") + " text-transparent hover:bg-black/25 hover:text-white text-semibold transition-all duration-300 absolute flex items-center justify-center rounded-full " + classSize}>
+              Change Photo
+          </label>
+          <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                  setPhotoRef(e.target.files[0])
+              }}
+              className="hidden" 
+              id="fileInput"
+          />
+      </div>
+  )
 }
 
 export function Accordion({setAccordionRef, index, indexId, title, Children, Icon}) {
@@ -130,7 +144,7 @@ export function Accordion({setAccordionRef, index, indexId, title, Children, Ico
     return(
         <div>
             <div
-                className={"group flex items-center justify-between cursor-pointer lg:px-6 lg:py-4 md:px-4 md:py-3 px-3 py-2 rounded-lg transition-all duration-300 hover:bg-amber-400 hover:text-white " + (index === indexId ? "bg-amber-500 text-white" : "bg-gray-100")}
+                className={"group flex items-center justify-between cursor-pointer lg:px-6 lg:py-4 md:px-4 md:py-3 px-3 py-2 rounded-lg transition-all duration-300 hover:bg-amber-400 hover:text-white " + (index === indexId ? "bg-amber-500 text-white" : "bg-white")}
                 onClick={() => toggleAccordion(indexId)}
             >
                 <div className='flex flex-row gap-2 lg:text-lg md:text-md text-base font-semibold items-center'>
@@ -149,7 +163,7 @@ export function Accordion({setAccordionRef, index, indexId, title, Children, Ico
             </div>
     
             {index === indexId && (
-                <div className={`bg-gray-100 p-4 rounded-lg mt-2 ${index === indexId ? 'h-fit' : 'h-0'}`}>
+                <div className={`bg-white p-4 rounded-lg mt-2 ${index === indexId ? 'h-fit' : 'h-0'}`}>
                     {Children}
                 </div>
             )}

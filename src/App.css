@@ -1,25 +1,25 @@
 .bf-bg-color {
-    background-color: #ffbf00;
+    background-color: #ffae00;
     transition: 0.3s ease-out;
 }
 
 .bf-bg-color:hover {
-    background-color: #e0a800;
+    background-color: #d18f00;
     transition: 0.3s ease-out;
 }
 
 .bf-text-color {
-    color: #f0b400;
+    color: #ffae00;
     transition: 0.3s ease-out;
 }
 
 .bf-text-color:hover {
-    color: #e0a800;
+    color: #d18f00;
     transition: 0.3s ease-out;
 }
 
 .bg-pattern{
-    background-image: linear-gradient(to bottom, #f99601, #ffbf00);
+    background-image: linear-gradient(to bottom, #ffae00, #ffd900);
 }
 
 .bg-pattern-overlay {

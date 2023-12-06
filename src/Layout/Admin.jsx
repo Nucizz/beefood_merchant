@@ -26,8 +26,8 @@ export default function AdminLayout() {
         if(user && user.email !== "beefood.contact@gmail.com") {
             authenticateLogout('/admin')
         }
-    } catch {
-        
+    } catch(e) {
+        console.log(e)
     }
 
     return (

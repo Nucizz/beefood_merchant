@@ -16,15 +16,13 @@ const MESSAGING_KEY = "BN_jQ2yOdiqIMZSGe5-SBg8EKY7aiunu5bUG_NEc4Ky1B6Kdgt-DdxsBZ
 
 export const app = initializeApp(FIREBASE_CONFIG)
 
-export const getFCMToken = async (setTokenFound) => {
+export const getFCMToken = async () => {
   try {
     const currentToken = await getToken(getMessaging(app), { vapidKey: MESSAGING_KEY });
     if (currentToken) {
       console.log('current token for client: ', currentToken);
-      setTokenFound(true);
     } else {
       console.log('No registration token available. Request permission to generate one.');
-      setTokenFound(false);
     }
   } catch (err) {
     console.log('An error occurred while retrieving token. ', err);

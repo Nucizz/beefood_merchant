@@ -29,8 +29,8 @@ export function AdminMerchant({page}) {
         } else if(user.email !== "beefood.contact@gmail.com") {
             authenticateLogout('/admin')
         }
-    } catch {
-        
+    } catch(e) {
+        console.log(e)
     }
 
     return (
@@ -127,7 +127,8 @@ function VerifyHalal() {
         } else {
             try {
                 setMerchant(await getMerchantData(email))
-            } catch {
+            } catch(e) {
+                console.log(e)
                 setError("No such user found.")
             }
         }

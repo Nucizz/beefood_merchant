@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import logo from "../Assets/BeeFood Text Monochrome.png"
 
-export default function NavbarLayout() {
+export default function NavbarLayout({activePage}) {
     const [isExpanded, setIsExpanded] = useState(false)
     const buttonRef = useRef(null);
 
@@ -25,7 +25,7 @@ export default function NavbarLayout() {
       }, []);
 
     return (
-        <>
+        <div className="bg-gray-100">
             <button ref={buttonRef} onClick={() => setIsExpanded(!isExpanded)} aria-controls="default-sidebar" type="button" className="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-orange-100 hover:text-orange-600 focus:outline-none focus:ring-2 focus:ring-gray-200">
                 <span className="sr-only">Open sidebar</span>
                 <svg className="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -34,13 +34,13 @@ export default function NavbarLayout() {
             </button>
 
             <aside id="default-sidebar" className={"fixed top-0 left-0 z-40 w-64 h-screen transition-transform " + (isExpanded ? "" : "-translate-x-full sm:translate-x-0")} aria-label="Sidebar">
-                <div className="h-full px-3 py-4 overflow-y-auto bg-amber-500">
+                <div className="h-full px-3 py-4 overflow-y-auto bg-amber-500 shadow-lg">
                     <ul className="space-y-2 font-medium">
                         <li className="p-2">
                             <img src={logo} alt="Logo" className="w-full pr-3"/>
                             <span className="text-white font-light antialiased text-lg">for Merchant</span>
                         </li>
-                        <NavbarButton title={"Dashboard"} reference={"/dashboard"}
+                        <NavbarButton title={"Dashboard"} reference={"/dashboard"} active={activePage==="Dashboard"}
                          Icon={ () => {
                                 return (
                                     <svg className="w-5 h-5 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
@@ -49,7 +49,7 @@ export default function NavbarLayout() {
                                 );
                             }
                         }/>
-                        <NavbarButton title={"Products"} reference={"/products"}
+                        <NavbarButton title={"Products"} reference={"/products"} active={activePage==="Products"}
                         Icon={ () => {
                                 return (
                                     <svg className="w-5 h-5 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -58,7 +58,7 @@ export default function NavbarLayout() {
                                 );
                             }
                         }/>
-                        <NavbarButton title={"Analytics"} reference={"/analytics"}
+                        <NavbarButton title={"Analytics"} reference={"/analytics"} active={activePage==="Analytics"}
                         Icon={ () => {
                                 return (
                                     <svg className="w-5 h-5 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
@@ -68,7 +68,7 @@ export default function NavbarLayout() {
                                 );
                             }
                         }/>
-                        <NavbarButton title={"Account"} reference={"/account"}
+                        <NavbarButton title={"Account"} reference={"/account"} active={activePage==="Account"}
                         Icon={ () => {
                                 return (
                                     <svg className="w-5 h-5 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 14 18">
@@ -80,14 +80,14 @@ export default function NavbarLayout() {
                     </ul>
                 </div>
             </aside>
-        </>
+        </div>
     );
 }
 
-function NavbarButton({title, Icon, reference}) {
+function NavbarButton({title, Icon, reference, active=false}) {
     return (
         <li>
-            <a href={reference} className="flex items-center p-2 rounded-lg text-white hover:bg-amber-400 group hover:transition-all">
+            <a href={reference} className={"flex items-center p-2 rounded-lg text-white hover:bg-amber-600 group transition-all duration-300 " + (active ? "bg-amber-600" : "")}>
                 <Icon />
                 <span className="ml-3">{title}</span>
             </a>

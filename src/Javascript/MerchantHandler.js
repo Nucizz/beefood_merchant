@@ -2,6 +2,7 @@ import { app } from '../firebase-config';
 import { getAuth, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword, sendPasswordResetEmail  } from 'firebase/auth'
 import { addDoc, collection, getDoc, getDocs, deleteDoc, doc, getFirestore, query, where, or, updateDoc, limit } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { getProduct } from './ProductHandler';
 
 export const authenticateRegisterToken = async (name, email, phone) => {
     const newMerchantRequestDB = collection(getFirestore(), 'newMerchantRequest')
@@ -21,7 +22,8 @@ export const authenticateRegisterToken = async (name, email, phone) => {
         }
         try {
             await deleteDoc(doc.ref);
-        } catch {
+        } catch(e) {
+            console.log(e)
             return '0'
         }
     }
@@ -38,9 +40,8 @@ export const authenticateRegisterToken = async (name, email, phone) => {
 }
 
 export const authenticateRegister = async (name, email, phone, password, token, campus, location, profilePicture) => {
-    const newMerchantRequestDB = collection(getFirestore(), 'newMerchantRequest')
     const merchantDB = collection(getFirestore(), 'merchant')
-    const docRef = doc(newMerchantRequestDB, token);
+    const docRef = doc(getFirestore(), 'newMerchantRequest', token);
     try {
         const merchantRef = await createUserWithEmailAndPassword(
             getAuth(app),
@@ -50,7 +51,8 @@ export const authenticateRegister = async (name, email, phone, password, token, 
 
         updateDoc(docRef, {'used': true})
 
-        const merchantPictureRef = ref(getStorage(), ('userprofile/' + merchantRef.user.email + '.jpg'))
+        const profilePicturePath = 'userprofile/' + merchantRef.user.email + '.jpg'
+        const merchantPictureRef = ref(getStorage(), profilePicturePath)
         await uploadBytes(merchantPictureRef, profilePicture)
 
         await addDoc(merchantDB, {
@@ -60,12 +62,12 @@ export const authenticateRegister = async (name, email, phone, password, token, 
             description: "This is a new merchant.",
             campus: campus,
             location: location,
-            profilePicture: 'userprofile/' + merchantRef.user.email + '.jpg',
+            profilePicture: profilePicturePath,
             openTime: "09:00:00",
             closeTime: "17:30:00",
             halal: false,
             rating: -1,
-            time: 5,
+            queueTime: -1,
         })
         
         return "0"
@@ -94,7 +96,8 @@ export const validateToken = async (token, email, nameRef, phoneRef) => {
             phoneRef(data.phone)
             return "0"
         }
-    } catch {
+    } catch(e) {
+        console.log(e)
         window.location.href = '/register/unlisted'
     }
 }
@@ -122,6 +125,7 @@ export const getMerchantData = async (email) => {
     if (!snapshots.empty) {
         const merchantData = snapshots.docs[0].data()
         merchantData.id = snapshots.docs[0].id
+        merchantData.product = await getProduct(merchantData.id)
         const profilePictureRef = ref(getStorage(), merchantData.profilePicture)
         try {
             merchantData.profilePicture = await getDownloadURL(profilePictureRef)
@@ -135,8 +139,7 @@ export const getMerchantData = async (email) => {
 }
 
 export const updateMerchantData = async (id, name, description, campus, location, profilePicture, openTime, closeTime) => {
-    const merchantDB = collection(getFirestore(), 'merchant')
-    const docRef = doc(merchantDB, id)
+    const docRef = doc(getFirestore(), 'merchant', id)
 
     try {
         const queueData = await getDoc(docRef);
@@ -157,7 +160,8 @@ export const updateMerchantData = async (id, name, description, campus, location
         })
 
         return await getMerchantData(merchantData.email)
-    } catch {
+    } catch(e) {
+        console.log(e)
         return null
     }
 }
@@ -167,8 +171,7 @@ export const sendPasswordResetMail = async (email) => {
 }
 
 export const updateMerhcantHalal = async (id) => {
-    const merchantDB = collection(getFirestore(), 'merchant')
-    const docRef = doc(merchantDB, id)
+    const docRef = doc(getFirestore(), 'merchant', id)
 
     try {
         const queueData = await getDoc(docRef);
@@ -179,7 +182,8 @@ export const updateMerhcantHalal = async (id) => {
         })
 
         return "0"
-    } catch {
+    } catch(e) {
+        console.log(e)
         return "Something went wrong."
     }
 }

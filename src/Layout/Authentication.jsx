@@ -46,7 +46,8 @@ function LoginForm() {
             try {
                 await authenticateLogin(email, password)
                 window.location.href = "/dashboard";
-            } catch {
+            } catch(e) {
+                console.log(e)
                 setError("Wrong email or password.")
             }
         } 
