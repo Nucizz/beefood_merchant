@@ -46,7 +46,7 @@ function ProfileInformation({merchanRef}) {
                     <div className="md:ml-64 bg-white md:p-4 p-3 rounded-md flex flex-col lg:gap-4 md:gap-3 gap-2">
                         <p className="md:text-xl text-md font-semibold">Are you sure you want to logout?</p>
                         <div className="flex flex-row justify-end gap-2">
-                            <button onClick={() => setLogoutConfirmation(false)} className="px-4 transition-all duration-300 bf-bg-color md:h-9 h-8 rounded-md font-medium text-white">Cancel</button>
+                            <button onClick={() => setLogoutConfirmation(false)} className="px-4 bf-bg-color md:h-9 h-8 rounded-md font-medium text-white">Cancel</button>
                             <button onClick={() => authenticateLogout()} className="px-4 transition-all duration-300 bg-red-500 hover:bg-red-600 md:h-9 h-8 rounded-md font-medium text-white">Logout</button>
                         </div>
                     </div>
@@ -132,7 +132,7 @@ function AccountSettings({merchanRef}){
                     <div className="md:ml-64 bg-white md:p-4 p-3 rounded-md flex flex-col lg:gap-4 md:gap-3 gap-2">
                         <p className="md:text-xl text-md font-semibold">{confirmationMessage}</p>
                         <div className="flex flex-row justify-end gap-2">
-                            <button onClick={() => setResetConfirmation(false)} className={"px-4 transition-all duration-300 bf-bg-color md:h-9 h-8 rounded-md font-medium text-white " + (buttonUsable ? "block" : "hidden")}>Cancel</button>
+                            <button onClick={() => setResetConfirmation(false)} className={"px-4 bf-bg-color md:h-9 h-8 rounded-md font-medium text-white " + (buttonUsable ? "block" : "hidden")}>Cancel</button>
                             <button onClick={onResetPasswordPressed} className={"px-4 transition-all duration-300 bg-red-500 hover:bg-red-600 md:h-9 h-8 rounded-md font-medium text-white " + (buttonUsable ? "block" : "hidden")}>Reset Password</button>
                         </div>
                     </div>

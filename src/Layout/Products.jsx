@@ -186,7 +186,7 @@ function ProductDetails({product, setSelectedProductRef, merchanRefId}) {
                         <ChangePhoto photoRef={thumbnail ? URL.createObjectURL(thumbnail) : product.thumbnailPicture} setPhotoRef={setThumbnail} type='food' classSize={"xl:w-32 xl:h-32 w-24 h-24"} disabled={!editable} />
                         <div className='flex flex-col items-center justify-evenly w-full lg:w-1/3'>
                             <span className="rounded-md bg-amber-200 text-amber-500 py-1 px-2 md:py-2 md:px-3 w-full h-fit lg:text-base text-sm">This product was sold <b>{product.totalSale}</b> times.</span>
-                            <button className={"w-full md:h-9 h-8 rounded-md font-medium text-white mt-5 " + (available ? "bg-green-500 hover:bg-green-600" : "bg-red-500 hover:bg-red-600")} type="button" onClick={onAvailableChange}>{"Product is " + (available ? "Available" : "Unavailable")}</button>
+                            <button className={"w-full md:h-9 h-8 rounded-md font-medium text-white mt-5 transition-all duration-300 " + (available ? "bg-green-500 hover:bg-green-600" : "bg-red-500 hover:bg-red-600")} type="button" onClick={onAvailableChange}>{"Product is " + (available ? "Available" : "Unavailable")}</button>
                         </div>
                     </div>
                     {error ? <div className="mb-2 w-full bg-red-100 rounded-md text-red-600 flex flex-row items-center md:px-3 px-2 md:py-2 py-1 md:text-base text-sm">{error}</div> : <></>}
@@ -196,11 +196,11 @@ function ProductDetails({product, setSelectedProductRef, merchanRefId}) {
                     
                     {!editable ? 
                     <div className="flex flex-row justify-end mt-5 gap-2">
-                        <button className="px-8 bg-red-500 hover:bg-red-600 md:h-9 h-8 rounded-md font-medium text-white" type="button" onClick={() => setDeleteConfirmation(true)}>{window.innerWidth >= 768 ? 'Delete Permanently' : 'Delete'}</button>
+                        <button className="px-8 bg-red-500 hover:bg-red-600 md:h-9 h-8 rounded-md font-medium text-white transition-all duration-300" type="button" onClick={() => setDeleteConfirmation(true)}>{window.innerWidth >= 768 ? 'Delete Permanently' : 'Delete'}</button>
                         <button className="px-8 bf-bg-color md:h-9 h-8 rounded-md font-medium text-white" type="button" onClick={() => setEditable(true)}>Edit</button>
                     </div>
                     : <div className="flex flex-row justify-end mt-5 gap-2">
-                        <button className="px-8 bg-red-500 hover:bg-red-600 md:h-9 h-8 rounded-md font-medium text-white" type="button" onClick={onCancel}>Cancel</button>
+                        <button className="px-8 bg-red-500 hover:bg-red-600 md:h-9 h-8 rounded-md font-medium text-white transition-all duration-300" type="button" onClick={onCancel}>Cancel</button>
                         <button className="px-8 bf-bg-color md:h-9 h-8 rounded-md font-medium text-white" type="button" onClick={onEditProduct}>Save</button>
                     </div>}
 
