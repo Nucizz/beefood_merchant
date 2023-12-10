@@ -119,7 +119,7 @@ function RegisterForm() {
 
             {error ? <div className="mb-2 w-full bg-red-100 rounded-md text-red-600 flex flex-row items-center md:px-3 px-2 md:py-2 py-1 md:text-base text-sm">{error}</div> : <></>}
             <div className='w-full flex items-center justify-center'>
-                <ChangePhoto photoRef={profilePicture ? URL.createObjectURL(profilePicture) : null} setPhotoRef={setProfilePicture} classSize={"xl:w-32 xl:h-32 md:w-24 md:h-24 w-16 h-16"} />
+                <ChangePhoto photoRef={profilePicture ? URL.createObjectURL(profilePicture) : null} setPhotoRef={setProfilePicture} type='add' classSize={"xl:w-32 xl:h-32 md:w-24 md:h-24 w-16 h-16"} />
             </div>
             <TextField label="Name" name="name" value={name} onChange={(e) => setName(e.target.value)} />
             <TextField label="Email" name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} disabled={true}  />

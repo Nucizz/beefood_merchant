@@ -30,7 +30,7 @@ function ProductLayoutHeader({merchanRef, searchQueryRef, setSearchQueryRef}) {
     const [addProductOverlay, setAddProductOverlay] = useState(false)
 
     return(
-        <div className='w-full flex flex-col lg:flex-row lg:items-center lg:justify-between'>
+        <div className='w-full flex flex-col lg:flex-row items-start lg:justify-between'>
             <h1 className="w-fit text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-4xl">Products</h1>
             
             <div className='lg:w-2/3 xl:w-1/2 flex flex-row gap-5 items-center justify-between'>
@@ -45,8 +45,8 @@ function ProductLayoutHeader({merchanRef, searchQueryRef, setSearchQueryRef}) {
 }
 
 function ProductList({productListRef, merchanRefId}) {
-    const [sortBy, setSortBy] = useState('totalSale');
-    const [sortProduct, setSortProduct] = useState('desc');
+    const [sortBy, setSortBy] = useState('name');
+    const [sortProduct, setSortProduct] = useState('asc');
     const [selectedProduct, setSelectedProduct] = useState(null);
 
     const handleSort = (criteria) => {
@@ -80,20 +80,20 @@ function ProductList({productListRef, merchanRefId}) {
                         <th className="p-2 lg:pl-4 text-left font-semibold text-black cursor-pointer group transition-all duration-300 hover:text-gray-500" onClick={() => handleSort('name')}>Name <span className="text-black rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500">{sortBy === 'name' && (sortProduct === 'asc' ? '▲' : '▼')}</span></th>
                         <th className="p-2 text-left font-semibold text-black cursor-pointer group transition-all duration-300 hover:text-gray-500" onClick={() => handleSort('price')}>Price <span className="text-black rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500">{sortBy === 'price' && (sortProduct === 'asc' ? '▲' : '▼')}</span></th>
                         <th className="p-2 text-left font-semibold text-black cursor-pointer group transition-all duration-300 hover:text-gray-500" onClick={() => handleSort('totalSale')}>Sales <span className="text-black rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500">{sortBy === 'totalSale' && (sortProduct === 'asc' ? '▲' : '▼')}</span></th>
-                        <th className="p-2 text-left font-semibold text-black cursor-pointer group transition-all duration-300 hover:text-gray-500" onClick={() => handleSort('available')}>Availbility <span className="text-black rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500">{sortBy === 'available' && (sortProduct === 'asc' ? '▲' : '▼')}</span></th>
+                        {window.innerWidth >= 768 ? <th className="p-2 text-left font-semibold text-black cursor-pointer group transition-all duration-300 hover:text-gray-500" onClick={() => handleSort('available')}>Availability <span className="text-black rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500">{sortBy === 'available' && (sortProduct === 'asc' ? '▲' : '▼')}</span></th> : null }
                     </tr>
                 </thead>
                 <tbody>
                     {sortedProductListRef.length > 0 ? (
                     sortedProductListRef.map((product) => (
-                        <tr key={product.id} className="transition-all duration-200 hover:bg-gray-300 hover:text-white bg-white " onClick={() => setSelectedProduct(product)} >
+                        <tr key={product.id} className="transition-all duration-200 hover:bg-gray-300 hover:text-white bg-white" onClick={() => setSelectedProduct(product)} >
                             <td className="p-2 cursor-pointer lg:pl-4 text-left text-black flex flex-row gap-2 lg:gap-5 items-center">
-                                <img src={product.thumbnailPicture ?? BeeFood} className="border w-10 h-10 lg:w-16 lg:h-16 rounded-lg" alt={product.name} />
-                                <span>{product.name}</span>
+                                <img src={product.thumbnailPicture ?? BeeFood} className="border w-10 h-10 lg:w-16 lg:h-16 rounded-lg object-cover" alt={product.name} />
+                                <span className='max-h-10 lg:max-h-16 overflow-hidden text-ellipsis'>{product.name}</span>
                             </td>
                             <td className="p-2 cursor-pointer text-left text-black">{`Rp${product.price}`}</td>
                             <td className="p-2 cursor-pointer text-left text-black">{product.totalSale}</td>
-                            <td className="p-2 cursor-pointer text-left text-black">{product.available ? "YES" : "NO"}</td>
+                            {window.innerWidth >= 768 ? <td className={"p-2 cursor-pointer text-left font-semibold " + (product.available ? "text-green-500" : "text-red-500")}>{product.available ? "YES" : "NO"}</td> : null}
                         </tr>
                     ))
                     ) : (
@@ -183,7 +183,7 @@ function ProductDetails({product, setSelectedProductRef, merchanRefId}) {
 
                 <form className="grid grid-cols-1 gap-3">
                     <div className='w-full flex flex-col lg:flex-row items-center justify-evenly lg:gap-0 gap-5'>
-                        <ChangePhoto photoRef={thumbnail ? URL.createObjectURL(thumbnail) : product.thumbnailPicture} setPhotoRef={setThumbnail} type='food' classSize={"xl:w-32 xl:h-32 w-24 h-24"} disabled={!editable} />
+                        <ChangePhoto photoRef={thumbnail ? URL.createObjectURL(thumbnail) : product.thumbnailPicture} setPhotoRef={setThumbnail} classSize={"xl:w-32 xl:h-32 w-24 h-24"} disabled={!editable} />
                         <div className='flex flex-col items-center justify-evenly w-full lg:w-1/3'>
                             <span className="rounded-md bg-amber-200 text-amber-500 py-1 px-2 md:py-2 md:px-3 w-full h-fit lg:text-base text-sm">This product was sold <b>{product.totalSale}</b> times.</span>
                             <button className={"w-full md:h-9 h-8 rounded-md font-medium text-white mt-5 transition-all duration-300 " + (available ? "bg-green-500 hover:bg-green-600" : "bg-red-500 hover:bg-red-600")} type="button" onClick={onAvailableChange}>{"Product is " + (available ? "Available" : "Unavailable")}</button>
@@ -234,7 +234,7 @@ function AddProduct({setAddProductOverlayRef, merchanRef}) {
 
     const onAddProduct = async () => {
         const regExpPrice = /^Rp[0-9]*$/;
-        if(name === "" || price === "" || description === "") {
+        if(name === "" || price === "" || description === "" || !thumbnail) {
             setError("Please fill in the forms.")
         } else if(name.length < 4 || name.length > 64) {
             setError("Merchant name must be 4 - 64 characters.")
@@ -271,7 +271,7 @@ function AddProduct({setAddProductOverlayRef, merchanRef}) {
                     </p> :
                     <form className="grid grid-cols-1 gap-3">
                         <div className='w-full flex items-center justify-center'>
-                            <ChangePhoto photoRef={thumbnail ? URL.createObjectURL(thumbnail) : null} setPhotoRef={setThumbnail} type='food' classSize={"xl:w-32 xl:h-32 md:w-24 md:h-24 w-16 h-16"} />
+                            <ChangePhoto photoRef={thumbnail ? URL.createObjectURL(thumbnail) : null} setPhotoRef={setThumbnail} type='add' classSize={"xl:w-32 xl:h-32 md:w-24 md:h-24 w-16 h-16"} />
                         </div>
                         {error ? <div className="mb-2 w-full bg-red-100 rounded-md text-red-600 flex flex-row items-center md:px-3 px-2 md:py-2 py-1 md:text-base text-sm">{error}</div> : <></>}
                         <TextField label="Name" name="name" value={name} onChange={(e) => setName(e.target.value)} />

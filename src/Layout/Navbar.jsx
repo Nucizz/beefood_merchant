@@ -34,7 +34,7 @@ export default function NavbarLayout({activePage}) {
             </button>
 
             <aside id="default-sidebar" className={"fixed top-0 left-0 z-40 w-64 h-screen transition-transform " + (isExpanded ? "" : "-translate-x-full sm:translate-x-0")} aria-label="Sidebar">
-                <div className="h-full px-3 py-4 overflow-y-auto bg-amber-500 shadow-lg">
+                <div className="h-full px-3 py-4 overflow-y-auto bg-amber-500 shadow-lg shadow-amber-500 flex flex-col justify-between">
                     <ul className="space-y-2 font-medium">
                         <li className="p-2">
                             <img src={logo} alt="Logo" className="w-full pr-3"/>
@@ -78,6 +78,9 @@ export default function NavbarLayout({activePage}) {
                             }
                         }/>
                     </ul>
+                    <span className="text-white w-full text-center text-sm">
+                        Ⓒ 2023 BeeFood BINUS
+                    </span>
                 </div>
             </aside>
         </div>
@@ -87,7 +90,7 @@ export default function NavbarLayout({activePage}) {
 function NavbarButton({title, Icon, reference, active=false}) {
     return (
         <li>
-            <a href={reference} className={"flex items-center p-2 rounded-lg text-white hover:bg-amber-600 group transition-all duration-300 " + (active ? "bg-amber-600" : "")}>
+            <a href={reference} className={"flex items-center p-2 rounded-lg text-white group transition-all duration-300 " + (active ? "bg-orange-500 shadow-md shadow-orange-600 hover:bg-orange-600" : "hover:bg-amber-600")}>
                 <Icon />
                 <span className="ml-3">{title}</span>
             </a>

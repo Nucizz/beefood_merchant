@@ -1,5 +1,5 @@
 import Profile from '../Assets/Default Profile.webp'
-import BeeFood from '../Assets/Beefood Icon White.png'
+import AddPhoto from '../Assets/Add Photo.png'
 import { useState, useEffect } from 'react'
 
 export function DropdownField({ label, name, options, isFilled=true, disabled=false, value, ...rest }) {
@@ -99,16 +99,16 @@ export function TimeField({ label, name, disabled = false, ...rest }) {
     )
   }
 
-export function ChangePhoto({photoRef, setPhotoRef, classSize, disabled=false, type="profile"}) {
+export function ChangePhoto({photoRef, setPhotoRef, classSize, disabled=false, type="add"}) {
   const [defaultVal, setDefaultVal] = useState(Profile)
 
   useEffect(() => {
     switch (type) {
-      case "food":
-        setDefaultVal(BeeFood);
+      case "profile":
+        setDefaultVal(Profile);
         break;
       default:
-        setDefaultVal(Profile);
+        setDefaultVal(AddPhoto);
         break;
     }
   }, [type])
@@ -117,7 +117,7 @@ export function ChangePhoto({photoRef, setPhotoRef, classSize, disabled=false, t
       <div className={"flex flex-col gap-4 " + classSize}>
           <img
           src={photoRef ?? defaultVal}
-          alt="Profile"
+          alt="Thumbnail"
           className={(!disabled ? "cursor-pointer" : "") + " object-cover rounded-full border " + classSize}
           />
           <label htmlFor="fileInput" className={(!disabled ? "cursor-pointer" : "hidden") + " text-transparent hover:bg-black/25 hover:text-white text-semibold transition-all duration-300 absolute flex items-center justify-center rounded-full " + classSize}>
