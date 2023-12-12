@@ -33,7 +33,7 @@ input:not(:placeholder-shown) ~ label {
 }
 
 input:focus ~ label {
-  @apply text-black;
+  @apply text-black dark:text-white;
   @apply left-0;
 }
 
@@ -45,7 +45,7 @@ textarea:not(:placeholder-shown) ~ label {
 }
 
 textarea:focus ~ label {
-  @apply text-black;
+  @apply text-black dark:text-white;
   @apply left-0;
 }
 

@@ -6,13 +6,13 @@ export function DropdownField({ label, name, options, isFilled=true, disabled=fa
     return (
         <div className="relative z-0 w-full">
             <div className="relative">
-                <select {...rest} id={name} disabled={disabled} value={value} className={"cursor-pointer w-full h-12 md:text-base text-sm pt-3 md:pb-2 block px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200 rounded-none " + (disabled ? "text-gray-400" : "")} >
+                <select {...rest} id={name} disabled={disabled} value={value} className={"cursor-pointer w-full h-12 md:text-base text-sm pt-3 md:pb-2 block px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black dark:focus:border-white border-gray-200 dark:border-gray-400 rounded-none " + (disabled ? "text-gray-500 dark:text-gray-300" : "")} >
                     {options}
                 </select>
-                <label htmlFor={name} className={"absolute top-5 md:top-3 -z-1 origin-0 text-gray-500 md:text-base text-sm w-full cursor-pointer " + ( isFilled ? "dropdown-label" : "")} >
+                <label htmlFor={name} className={"absolute top-5 md:top-3 -z-1 origin-0 text-gray-500 dark:text-gray-300 md:text-base text-sm w-full cursor-pointer " + ( isFilled ? "dropdown-label" : "")} >
                     {label}
                 </label>
-                <span className="absolute top-5 md:top-3  right-0 h-full text-gray-500 cursor-pointer md:text-base text-sm">
+                <span className="absolute top-5 md:top-3  right-0 h-full text-gray-500 dark:text-gray-300 cursor-pointer md:text-base text-sm">
                     ▼
                 </span>
             </div>
@@ -35,16 +35,16 @@ export function TextField({ label, name, type = "text", disabled = false, ...res
           type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
           placeholder=" "
           className={
-            "h-12 md:text-base text-sm pt-3 md:pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200 rounded-none " +
-            (disabled ? "text-gray-400" : "")
+            "h-12 md:text-base text-sm pt-3 md:pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black dark:focus:border-white border-gray-200 dark:border-gray-400 rounded-none " +
+            (disabled ? "text-gray-500 dark:text-gray-300" : "text-black dark:text-white")
           }
         />
-        <label htmlFor={name} className="absolute duration-300 top-5 md:top-3 -z-1 origin-0 text-gray-500 md:text-base text-sm w-full cursor-text">
+        <label htmlFor={name} className="absolute duration-300 top-5 md:top-3 -z-1 origin-0 text-gray-500 dark:text-gray-300 md:text-base text-sm w-full cursor-text">
           {label}
         </label>
         {type === 'password' && (
           <span
-            className="absolute top-3 right-0 cursor-pointer text-gray-500"
+            className="absolute top-3 right-0 cursor-pointer text-gray-500 dark:text-gray-300"
             onClick={togglePasswordVisibility}
           >
             {showPassword ? 
@@ -67,8 +67,8 @@ export function TextField({ label, name, type = "text", disabled = false, ...res
 export function LongTextField({ label, name, disabled=false, ...rest }) {
     return(
         <div className="relative z-0 w-full">
-            <textarea {...rest} disabled={disabled} id={name} placeholder=" " className={"h-32 md:text-base text-sm pt-4 md:pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200 rounded-none " + (disabled ? "text-gray-400" : "")} />
-            <label htmlFor={name} className="absolute duration-300 top-4 -z-1 origin-0 text-gray-500 md:text-base text-sm w-full cursor-text">
+            <textarea {...rest} disabled={disabled} id={name} placeholder=" " className={"h-32 md:text-base text-sm pt-4 md:pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black dark:focus:border-white border-gray-200 dark:border-gray-400 rounded-none " + (disabled ? "text-gray-500 dark:text-gray-300" : "text-black dark:text-white")} />
+            <label htmlFor={name} className="absolute duration-300 top-4 -z-1 origin-0 text-gray-500 dark:text-gray-300 md:text-base text-sm w-full cursor-text">
                 {label}
             </label>
         </div>
@@ -85,13 +85,13 @@ export function TimeField({ label, name, disabled = false, ...rest }) {
           type="time"
           placeholder=" "
           className={
-            "h-12 md:text-base text-sm pt-3 md:pb-2 block w-fit px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200 rounded-none " +
-            (disabled ? "text-gray-400" : "")
+            "h-12 md:text-base text-sm pt-3 md:pb-2 block w-fit px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black dark:focus:border-white border-gray-200 dark:border-gray-400 rounded-none " +
+            (disabled ? "text-gray-500 dark:text-gray-300" : "text-black dark:text-white")
           }
         />
         <label
           htmlFor={name}
-          className="absolute duration-300 top-5 md:top-3 -z-1 origin-0 text-gray-500 md:text-base text-sm w-full cursor-pointer"
+          className="absolute duration-300 top-5 md:top-3 -z-1 origin-0 text-gray-500 dark:text-gray-300 md:text-base text-sm w-full cursor-pointer"
         >
           {label}
         </label>
@@ -144,15 +144,15 @@ export function Accordion({setAccordionRef, index, indexId, title, Children, Ico
     return(
         <div>
             <div
-                className={"group flex items-center justify-between cursor-pointer lg:px-6 lg:py-4 md:px-4 md:py-3 px-3 py-2 rounded-lg transition-all duration-300 hover:bg-amber-400 hover:text-white " + (index === indexId ? "bg-amber-500 text-white" : "bg-white")}
+                className={"group flex items-center justify-between cursor-pointer lg:px-6 lg:py-4 md:px-4 md:py-3 px-3 py-2 rounded-lg transition-all duration-300 hover:bg-amber-400 hover:text-white " + (index === indexId ? "bg-amber-500 text-white" : "bg-white dark:bg-slate-800")}
                 onClick={() => toggleAccordion(indexId)}
             >
-                <div className='flex flex-row gap-2 lg:text-lg md:text-md text-base font-semibold items-center'>
+                <div className='text-black dark:text-white flex flex-row gap-2 lg:text-lg md:text-md text-base font-semibold items-center'>
                     {Icon}
                     {title}
                 </div>
                 <svg
-                className={`md:w-6 md:h-6 w-4 h-4 transition-transform ${index === indexId ? 'transform rotate-180' : ''}`}
+                className={`md:w-6 md:h-6 w-4 h-4 transition-transform text-black dark:text-white ${index === indexId ? 'transform rotate-180' : ''}`}
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -163,7 +163,7 @@ export function Accordion({setAccordionRef, index, indexId, title, Children, Ico
             </div>
     
             {index === indexId && (
-                <div className={`bg-white p-4 rounded-lg mt-2 ${index === indexId ? 'h-fit' : 'h-0'}`}>
+                <div className={`text-black dark:text-white bg-white dark:bg-slate-800 p-4 rounded-lg mt-2 ${index === indexId ? 'h-fit' : 'h-0'}`}>
                     {Children}
                 </div>
             )}
@@ -174,7 +174,7 @@ export function Accordion({setAccordionRef, index, indexId, title, Children, Ico
 
 export function JustifiedInfo({title, content}) {
   return (
-      <div className="flex flex-row">
+      <div className="flex flex-row text-black dark:text-white">
           <div className="w-1/4 flex flex-row justify-between font-semibold">
               <span>{title}</span>
               <span>:&nbsp;</span>

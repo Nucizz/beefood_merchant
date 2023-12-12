@@ -31,7 +31,7 @@ function ProductLayoutHeader({merchanRef, searchQueryRef, setSearchQueryRef}) {
 
     return(
         <div className='w-full flex flex-col lg:flex-row items-start lg:justify-between'>
-            <h1 className="w-fit text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-4xl">Products</h1>
+            <h1 className="w-fit text-3xl font-bold leading-none tracking-tight text-black dark:text-white md:text-4xl">Products</h1>
             
             <div className='lg:w-2/3 xl:w-1/2 flex flex-row gap-5 items-center justify-between'>
                 <TextField label="Search For Products" name="search" value={searchQueryRef} onChange={(e) => setSearchQueryRef(e.target.value)} />
@@ -75,30 +75,30 @@ function ProductList({productListRef, merchanRefId}) {
         <>
 
             <table className="w-full table-auto rounded-lg overflow-hidden xl:text-lg lg:text-base text-sm">
-                <thead className="bg-white border-b ">
+                <thead className="bg-white dark:bg-slate-800 border-b ">
                     <tr>
-                        <th className="p-2 lg:pl-4 text-left font-semibold text-black cursor-pointer group transition-all duration-300 hover:text-gray-500" onClick={() => handleSort('name')}>Name <span className="text-black rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500">{sortBy === 'name' && (sortProduct === 'asc' ? '▲' : '▼')}</span></th>
-                        <th className="p-2 text-left font-semibold text-black cursor-pointer group transition-all duration-300 hover:text-gray-500" onClick={() => handleSort('price')}>Price <span className="text-black rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500">{sortBy === 'price' && (sortProduct === 'asc' ? '▲' : '▼')}</span></th>
-                        <th className="p-2 text-left font-semibold text-black cursor-pointer group transition-all duration-300 hover:text-gray-500" onClick={() => handleSort('totalSale')}>Sales <span className="text-black rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500">{sortBy === 'totalSale' && (sortProduct === 'asc' ? '▲' : '▼')}</span></th>
-                        {window.innerWidth >= 768 ? <th className="p-2 text-left font-semibold text-black cursor-pointer group transition-all duration-300 hover:text-gray-500" onClick={() => handleSort('available')}>Availability <span className="text-black rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500">{sortBy === 'available' && (sortProduct === 'asc' ? '▲' : '▼')}</span></th> : null }
+                        <th className="p-2 lg:pl-4 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500 dark:text-gray-300" onClick={() => handleSort('name')}>Name <span className="text-black dark:text-white rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500 dark:text-gray-300">{sortBy === 'name' && (sortProduct === 'asc' ? '▲' : '▼')}</span></th>
+                        <th className="p-2 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500 dark:text-gray-300" onClick={() => handleSort('price')}>Price <span className="text-black dark:text-white rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500 dark:text-gray-300">{sortBy === 'price' && (sortProduct === 'asc' ? '▲' : '▼')}</span></th>
+                        <th className="p-2 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500 dark:text-gray-300" onClick={() => handleSort('totalSale')}>Sales <span className="text-black dark:text-white rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500 dark:text-gray-300">{sortBy === 'totalSale' && (sortProduct === 'asc' ? '▲' : '▼')}</span></th>
+                        {window.innerWidth >= 768 ? <th className="p-2 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500 dark:text-gray-300" onClick={() => handleSort('available')}>Availability <span className="text-black dark:text-white rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500 dark:text-gray-300">{sortBy === 'available' && (sortProduct === 'asc' ? '▲' : '▼')}</span></th> : null }
                     </tr>
                 </thead>
                 <tbody>
                     {sortedProductListRef.length > 0 ? (
                     sortedProductListRef.map((product) => (
-                        <tr key={product.id} className="transition-all duration-200 hover:bg-gray-300 hover:text-white bg-white" onClick={() => setSelectedProduct(product)} >
-                            <td className="p-2 cursor-pointer lg:pl-4 text-left text-black flex flex-row gap-2 lg:gap-5 items-center">
+                        <tr key={product.id} className="transition-all duration-200 hover:bg-gray-300 hover:text-white bg-white dark:bg-slate-800" onClick={() => setSelectedProduct(product)} >
+                            <td className="p-2 cursor-pointer lg:pl-4 text-left text-black dark:text-white flex flex-row gap-2 lg:gap-5 items-center">
                                 <img src={product.thumbnailPicture ?? BeeFood} className="border w-10 h-10 lg:w-16 lg:h-16 rounded-lg object-cover" alt={product.name} />
                                 <span className='max-h-10 lg:max-h-16 overflow-hidden text-ellipsis'>{product.name}</span>
                             </td>
-                            <td className="p-2 cursor-pointer text-left text-black">{`Rp${product.price}`}</td>
-                            <td className="p-2 cursor-pointer text-left text-black">{product.totalSale}</td>
+                            <td className="p-2 cursor-pointer text-left text-black dark:text-white">{`Rp${product.price}`}</td>
+                            <td className="p-2 cursor-pointer text-left text-black dark:text-white">{product.totalSale}</td>
                             {window.innerWidth >= 768 ? <td className={"p-2 cursor-pointer text-left font-semibold " + (product.available ? "text-green-500" : "text-red-500")}>{product.available ? "YES" : "NO"}</td> : null}
                         </tr>
                     ))
                     ) : (
                     <tr>
-                        <td colSpan="4" className="p-2 text-center bg-white ">
+                        <td colSpan="4" className="p-2 text-center bg-white dark:bg-slate-800 ">
                             No product available for now.
                         </td>
                     </tr>
@@ -173,12 +173,12 @@ function ProductDetails({product, setSelectedProductRef, merchanRefId}) {
 
     return(
         <div className="z-30 fixed inset-0 flex items-center justify-center bg-black/50">
-            <div className="md:ml-64 w-full mx-10 md:mx-0 md:w-1/2 bg-white md:p-4 p-3 rounded-md flex flex-col lg:gap-4 md:gap-3 gap-2">
+            <div className="md:ml-64 w-full mx-10 md:mx-0 md:w-1/2 bg-white dark:bg-slate-800 md:p-4 p-3 rounded-md flex flex-col lg:gap-4 md:gap-3 gap-2">
 
                 <div className="flex flex-row justify-between items-center text-xl md:text-2xl">
-                    <span className='w-fit font-bold leading-none tracking-tight text-gray-900 '>Product Details</span>
+                    <span className='w-fit font-bold leading-none tracking-tight text-black dark:text-white '>Product Details</span>
                     
-                    <button class="transition-all duration-300 text-gray-400 hover:text-gray-600 font-bold" onClick={() => setSelectedProductRef(null)}>&#x2716;</button>
+                    <button class="transition-all duration-300 text-gray-500 dark:text-gray-300 hover:text-gray-600 font-bold" onClick={() => setSelectedProductRef(null)}>&#x2716;</button>
                 </div>
 
                 <form className="grid grid-cols-1 gap-3">
@@ -208,8 +208,8 @@ function ProductDetails({product, setSelectedProductRef, merchanRefId}) {
 
                 {deleteConfirmation && (
                     <div className="z-30 fixed inset-0 flex items-center justify-center bg-black/50">
-                        <div className="md:ml-64 bg-white md:p-4 p-3 rounded-md flex flex-col lg:gap-4 md:gap-3 gap-2">
-                            <p className="md:text-xl text-md font-semibold">Are you sure you want to permanently delete this product?</p>
+                        <div className="md:ml-64 bg-white dark:bg-slate-800 md:p-4 p-3 rounded-md flex flex-col lg:gap-4 md:gap-3 gap-2">
+                            <p className="md:text-xl text-md font-semibold text-black dark:text-white">Are you sure you want to permanently delete this product?</p>
                             <div className="flex flex-row justify-end gap-2">
                                 <button onClick={() => setDeleteConfirmation(false)} className="px-4 transition-all duration-300 bf-bg-color md:h-9 h-8 rounded-md font-medium text-white">Cancel</button>
                                 <button onClick={onDeleteProduct} className="px-4 transition-all duration-300 bg-red-500 hover:bg-red-600 md:h-9 h-8 rounded-md font-medium text-white">Delete</button>
@@ -257,12 +257,12 @@ function AddProduct({setAddProductOverlayRef, merchanRef}) {
 
     return(
         <div className="z-30 fixed inset-0 flex items-center justify-center bg-black/50">
-            <div className="md:ml-64 w-1/2 bg-white md:p-4 p-3 rounded-md flex flex-col lg:gap-4 md:gap-3 gap-2">
+            <div className="md:ml-64 w-1/2 bg-white dark:bg-slate-800 md:p-4 p-3 rounded-md flex flex-col lg:gap-4 md:gap-3 gap-2">
 
                 <div className="flex flex-row justify-between items-center text-xl md:text-2xl">
-                    <span className='w-fit font-bold leading-none tracking-tight text-gray-900 '>New Product</span>
+                    <span className='w-fit font-bold leading-none tracking-tight text-black dark:text-white '>New Product</span>
                     
-                    <button class="transition-all duration-300 text-gray-400 hover:text-gray-600 font-bold" onClick={() => setAddProductOverlayRef(false)}>&#x2716;</button>
+                    <button class="transition-all duration-300 text-gray-500 dark:text-gray-300 hover:text-gray-600 font-bold" onClick={() => setAddProductOverlayRef(false)}>&#x2716;</button>
                 </div>
 
                 {hideForm ?

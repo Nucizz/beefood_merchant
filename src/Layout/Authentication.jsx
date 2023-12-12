@@ -11,7 +11,7 @@ export default function Aunthentication({type}) {
 
             <div className="inset-0 h-auto bg-pattern-overlay absolute -z-1" />
 
-            <div className="my-16 z-0 shadow-lg xl:w-1/3 lg:w-2/5 md:w-1/2 w-full md:mx-0 mx-8 lg:px-7 md:px-6 px-4 lg:py-6 md:py-5 py-4 bg-white rounded-lg text-black">
+            <div className="my-16 z-0 shadow-lg xl:w-1/3 lg:w-2/5 md:w-1/2 w-full md:mx-0 mx-8 lg:px-7 md:px-6 px-4 lg:py-6 md:py-5 py-4 bg-white dark:bg-slate-800 rounded-lg text-black dark:text-white">
 
                 <div className="font-bold flex flex-row items-center mb-4">
 

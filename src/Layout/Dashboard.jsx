@@ -41,7 +41,7 @@ export default function DashboardLayout({merchanRef}) {
 
     return (
         <div className="w-full gap-4 flex flex-col" >
-            <h1 className="text-3xl font-bold leading-none tracking-tight text-black md:text-4xl lg:text-4xl">Dashboard</h1>
+            <h1 className="text-3xl font-bold leading-none tracking-tight text-black dark:text-white md:text-4xl lg:text-4xl">Dashboard</h1>
             
             <GeneralInformation merchanRef={merchanRef} />
 
@@ -55,13 +55,13 @@ export default function DashboardLayout({merchanRef}) {
 
 function GeneralInformation({merchanRef}) {
     return (
-        <div className="w-full rounded-lg py-4 bg-white lg:px-8 lg:py-6 md:px-6 md:py-4 px-4 py-2 flex lg:flex-row flex-col lg:items-start items-center lg:gap-8 gap-4">
+        <div className="w-full rounded-lg py-4 bg-white dark:bg-slate-800 lg:px-8 lg:py-6 md:px-6 md:py-4 px-4 py-2 flex lg:flex-row flex-col lg:items-start items-center lg:gap-8 gap-4">
 
             <ChangePhoto photoRef={merchanRef.profilePicture} classSize={"w-36 h-36"} disabled={true} />
 
             <div className="flex flex-col lg:items-start items-center">
-                <span className="xl:text-6xl md:text-4xl text-2xl font-bold text-center md:text-left">{merchanRef.name}</span>
-                <p className="xl:text-2xl lg:text-xl md:text-lg text-md text-gray-500 text-center md:text-left">{merchanRef.description}</p>
+                <span className="xl:text-6xl md:text-4xl text-2xl font-bold text-black dark:text-white text-center md:text-left">{merchanRef.name}</span>
+                <p className="xl:text-2xl lg:text-xl md:text-lg text-md text-gray-500 dark:text-gray-300 text-center md:text-left">{merchanRef.description}</p>
             </div>
 
         </div>
@@ -105,26 +105,26 @@ function ToDoListLayout({orderRef}) {
     return (
         <div className="w-full flex flex-col xl:gap-4 md:gap-3 gap-2">
             <h2 className="w-full text-lg md:text-xl lg:text-2xl font-bold">Your To-Do List</h2>
-            <ol className="w-full grid grid-cols-2 gap-y-5 lg:grid-cols-3 xl:grid-cols-5 rounded-lg py-4 bg-white">
-                <li className="flex flex-col justify-center items-center w-full border-r-2 border-gray-200">
-                    <span className="text-xl font-bold text-gray-500">{needConfirmation}</span>
-                    <span className="text-sm md:text-base lg:text-lg font-semibold w-full text-center text-black">Need Confirmation</span>
+            <ol className="w-full grid grid-cols-2 gap-y-5 lg:grid-cols-3 xl:grid-cols-5 rounded-lg py-4 bg-white dark:bg-slate-800">
+                <li className="flex flex-col justify-center items-center w-full border-r-2 border-gray-200 dark:border-gray-400">
+                    <span className="text-xl font-bold text-gray-500 dark:text-gray-300">{needConfirmation}</span>
+                    <span className="text-sm md:text-base lg:text-lg font-semibold w-full text-center text-black dark:text-white">Need Confirmation</span>
                 </li>
-                <li className="flex flex-col justify-center items-center w-full lg:border-r-2 border-gray-200">
-                    <span className="text-xl font-bold text-gray-500">{needProcessing}</span>
-                    <span className="text-sm md:text-base lg:text-lg font-semibold w-full text-center text-black">Need Processing</span>
+                <li className="flex flex-col justify-center items-center w-full lg:border-r-2 border-gray-200 dark:border-gray-400">
+                    <span className="text-xl font-bold text-gray-500 dark:text-gray-300">{needProcessing}</span>
+                    <span className="text-sm md:text-base lg:text-lg font-semibold w-full text-center text-black dark:text-white">Need Processing</span>
                 </li>
-                <li className="flex flex-col justify-center items-center w-full border-r-2 lg:border-r-0 xl:border-r-2 border-gray-200">
-                    <span className="text-xl font-bold text-gray-500">{waitingPickup}</span>
-                    <span className="text-sm md:text-base lg:text-lg font-semibold w-full text-center text-black">Waiting Pickup</span>
+                <li className="flex flex-col justify-center items-center w-full border-r-2 lg:border-r-0 xl:border-r-2 border-gray-200 dark:border-gray-400">
+                    <span className="text-xl font-bold text-gray-500 dark:text-gray-300">{waitingPickup}</span>
+                    <span className="text-sm md:text-base lg:text-lg font-semibold w-full text-center text-black dark:text-white">Waiting Pickup</span>
                 </li>
-                <li className="flex flex-col justify-center items-center w-full lg:border-r-2 border-gray-200">
-                    <span className="text-xl font-bold text-gray-500">{finished}</span>
-                    <span className="text-sm md:text-base lg:text-lg font-semibold w-full text-center text-black">Order Finished</span>
+                <li className="flex flex-col justify-center items-center w-full lg:border-r-2 border-gray-200 dark:border-gray-400">
+                    <span className="text-xl font-bold text-gray-500 dark:text-gray-300">{finished}</span>
+                    <span className="text-sm md:text-base lg:text-lg font-semibold w-full text-center text-black dark:text-white">Order Finished</span>
                 </li>
                 <li className="flex flex-col justify-center items-center w-full col-span-2 lg:col-span-1">
-                    <span className="text-xl font-bold text-gray-500">{cancelled}</span>
-                    <span className="text-sm md:text-base lg:text-lg font-semibold w-full text-center text-black">Order Cancelled</span>
+                    <span className="text-xl font-bold text-gray-500 dark:text-gray-300">{cancelled}</span>
+                    <span className="text-sm md:text-base lg:text-lg font-semibold w-full text-center text-black dark:text-white">Order Cancelled</span>
                 </li>
             </ol>
         </div>
@@ -162,27 +162,27 @@ function OrderListLayout({ orderRef }) {
             <h2 className="w-full text-lg md:text-xl lg:text-2xl font-bold">Order List</h2>
         
             <table className="w-full table-auto rounded-lg overflow-hidden xl:text-lg lg:text-base text-sm">
-                <thead className="bg-white border-b ">
+                <thead className="bg-white dark:bg-slate-800 border-b ">
                     <tr>
-                        <th className="p-2 lg:pl-4 text-left font-semibold text-black cursor-pointer group transition-all duration-300 hover:text-gray-500" onClick={() => handleSort('name')}>Name <span className="text-black rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500">{sortBy === 'name' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
-                        <th className="p-2 text-left font-semibold text-black cursor-pointer group transition-all duration-300 hover:text-gray-500" onClick={() => handleSort('status')}>Status <span className="text-black rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500">{sortBy === 'status' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
-                        <th className="p-2 text-left font-semibold text-black cursor-pointer group transition-all duration-300 hover:text-gray-500" onClick={() => handleSort('price')}>Price <span className="text-black rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500">{sortBy === 'price' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
-                        <th className="p-2 text-left font-semibold text-black cursor-pointer group transition-all duration-300 hover:text-gray-500" onClick={() => handleSort('time')}>Time <span className="text-black rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500">{sortBy === 'time' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
+                        <th className="p-2 lg:pl-4 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500 dark:text-gray-300" onClick={() => handleSort('name')}>Name <span className="text-black dark:text-white rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500 dark:text-gray-300">{sortBy === 'name' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
+                        <th className="p-2 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500 dark:text-gray-300" onClick={() => handleSort('status')}>Status <span className="text-black dark:text-white rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500 dark:text-gray-300">{sortBy === 'status' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
+                        <th className="p-2 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500 dark:text-gray-300" onClick={() => handleSort('price')}>Price <span className="text-black dark:text-white rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500 dark:text-gray-300">{sortBy === 'price' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
+                        <th className="p-2 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500 dark:text-gray-300" onClick={() => handleSort('time')}>Time <span className="text-black dark:text-white rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500 dark:text-gray-300">{sortBy === 'time' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
                     </tr>
                 </thead>
                 <tbody>
                     {sortedOrderRef.length > 0 ? (
                         sortedOrderRef.map((order) => (
-                            <tr key={order.id} className="transition-all duration-200 hover:bg-gray-300 hover:text-white bg-white " onClick={() => setSelectedOrder(order)}>
-                                <td className="p-2 cursor-pointer lg:pl-4 text-left text-black">{order.name}</td>
-                                <td className="p-2 cursor-pointer text-left text-black">{order.status}</td>
-                                <td className="p-2 cursor-pointer text-left text-black">{`Rp${order.price}`}</td>
-                                <td className="p-2 cursor-pointer text-left text-black">{timeConverter(order.time)}</td>
+                            <tr key={order.id} className="transition-all duration-200 hover:bg-gray-300 hover:text-white bg-white dark:bg-slate-800 " onClick={() => setSelectedOrder(order)}>
+                                <td className="p-2 cursor-pointer lg:pl-4 text-left text-black dark:text-white">{order.name}</td>
+                                <td className="p-2 cursor-pointer text-left text-black dark:text-white">{order.status}</td>
+                                <td className="p-2 cursor-pointer text-left text-black dark:text-white">{`Rp${order.price}`}</td>
+                                <td className="p-2 cursor-pointer text-left text-black dark:text-white">{timeConverter(order.time)}</td>
                             </tr>
                         ))
                         ) : (
                         <tr>
-                            <td colSpan="5" className="p-2 text-center bg-white ">
+                            <td colSpan="5" className="p-2 text-center bg-white dark:bg-slate-800 ">
                             No order available for now.
                             </td>
                         </tr>

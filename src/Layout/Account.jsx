@@ -6,7 +6,7 @@ import { CAMPUS_LOCATION } from '../Javascript/Global'
 export default function AccountLayout({merchanRef, setMerchantRef}) {
     return (
         <div className="w-full">
-            <h1 className="mb-4 text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-4xl lg:text-4xl">Account</h1>
+            <h1 className="mb-4 text-3xl font-bold leading-none tracking-tight text-black dark:text-white md:text-4xl lg:text-4xl">Account</h1>
             
             <div className="w-full flex flex-col-reverse lg:gap-16 gap-8">
 
@@ -29,9 +29,9 @@ function ProfileInformation({merchanRef}) {
             <ChangePhoto photoRef={merchanRef.profilePicture} classSize={"w-36 h-36"} disabled={true} />
             
             <div className="flex flex-col justify-evenly lg:items-start items-center h-full w-fit">
-                <span className="xl:text-6xl md:text-4xl text-2xl font-bold text-center md:text-left">{merchanRef.name}</span>
-                <span className="xl:text-2xl lg:text-xl md:text-lg text-md text-gray-500 text-center md:text-left">{merchanRef.email}</span>
-                <span className="xl:text-2xl lg:text-xl md:text-lg text-md text-gray-500 text-center md:text-left">{merchanRef.phone}</span>
+                <span className="xl:text-6xl md:text-4xl text-2xl font-bold text-center md:text-left text-black dark:text-white">{merchanRef.name}</span>
+                <span className="xl:text-2xl lg:text-xl md:text-lg text-md text-gray-500 dark:text-gray-300 text-center md:text-left">{merchanRef.email}</span>
+                <span className="xl:text-2xl lg:text-xl md:text-lg text-md text-gray-500 dark:text-gray-300 text-center md:text-left">{merchanRef.phone}</span>
             </div>
 
             <button onClick={() => setLogoutConfirmation(true)} className="px-4 transition-all duration-300 bg-red-500 hover:bg-red-600 md:h-10 h-8 rounded-md font-medium text-white flex flex-row gap-2 items-center md:ml-auto">
@@ -43,8 +43,8 @@ function ProfileInformation({merchanRef}) {
 
             {logoutConfirmation && (
                 <div className="z-30 fixed inset-0 flex items-center justify-center bg-black/50">
-                    <div className="md:ml-64 bg-white md:p-4 p-3 rounded-md flex flex-col lg:gap-4 md:gap-3 gap-2">
-                        <p className="md:text-xl text-md font-semibold">Are you sure you want to logout?</p>
+                    <div className="md:ml-64 bg-white dark:bg-slate-800 md:p-4 p-3 rounded-md flex flex-col lg:gap-4 md:gap-3 gap-2">
+                        <p className="md:text-xl text-md font-semibold text-black dark:text-white">Are you sure you want to logout?</p>
                         <div className="flex flex-row justify-end gap-2">
                             <button onClick={() => setLogoutConfirmation(false)} className="px-4 bf-bg-color md:h-9 h-8 rounded-md font-medium text-white">Cancel</button>
                             <button onClick={() => authenticateLogout()} className="px-4 transition-all duration-300 bg-red-500 hover:bg-red-600 md:h-9 h-8 rounded-md font-medium text-white">Logout</button>
@@ -129,7 +129,7 @@ function AccountSettings({merchanRef}){
 
             {resetConfirmation && (
                 <div className="z-30 fixed inset-0 flex items-center justify-center bg-black/50">
-                    <div className="md:ml-64 bg-white md:p-4 p-3 rounded-md flex flex-col lg:gap-4 md:gap-3 gap-2">
+                    <div className="md:ml-64 bg-white dark:bg-slate-800 md:p-4 p-3 rounded-md flex flex-col lg:gap-4 md:gap-3 gap-2">
                         <p className="md:text-xl text-md font-semibold">{confirmationMessage}</p>
                         <div className="flex flex-row justify-end gap-2">
                             <button onClick={() => setResetConfirmation(false)} className={"px-4 bf-bg-color md:h-9 h-8 rounded-md font-medium text-white " + (buttonUsable ? "block" : "hidden")}>Cancel</button>

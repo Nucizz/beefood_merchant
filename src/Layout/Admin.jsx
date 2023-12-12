@@ -35,7 +35,7 @@ export default function AdminLayout() {
 
             <div className="w-screen h-screen bg-pattern-overlay absolute z-0" />
 
-            <div className={"z-10 shadow-lg lg:px-7 md:px-6 px-4 lg:py-6 md:py-5 py-4 bg-white rounded-lg text-black xl:w-1/3 lg:w-2/5 md:w-1/2 w-full"}>
+            <div className={"z-10 shadow-lg lg:px-7 md:px-6 px-4 lg:py-6 md:py-5 py-4 bg-white dark:bg-slate-800 rounded-lg text-black dark:text-white xl:w-1/3 lg:w-2/5 md:w-1/2 w-full"}>
 
                 <div className="font-bold flex flex-row items-center mb-4 w-full">
 

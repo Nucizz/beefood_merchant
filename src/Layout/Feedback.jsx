@@ -53,16 +53,20 @@ export default function FeedbackLayout() {
 
             <div className="w-screen h-screen bg-pattern-overlay absolute z-0" />
 
-            <div className="z-10 shadow-lg xl:w-1/3 lg:w-1/2 w-full lg:mx-0 mx-8 lg:px-7 md:px-6 px-4 lg:py-6 md:py-5 py-4 bg-white rounded-lg text-black">
+            <div className="z-10 shadow-lg xl:w-1/3 lg:w-1/2 w-full lg:mx-0 mx-8 lg:px-7 md:px-6 px-4 lg:py-6 md:py-5 py-4 bg-white dark:bg-slate-800 rounded-lg text-black dark:text-white">
                 {viewSelector()}
             </div>
 
-            <div className="z-10 shadow-lg md:mx-0 mx-8 px-6 py-6 bg-white rounded-lg text-black xl:block hidden">
-                <iframe className='rounded-lg' width="405" height="720" src="https://www.youtube.com/embed/videoseries?si=PJoBQwKGXK80BHER&amp;list=PLen1QA2KaXf8_IhwK6DuJKP-Z8_vXvj5t&loop=1&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-            </div>
+            {/* {window.innerWidth >= 1080 ? <div className="z-10 shadow-lg md:mx-0 mx-8 px-6 py-6 bg-white dark:bg-slate-800 rounded-lg text-black dark:text-white xl:block hidden">
+                <iframe className='rounded-lg xl:block hidden' width="405" height="720" src="https://www.youtube.com/embed/videoseries?si=PJoBQwKGXK80BHER&amp;list=PLen1QA2KaXf8_IhwK6DuJKP-Z8_vXvj5t&loop=1&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div> : <></>}
 
-            <div className="z-10 shadow-lg md:mx-0 mx-8 px-6 py-6 bg-white rounded-lg text-black xl:hidden lg:block hidden">
-                <iframe className='rounded-lg' width="270" height="480" src="https://www.youtube.com/embed/videoseries?si=PJoBQwKGXK80BHER&amp;list=PLen1QA2KaXf8_IhwK6DuJKP-Z8_vXvj5t&loop=1&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            {(window.innerWidth >= 720 && window.innerWidth < 1080) ? <div className="z-10 shadow-lg md:mx-0 mx-8 px-6 py-6 bg-white dark:bg-slate-800 rounded-lg text-black dark:text-white xl:hidden lg:block hidden">
+                <iframe className='rounded-lg xl:hidden lg:block hidden' width="270" height="480" src="https://www.youtube.com/embed/videoseries?si=PJoBQwKGXK80BHER&amp;list=PLen1QA2KaXf8_IhwK6DuJKP-Z8_vXvj5t&loop=1&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div> : <></>} */}
+
+            <div className='z-10 shadow-lg bg-white dark:bg-slate-800 rounded-lg text-black dark:text-white xl:block hidden'>
+                <iframe className='rounded-lg xl:block hidden' width="405" height="720" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2Ff7Qdwi4NWhPXFah4XNYXr2%2FMobile-Multimedia-Solution-HiFi-2%3Fpage-id%3D0%253A1%26type%3Ddesign%26node-id%3D1-10%26viewport%3D86%252C-362%252C0.74%26t%3DaKBl8raeaNfi6NQp-1%26scaling%3Dscale-down%26starting-point-node-id%3D1%253A10%26mode%3Ddesign" allowfullscreen></iframe>
             </div>
 
         </div>
@@ -77,12 +81,12 @@ function FeedbackMainMenu({viewRef}) {
 
             <div className='flex md:flex-row flex-col items-center gap-5 mt-5'>
 
-                <div className='md:w-2/5 w-3/5 md:my-5'>
+                {/* <div className='md:w-2/5 w-3/5 md:my-5'>
                     <img src={qrCode} alt="" className='w-full' />
-                    <div className='w-full text-black font-bold xl:text-lg lg:text-base md:text-lg text-center'>Scan to see Prototype</div>
-                </div>
+                    <div className='w-full text-black dark:text-white font-bold xl:text-lg lg:text-base md:text-lg text-center'>Scan to see Prototype</div>
+                </div> */}
 
-                <p className='md:w-3/5 w-full text-gray-500 font-base lg:text-md md:text-lg text-base text-justify'>
+                <p className='w-full text-gray-500 dark:text-gray-300 font-base lg:text-md md:text-lg text-base text-justify'>
                     <span className='font-semibold'>BeeFood</span> adalah sebuah aplikasi layanan pemesanan makanan digital di area <span className='font-semibold'>BINUS</span> yang dibuat untuk <span className='font-semibold'>Mahasiswa</span>, <span className='font-semibold'>Dosen</span>, <span className='font-semibold'>Staff</span> serta <span className='font-semibold'>Tenant</span> yang berada di area kampus <span className='font-semibold'>BINUS</span>.
                     <ol className='font-semibold'>
                         <li>• Pesan makan tanpa mengantri</li>
@@ -93,7 +97,7 @@ function FeedbackMainMenu({viewRef}) {
 
             </div>
 
-            <div className='w-full mt-2 text-gray-500 font-semibold lg:text-2xl md:text-xl text-lg text-center'>Follow our Instagram <a href='https://instagram.com/beefood_binus' className='bf-text-color cursor-pointer'>@beefood_binus</a></div>
+            <div className='w-full mt-2 text-gray-500 dark:text-gray-300 font-semibold lg:text-2xl md:text-xl text-lg text-center'>Follow our Instagram <a href='https://instagram.com/beefood_binus' className='bf-text-color cursor-pointer'>@beefood_binus</a></div>
 
             <button className="mt-5 w-full bf-bg-color md:h-9 h-8 rounded-md font-medium text-white mt-5" type="button" onClick={() => {viewRef("FORM")}}>Give Feedback</button>
 
@@ -155,7 +159,7 @@ function FeedbackForm({viewRef}) {
             <div className="font-bold flex flex-row items-center justify-center mb-4">
                 <img src={icon} alt="" className="lg:h-12 lg:w-12 md:h-10 md:w-10 w-9 h-9 rounded-md mr-3" />
                 <h1 className="lg:text-3xl md:text-2xl text-xl">Feedback</h1>
-                <button className="text-gray-500 ml-auto" onClick={() => {viewRef("MENU")}}>
+                <button className="text-gray-500 dark:text-gray-300 ml-auto" onClick={() => {viewRef("MENU")}}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
                     </svg>
@@ -199,7 +203,7 @@ function FeedbackThankYou({viewRef}) {
         <div className='flex flex-col justify-center items-center gap-5'>
             <span className='text-4xl font-bold'>Thank You for your Feedback!</span>
             <iframe title="ThankyouGIF" className='rounded-lg' src={randomGiphy} width="480" height="360" class="giphy-embed" allowFullScreen></iframe>
-            <p className='text-xl text-gray-500'>Please take some freebies as a part of our appreciation.</p>
+            <p className='text-xl text-gray-500 dark:text-gray-300'>Please take some freebies as a part of our appreciation.</p>
         </div>
     );
 }
