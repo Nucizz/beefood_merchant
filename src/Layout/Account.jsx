@@ -119,7 +119,7 @@ function AccountSettings({merchanRef}){
     return(
         <div className='grid grid-cols-1 gap-3'>
             
-            <p className="rounded-md bg-amber-200 text-amber-500 py-1 px-2 md:py-2 md:px-3 w-full h-fit lg:text-base text-sm">
+            <p className="rounded-md bg-amber-200 text-amber-500 dark:bg-amber-600 dark:text-amber-100 py-1 px-2 md:py-2 md:px-3 w-full h-fit lg:text-base text-sm">
                 <b>Note:</b> To change your contact information such as email and phone please contact BeeFood admin.   
             </p>
             <TextField label="Email" name="email" value={merchanRef.email} type="email" onChange={() => {}} disabled={true} />
@@ -206,11 +206,11 @@ function GeneralSettings({merchanRef, setMerchantRef}) {
 
             <div className='w-full flex md:flex-row flex-col items-center justify-evenly mb-5 md:gap-0 gap-5'> 
                 <ChangePhoto photoRef={profilePicture ? URL.createObjectURL(profilePicture) : merchanRef.profilePicture} setPhotoRef={setProfilePicture} classSize={"xl:w-32 xl:h-32 md:w-24 md:h-24 w-28 h-28"} disabled={!editable} />
-                <p className="rounded-md bg-amber-200 text-amber-500 py-1 px-2 md:py-2 md:px-3 md:w-2/3 w-full h-fit lg:text-base text-sm">
+                <p className="rounded-md bg-amber-200 text-amber-500 dark:bg-amber-600 dark:text-amber-100 py-1 px-2 md:py-2 md:px-3 md:w-2/3 w-full h-fit lg:text-base text-sm">
                     <b>Note:</b> This changes applies right away and will be visible to all of BeeFood merchants. 
                 </p>
             </div>
-            {error ? <div className={"mb-2 w-full md:h-9 h-8 rounded-md flex flex-row items-center md:px-3 px-2 md:text-base text-sm text-red-600 bg-red-100"}>{error}</div> : <></>}
+            {error ? <div className={"mb-2 w-full md:h-9 h-8 rounded-md flex flex-row items-center md:px-3 px-2 md:text-base text-sm text-red-600 bg-red-100"}>{error}</div> : null}
             <TextField label="Name" name="name" value={name} onChange={(e) => setName(e.target.value)} disabled={!editable} />
             <LongTextField label="Description" name="description" value={description} onChange={(e) => setDescription(e.target.value)} disabled={!editable} />
             <DropdownField label="Campus" name="campus" value={campus} onChange={(e) => {onCampusChange(e.target.value)}} options={CAMPUS_LOCATION.map((campusInfo) => (

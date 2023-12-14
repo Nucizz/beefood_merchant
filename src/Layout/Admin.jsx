@@ -19,7 +19,7 @@ export default function AdminLayout() {
     }, [])
 
     if (!authLoaded) {
-        return <></>
+        return null
     }
 
     try {
@@ -48,7 +48,7 @@ export default function AdminLayout() {
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
                         </svg>
                     </button>
-                        : <></>}
+                        : null}
 
                 </div>
 
@@ -84,7 +84,7 @@ function AdminLoginForm({setUserRef}) {
     return(
         <form className="grid grid-cols-1 gap-3">
 
-            {error ? <div className="mb-2 w-full md:py-2 py-1 bg-red-100 rounded-md text-red-600 flex flex-row items-center md:px-3 px-2 md:text-base text-sm">{error}</div> : <></>}
+            {error ? <div className="mb-2 w-full md:py-2 py-1 bg-red-100 rounded-md text-red-600 flex flex-row items-center md:px-3 px-2 md:text-base text-sm">{error}</div> : null}
             <TextField label="Email" name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             <TextField label="Password" name="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
             <button className="w-full bf-bg-color md:h-9 h-8 rounded-md font-medium text-white mt-5" type="button" onClick={onLoginValidate}>Submit</button>

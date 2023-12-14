@@ -56,7 +56,7 @@ function LoginForm() {
     return(
         <form className="grid grid-cols-1 gap-3">
 
-            {error ? <div className="mb-2 w-full bg-red-100 rounded-md text-red-600 flex flex-row items-center md:px-3 px-2 md:py-2 py-1 md:text-base text-sm">{error}</div> : <></>}
+            {error ? <div className="mb-2 w-full bg-red-100 rounded-md text-red-600 flex flex-row items-center md:px-3 px-2 md:py-2 py-1 md:text-base text-sm">{error}</div> : null}
             <TextField label="Email" name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             <TextField label="Password" name="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
             <button className="w-full bf-bg-color md:h-9 h-8 rounded-md font-medium text-white mt-5" type="button" onClick={onLoginValidate}>Submit</button>
@@ -117,7 +117,7 @@ function RegisterForm() {
     return(
         <form className="grid grid-cols-1 gap-3">
 
-            {error ? <div className="mb-2 w-full bg-red-100 rounded-md text-red-600 flex flex-row items-center md:px-3 px-2 md:py-2 py-1 md:text-base text-sm">{error}</div> : <></>}
+            {error ? <div className="mb-2 w-full bg-red-100 rounded-md text-red-600 flex flex-row items-center md:px-3 px-2 md:py-2 py-1 md:text-base text-sm">{error}</div> : null}
             <div className='w-full flex items-center justify-center'>
                 <ChangePhoto photoRef={profilePicture ? URL.createObjectURL(profilePicture) : null} setPhotoRef={setProfilePicture} type='add' classSize={"xl:w-32 xl:h-32 md:w-24 md:h-24 w-16 h-16"} />
             </div>
@@ -163,7 +163,7 @@ function TokenForm({nameRef, emailRef, phoneRef, tokenRef}) {
     return(
         <form className="grid grid-cols-1 gap-3">
 
-            {error ? <div className="mb-2 w-full md:py-2 py-1 bg-red-100 rounded-md text-red-600 flex flex-row items-center md:px-3 px-2 md:text-base text-sm">{error}</div> : <></>}
+            {error ? <div className="mb-2 w-full md:py-2 py-1 bg-red-100 rounded-md text-red-600 flex flex-row items-center md:px-3 px-2 md:text-base text-sm">{error}</div> : null}
             <TextField label="Email" name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             <TextField label="Token" name="token" value={token} onChange={(e) => setToken(e.target.value)} />
 

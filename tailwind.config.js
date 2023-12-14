@@ -12,5 +12,7 @@ module.exports = {
   plugins: [
   
   ],
+  // Turn off this line below to enable dark mode (Will follow system's theme)
+  darkMode: 'class'
 }
 

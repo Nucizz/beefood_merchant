@@ -20,7 +20,7 @@ export function AdminMerchant({page}) {
     }, [])
 
     if (!authLoaded) {
-        return <></>
+        return null
     }
 
     try {
@@ -100,7 +100,7 @@ function MerchantRegisterForm() {
     return(
         <form className="grid grid-cols-1 gap-3">
 
-            {error ? <div className={"mb-2 w-full md:py-2 py-1 rounded-md flex flex-row items-center md:px-3 px-2 md:text-base text-sm " + (error.startsWith("TOKEN: ") ? "text-green-600 bg-green-100" : "text-red-600 bg-red-100")}>{error}</div> : <></>}
+            {error ? <div className={"mb-2 w-full md:py-2 py-1 rounded-md flex flex-row items-center md:px-3 px-2 md:text-base text-sm " + (error.startsWith("TOKEN: ") ? "text-green-600 bg-green-100" : "text-red-600 bg-red-100")}>{error}</div> : null}
             <TextField label="Merchant Name" name="merchantName" value={merchantName} onChange={(e) => setMerchantName(e.target.value)} />
             <TextField label="Email" name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             <TextField label="Phone" name="phone" type="tel" onClick={() => {if (phone.length < 3){setPhone("+62")}}} value={phone} onChange={(e) => setPhone(validatePhoneNumber(e.target.value))} />
@@ -147,7 +147,7 @@ function VerifyHalal() {
     return(
         <form className="grid grid-cols-1 gap-3">
 
-{error ? <div className={"mb-2 w-full md:py-2 py-1 rounded-md flex flex-row items-center md:px-3 px-2 md:text-base text-sm " + (error.startsWith("Updated ") ? "text-green-600 bg-green-100" : "text-red-600 bg-red-100")}>{error}</div> : <></>}
+{error ? <div className={"mb-2 w-full md:py-2 py-1 rounded-md flex flex-row items-center md:px-3 px-2 md:text-base text-sm " + (error.startsWith("Updated ") ? "text-green-600 bg-green-100" : "text-red-600 bg-red-100")}>{error}</div> : null}
             { !merchant ? <>
                 <TextField label="Email" name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                 <button className="w-full bf-bg-color md:h-9 h-8 rounded-md font-medium text-white mt-5" type="button" onClick={onFindMerchant}>Find Merchant</button>

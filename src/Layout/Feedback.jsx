@@ -1,6 +1,5 @@
 import icon from '../Assets/BeeFood Icon.png'
 import logo from '../Assets/BeeFood Text Black.png'
-import qrCode from '../Assets/Prototype QR Code.svg'
 import '../App.css'
 import { useState, useEffect } from 'react'
 import { addDoc, collection, getDocs, getFirestore, query, where } from 'firebase/firestore'
@@ -57,16 +56,8 @@ export default function FeedbackLayout() {
                 {viewSelector()}
             </div>
 
-            {/* {window.innerWidth >= 1080 ? <div className="z-10 shadow-lg md:mx-0 mx-8 px-6 py-6 bg-white dark:bg-slate-800 rounded-lg text-black dark:text-white xl:block hidden">
-                <iframe className='rounded-lg xl:block hidden' width="405" height="720" src="https://www.youtube.com/embed/videoseries?si=PJoBQwKGXK80BHER&amp;list=PLen1QA2KaXf8_IhwK6DuJKP-Z8_vXvj5t&loop=1&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-            </div> : <></>}
-
-            {(window.innerWidth >= 720 && window.innerWidth < 1080) ? <div className="z-10 shadow-lg md:mx-0 mx-8 px-6 py-6 bg-white dark:bg-slate-800 rounded-lg text-black dark:text-white xl:hidden lg:block hidden">
-                <iframe className='rounded-lg xl:hidden lg:block hidden' width="270" height="480" src="https://www.youtube.com/embed/videoseries?si=PJoBQwKGXK80BHER&amp;list=PLen1QA2KaXf8_IhwK6DuJKP-Z8_vXvj5t&loop=1&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-            </div> : <></>} */}
-
             <div className='z-10 shadow-lg bg-white dark:bg-slate-800 rounded-lg text-black dark:text-white xl:block hidden'>
-                <iframe className='rounded-lg xl:block hidden' width="405" height="720" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2Ff7Qdwi4NWhPXFah4XNYXr2%2FMobile-Multimedia-Solution-HiFi-2%3Fpage-id%3D0%253A1%26type%3Ddesign%26node-id%3D1-10%26viewport%3D86%252C-362%252C0.74%26t%3DaKBl8raeaNfi6NQp-1%26scaling%3Dscale-down%26starting-point-node-id%3D1%253A10%26mode%3Ddesign" allowfullscreen></iframe>
+                <iframe title='figma' className='rounded-lg xl:block hidden' width="405" height="720" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2Ff7Qdwi4NWhPXFah4XNYXr2%2FMobile-Multimedia-Solution-HiFi-2%3Fpage-id%3D0%253A1%26type%3Ddesign%26node-id%3D1-10%26viewport%3D86%252C-362%252C0.74%26t%3DaKBl8raeaNfi6NQp-1%26scaling%3Dscale-down%26starting-point-node-id%3D1%253A10%26mode%3Ddesign" allowfullscreen></iframe>
             </div>
 
         </div>
@@ -80,11 +71,6 @@ function FeedbackMainMenu({viewRef}) {
             <img src={logo} alt="" className="w-3/5" />
 
             <div className='flex md:flex-row flex-col items-center gap-5 mt-5'>
-
-                {/* <div className='md:w-2/5 w-3/5 md:my-5'>
-                    <img src={qrCode} alt="" className='w-full' />
-                    <div className='w-full text-black dark:text-white font-bold xl:text-lg lg:text-base md:text-lg text-center'>Scan to see Prototype</div>
-                </div> */}
 
                 <p className='w-full text-gray-500 dark:text-gray-300 font-base lg:text-md md:text-lg text-base text-justify'>
                     <span className='font-semibold'>BeeFood</span> adalah sebuah aplikasi layanan pemesanan makanan digital di area <span className='font-semibold'>BINUS</span> yang dibuat untuk <span className='font-semibold'>Mahasiswa</span>, <span className='font-semibold'>Dosen</span>, <span className='font-semibold'>Staff</span> serta <span className='font-semibold'>Tenant</span> yang berada di area kampus <span className='font-semibold'>BINUS</span>.
@@ -167,7 +153,7 @@ function FeedbackForm({viewRef}) {
             </div>
 
             <form className="grid grid-cols-1 gap-3">
-                {error ? <div className="mb-2 w-full md:h-9 h-8 bg-red-100 rounded-md text-red-600 flex flex-row items-center md:px-3 px-2 md:text-base text-sm">{error}</div> : <></>}
+                {error ? <div className="mb-2 w-full md:h-9 h-8 bg-red-100 rounded-md text-red-600 flex flex-row items-center md:px-3 px-2 md:text-base text-sm">{error}</div> : null}
                 <TextField label="Nama" name="name" type="text" value={name} onChange={(e) => setName(e.target.value)} />
                 <TextField label="Email" name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                 <TextField label="Instagram" name="instagram" type="text" value={instagram} onChange={(e) => setInstagram(validateInstagram(e.target.value))} />

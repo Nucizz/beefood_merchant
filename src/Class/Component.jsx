@@ -65,39 +65,39 @@ export function TextField({ label, name, type = "text", disabled = false, ...res
   }
 
 export function LongTextField({ label, name, disabled=false, ...rest }) {
-    return(
-        <div className="relative z-0 w-full">
-            <textarea {...rest} disabled={disabled} id={name} placeholder=" " className={"h-32 md:text-base text-sm pt-4 md:pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black dark:focus:border-white border-gray-200 dark:border-gray-400 rounded-none " + (disabled ? "text-gray-500 dark:text-gray-300" : "text-black dark:text-white")} />
-            <label htmlFor={name} className="absolute duration-300 top-4 -z-1 origin-0 text-gray-500 dark:text-gray-300 md:text-base text-sm w-full cursor-text">
-                {label}
-            </label>
-        </div>
-    );
+  return(
+      <div className="relative z-0 w-full">
+          <textarea {...rest} disabled={disabled} id={name} placeholder=" " className={"h-32 md:text-base text-sm pt-4 md:pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black dark:focus:border-white border-gray-200 dark:border-gray-400 rounded-none " + (disabled ? "text-gray-500 dark:text-gray-300" : "text-black dark:text-white")} />
+          <label htmlFor={name} className="absolute duration-300 top-4 -z-1 origin-0 text-gray-500 dark:text-gray-300 md:text-base text-sm w-full cursor-text">
+              {label}
+          </label>
+      </div>
+  )
 }
 
 export function TimeField({ label, name, disabled = false, ...rest }) {
-    return (
-      <div className="relative z-0 w-fit">
-        <input
-          {...rest}
-          disabled={disabled}
-          id={name}
-          type="time"
-          placeholder=" "
-          className={
-            "h-12 md:text-base text-sm pt-3 md:pb-2 block w-fit px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black dark:focus:border-white border-gray-200 dark:border-gray-400 rounded-none " +
-            (disabled ? "text-gray-500 dark:text-gray-300" : "text-black dark:text-white")
-          }
-        />
-        <label
-          htmlFor={name}
-          className="absolute duration-300 top-5 md:top-3 -z-1 origin-0 text-gray-500 dark:text-gray-300 md:text-base text-sm w-full cursor-pointer"
-        >
-          {label}
-        </label>
-      </div>
-    )
-  }
+  return (
+    <div className="relative z-0 w-fit">
+      <input
+        {...rest}
+        disabled={disabled}
+        id={name}
+        type="time"
+        placeholder=" "
+        className={
+          "h-12 md:text-base text-sm pt-3 md:pb-2 block w-fit px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black dark:focus:border-white border-gray-200 dark:border-gray-400 rounded-none " +
+          (disabled ? "text-gray-500 dark:text-gray-300" : "text-black dark:text-white")
+        }
+      />
+      <label
+        htmlFor={name}
+        className="absolute duration-300 top-5 md:top-3 -z-1 origin-0 text-gray-500 dark:text-gray-300 md:text-base text-sm w-full cursor-pointer"
+      >
+        {label}
+      </label>
+    </div>
+  )
+}
 
 export function ChangePhoto({photoRef, setPhotoRef, classSize, disabled=false, type="add"}) {
   const [defaultVal, setDefaultVal] = useState(Profile)

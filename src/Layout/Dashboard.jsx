@@ -36,7 +36,7 @@ export default function DashboardLayout({merchanRef}) {
     }, [merchanRef.id])
 
     if (isLoading) {
-      return <></>
+      return null
     }
 
     return (
@@ -104,7 +104,7 @@ function ToDoListLayout({orderRef}) {
 
     return (
         <div className="w-full flex flex-col xl:gap-4 md:gap-3 gap-2">
-            <h2 className="w-full text-lg md:text-xl lg:text-2xl font-bold">Your To-Do List</h2>
+            <h2 className="w-full text-lg md:text-xl lg:text-2xl font-bold text-black dark:text-white">Your To-Do List</h2>
             <ol className="w-full grid grid-cols-2 gap-y-5 lg:grid-cols-3 xl:grid-cols-5 rounded-lg py-4 bg-white dark:bg-slate-800">
                 <li className="flex flex-col justify-center items-center w-full border-r-2 border-gray-200 dark:border-gray-400">
                     <span className="text-xl font-bold text-gray-500 dark:text-gray-300">{needConfirmation}</span>
@@ -159,7 +159,7 @@ function OrderListLayout({ orderRef }) {
   
     return (
         <div className="w-full flex flex-col xl:gap-4 md:gap-3 gap-2">
-            <h2 className="w-full text-lg md:text-xl lg:text-2xl font-bold">Order List</h2>
+            <h2 className="w-full text-lg md:text-xl lg:text-2xl font-bold text-black dark:text-white">Order List</h2>
         
             <table className="w-full table-auto rounded-lg overflow-hidden xl:text-lg lg:text-base text-sm">
                 <thead className="bg-white dark:bg-slate-800 border-b ">
@@ -173,7 +173,7 @@ function OrderListLayout({ orderRef }) {
                 <tbody>
                     {sortedOrderRef.length > 0 ? (
                         sortedOrderRef.map((order) => (
-                            <tr key={order.id} className="transition-all duration-200 hover:bg-gray-300 hover:text-white bg-white dark:bg-slate-800 " onClick={() => setSelectedOrder(order)}>
+                            <tr key={order.id} className="transition-all duration-200 hover:bg-gray-300 hover:text-white bg-white dark:bg-slate-800 dark:hover:bg-slate-700 " onClick={() => setSelectedOrder(order)}>
                                 <td className="p-2 cursor-pointer lg:pl-4 text-left text-black dark:text-white">{order.name}</td>
                                 <td className="p-2 cursor-pointer text-left text-black dark:text-white">{order.status}</td>
                                 <td className="p-2 cursor-pointer text-left text-black dark:text-white">{`Rp${order.price}`}</td>
@@ -182,7 +182,7 @@ function OrderListLayout({ orderRef }) {
                         ))
                         ) : (
                         <tr>
-                            <td colSpan="5" className="p-2 text-center bg-white dark:bg-slate-800 ">
+                            <td colSpan="5" className="p-2 text-center bg-white dark:bg-slate-800 text-black dark:text-white">
                             No order available for now.
                             </td>
                         </tr>
@@ -190,7 +190,7 @@ function OrderListLayout({ orderRef }) {
                 </tbody>
             </table>
 
-            {selectedOrder ? <OrderDetails orderRef={selectedOrder} setOrderRef={setSelectedOrder} /> : <></>}
+            {selectedOrder ? <OrderDetails orderRef={selectedOrder} setOrderRef={setSelectedOrder} /> : null}
         </div>
     )
 }

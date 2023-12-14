@@ -23,7 +23,7 @@ export default function App() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(getAuth(app), async (merchant) => {
-      if(merchant){
+      if(merchant && merchant.email !== "beefood.contact@gmail.com"){
         await getFCMToken()
         const merchantData = await getMerchantData(merchant.email)
         setMerchant(merchantData)
@@ -37,7 +37,7 @@ export default function App() {
   }, []);
 
   if (!authLoaded) {
-    return <></>;
+    return <div className='h-screen w-screen bg-gray-200 dark:bg-slate-950'/>
   }
 
   function ProtectedRoute({
@@ -109,7 +109,7 @@ export default function App() {
         <Route path='/dashboard' element={
           <ProtectedRoute allow={merchant}>
             <NavbarLayout activePage={"Dashboard"}/>
-            <div className="xl:px-12 xl:py-8 md:px-8 md:py-6 px-4 py-2 sm:ml-64 dark:bg-slate-950 min-h-screen">
+            <div className="xl:px-12 xl:py-8 md:px-8 md:py-6 px-4 py-2 sm:ml-64 bg-gray-100 dark:bg-slate-950 min-h-screen">
               <DashboardLayout merchanRef={merchant} />
             </div>
           </ProtectedRoute>
@@ -119,7 +119,7 @@ export default function App() {
         <Route path='/products' element={
           <ProtectedRoute allow={merchant}>
             <NavbarLayout activePage={"Products"}/>
-            <div className="xl:px-12 xl:py-8 md:px-8 md:py-6 px-4 py-2 sm:ml-64 dark:bg-slate-950 min-h-screen">
+            <div className="xl:px-12 xl:py-8 md:px-8 md:py-6 px-4 py-2 sm:ml-64 bg-gray-100 dark:bg-slate-950 min-h-screen">
               <ProductsLayout merchanRef={merchant} />
             </div>
           </ProtectedRoute>
@@ -129,7 +129,7 @@ export default function App() {
         <Route path='/analytics' element={
           <ProtectedRoute allow={merchant}>
             <NavbarLayout activePage={"Analytics"}/>
-            <div className="xl:px-12 xl:py-8 md:px-8 md:py-6 px-4 py-2 sm:ml-64 dark:bg-slate-950 min-h-screen">
+            <div className="xl:px-12 xl:py-8 md:px-8 md:py-6 px-4 py-2 sm:ml-64 bg-gray-100 dark:bg-slate-950 min-h-screen">
               <AnalyticsLayout merchanRef={merchant} />
             </div>
           </ProtectedRoute>
@@ -139,7 +139,7 @@ export default function App() {
         <Route path='/account' element={
           <ProtectedRoute allow={merchant}>
             <NavbarLayout activePage={"Account"}/>
-            <div className="xl:px-12 xl:py-8 md:px-8 md:py-6 px-4 py-2 sm:ml-64 dark:bg-slate-950 min-h-screen">
+            <div className="xl:px-12 xl:py-8 md:px-8 md:py-6 px-4 py-2 sm:ml-64 bg-gray-100 dark:bg-slate-950 min-h-screen">
               <AccountLayout merchanRef={merchant} setMerchantRef={setMerchant} />
             </div>
           </ProtectedRoute>

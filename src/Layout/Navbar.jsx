@@ -1,9 +1,14 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react"
 import logo from "../Assets/BeeFood Text Monochrome.png"
 
 export default function NavbarLayout({activePage}) {
     const [isExpanded, setIsExpanded] = useState(false)
-    const buttonRef = useRef(null);
+    const [darkmode, setDarkmode] = useState(() => {
+        const savedMode = localStorage.getItem('darkMode')
+        savedMode ? document.documentElement.classList.remove("dark") : document.documentElement.classList.add("dark")
+        return savedMode ? JSON.parse(savedMode) : false
+    })
+    const buttonRef = useRef(null)
 
     const handleClickOutside = (event) => {
         if (buttonRef.current && buttonRef.current.contains(event.target)) {
@@ -14,18 +19,31 @@ export default function NavbarLayout({activePage}) {
         if (sidebar && !sidebar.contains(event.target)) {
           setIsExpanded(false)
         }
-      };
+    }
+
+    useEffect(() => {
+        document.documentElement.className = darkmode ? "dark" : "";
+    }, [darkmode]);
+
+    const toggleDarkmode = () => {
+        setDarkmode((prevMode) => {
+            const newMode = !prevMode
+            localStorage.setItem('darkMode', JSON.stringify(newMode))
+            newMode ? document.documentElement.classList.remove("dark") : document.documentElement.classList.add("dark")
+            return newMode
+        })
+    }
     
-      useEffect(() => {
+    useEffect(() => {
         document.addEventListener("click", handleClickOutside);
     
         return () => {
           document.removeEventListener("click", handleClickOutside);
-        };
-      }, []);
+        }
+    }, [])
 
     return (
-        <div className="dark:bg-slate-950">
+        <div className="bg-gray-100 dark:bg-slate-950">
             <button ref={buttonRef} onClick={() => setIsExpanded(!isExpanded)} aria-controls="default-sidebar" type="button" className="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 dark:text-gray-300 rounded-lg sm:hidden hover:bg-orange-100 hover:text-orange-600 focus:outline-none focus:ring-2 focus:ring-gray-200">
                 <span className="sr-only">Open sidebar</span>
                 <svg className="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -34,7 +52,7 @@ export default function NavbarLayout({activePage}) {
             </button>
 
             <aside id="default-sidebar" className={"fixed top-0 left-0 z-40 w-64 h-screen transition-transform " + (isExpanded ? "" : "-translate-x-full sm:translate-x-0")} aria-label="Sidebar">
-                <div className="h-full px-3 py-4 overflow-y-auto bg-amber-500 shadow-lg shadow-amber-500 flex flex-col justify-between">
+                <div className={"h-full pl-4 py-2 overflow-y-auto bg-amber-500 flex flex-col justify-between " + (isExpanded ? "shadow-lg shadow-amber-500" : "")}>
                     <ul className="space-y-2 font-medium">
                         <li className="p-2">
                             <img src={logo} alt="Logo" className="w-full pr-3"/>
@@ -78,9 +96,21 @@ export default function NavbarLayout({activePage}) {
                             }
                         }/>
                     </ul>
-                    <span className="text-white w-full text-center text-sm">
-                        Ⓒ 2023 BeeFood BINUS
-                    </span>
+                    <div className="pr-4 w-full flex flex-col gap-5">
+                        <div className="flex flex-row items-center justify-center relative text-white font-semibold gap-5">
+                            Toggle Dark Mode
+                            <input
+                                className="mr-2 mt-[0.3rem] h-3.5 w-8 appearance-none rounded-full bg-neutral-300 before:pointer-events-none before:absolute before:h-3.5 before:w-3.5 before:rounded-full before:bg-transparent before:content-[''] after:absolute after:z-[2] after:-mt-[0.1875rem] after:h-5 after:w-5 after:rounded-full after:border-none after:bg-neutral-100 after:shadow-md after:transition-[background-color_0.2s,transform_0.2s] after:content-[''] checked:bg-amber-600 checked:after:absolute checked:after:z-[2] checked:after:-mt-[3px] checked:after:ml-[1.5rem] checked:after:h-5 checked:after:w-5 checked:after:rounded-full checked:after:border-none checked:after:bg-primary checked:after:shadow-md checked:after:transition-[background-color_0.2s,transform_0.2s] checked:after:content-[''] hover:cursor-pointer focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[3px_-1px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-5 focus:after:w-5 focus:after:rounded-full focus:after:content-[''] checked:focus:border-primary checked:focus:bg-amber-600 checked:focus:before:ml-[1.5rem] checked:focus:before:scale-100 checked:focus:before:shadow-md checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s]"
+                                type="checkbox"
+                                role="switch"
+                                onChange={toggleDarkmode}
+                                checked={darkmode}
+                            />
+                        </div>
+                        <span className="w-full text-white text-center text-sm">
+                            Ⓒ 2023 BeeFood BINUS
+                        </span>
+                    </div>
                 </div>
             </aside>
         </div>
@@ -90,9 +120,9 @@ export default function NavbarLayout({activePage}) {
 function NavbarButton({title, Icon, reference, active=false}) {
     return (
         <li>
-            <a href={reference} className={"flex items-center p-2 rounded-lg text-white group transition-all duration-300 " + (active ? "bg-orange-500 shadow-md shadow-orange-600 hover:bg-orange-600" : "hover:bg-amber-600")}>
+            <a href={reference} className={"flex items-center py-2 px-3 rounded-l-lg text-white group transition-all duration-300 " + (active ? "bg-orange-500 shadow-md shadow-orange-600 hover:bg-orange-600" : "hover:bg-amber-600")}>
                 <Icon />
-                <span className="ml-3">{title}</span>
+                <span className="ml-4">{title}</span>
             </a>
         </li>  
     );
