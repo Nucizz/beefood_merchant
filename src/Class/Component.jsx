@@ -185,3 +185,26 @@ export function JustifiedInfo({title, content}) {
       </div>
   )
 }
+
+export function Toast({message, setShowRef}) {
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setShowRef(false);
+    }, 5000)
+
+    return () => clearTimeout(timeoutId)
+  }, [setShowRef])
+
+  return(
+    <div class="inset-0 h-fit absolute z-30 m-4 bg-white dark:bg-slate-800 dark:text-white text-black rounded-md shadow-lg border-2 border-amber-500 flex flex-col px-4 py-2 lg:w-1/3 md:w-1/2 w-full" role="alert">
+
+      <div className='flex flex-row w-full justify-between'>
+        <h3 className='font-semibold text-amber-500 text-lg'>{message.title}</h3>
+        <button class="mb-auto transition-all duration-300 text-lg text-gray-500 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-600 font-bold" onClick={() => setShowRef(false)}>&#x2716;</button>
+      </div>
+
+      <p className='text-justify' >{message.body}</p>
+
+    </div>
+  )
+}

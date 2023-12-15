@@ -1,7 +1,18 @@
 import { useState, useRef, useEffect } from "react"
-import { timeConverter } from "../Javascript/Global"
+import { moneyConverter, timeConverter } from "../Javascript/Global"
+import { onMessageListener } from '../firebase-config.js';
+import { Toast } from "../Class/Component.jsx";
 
 export default function AnalyticsLayout({merchanRef}) {
+    const [show, setShow] = useState(false);
+    const [notification, setNotification] = useState({title: '', body: ''})
+  
+    onMessageListener().then(payload => {
+      setShow(true)
+      setNotification({title: payload.notification.title, body: payload.notification.body})
+      console.log(payload)
+    }).catch(err => console.log('failed: ', err))
+
     return (
         <div className="w-full flex flex-col gap-4">
             <h1 className="mb-4 text-3xl font-bold leading-none tracking-tight text-black dark:text-white md:text-4xl lg:text-4xl">Analytics</h1>
@@ -9,6 +20,8 @@ export default function AnalyticsLayout({merchanRef}) {
             <MerchantSummary merchanRef={merchanRef} />
 
             <TransactionListLayout orderRef={[]} />
+
+            { show ? <Toast message={notification} setShowRef={setShow} /> : null }
 
         </div>
     );
@@ -18,14 +31,14 @@ function MerchantSummary({merchanRef}) {
     const [viewAllTime, setViewAllTime] = useState(false)
 
     return (
-        <div className="relative w-full rounded-lg py-4 bg-white dark:bg-slate-800 lg:px-8 lg:py-6 md:px-6 md:py-4 px-4 py-2 flex lg:flex-row flex-col items-center lg:gap-8 gap-4">
+        <div className="relative w-full rounded-lg bg-white dark:bg-slate-800 lg:px-8 lg:py-6 md:px-6 md:py-4 px-4 py-2 flex lg:flex-row flex-col items-center lg:gap-8 gap-4">
             
-            <div className="lg:w-1/3 w-full flex flex-col items-start lg:border-r-2 border-gray-200 dark:border-gray-400">
+            <div className="lg:w-2/5 w-full flex flex-col items-start lg:border-r-2 border-gray-200 dark:border-gray-400">
                 <span className="xl:text-2xl lg:text-xl text-lg font-bold text-gray-500 dark:text-gray-300 text-left">{(viewAllTime ? "All Time" : "Today's") + " Earning"}</span>
-                <span className="xl:text-6xl lg:text-5xl text-4xl font-bold text-left text-black dark:text-white">{"Rp" + (viewAllTime ? merchanRef.totalEarning : 0)}</span>
+                <span className="xl:text-6xl lg:text-5xl text-4xl font-bold text-left text-black dark:text-white">{moneyConverter(viewAllTime ? merchanRef.totalEarning : 0)}</span>
             </div>
 
-            <ol className="lg:w-2/3 w-full flex flex-row justify-between">
+            <ol className="lg:w-3/5 w-full flex flex-row justify-between">
                 <li className="flex flex-col justify-evenly items-center lg:w-1/3 gap-2">
                     <span className="xl:text-xl lg:text-lg text-md font-semibold text-gray-500 dark:text-gray-300 text-left">{(viewAllTime ? "All Time" : "Today's") + " Order"}</span>
                     <span className="xl:text-4xl lg:text-3xl text-2xl font-bold text-left text-black dark:text-white">{viewAllTime ? merchanRef.totalOrder : 0}</span>
@@ -122,9 +135,9 @@ function TransactionListLayout({ orderRef }) {
             <table className="w-full table-auto rounded-lg overflow-hidden xl:text-lg lg:text-base text-sm">
                 <thead className="bg-white dark:bg-slate-800 border-b ">
                     <tr>
-                        <th className="p-2 lg:pl-4 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500 dark:text-gray-300" onClick={() => handleSort('name')}>Name <span className="text-black dark:text-white rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500 dark:text-gray-300">{sortBy === 'name' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
-                        <th className="p-2 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500 dark:text-gray-300" onClick={() => handleSort('price')}>Price <span className="text-black dark:text-white rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500 dark:text-gray-300">{sortBy === 'price' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
-                        <th className="p-2 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500 dark:text-gray-300" onClick={() => handleSort('time')}>Time <span className="text-black dark:text-white rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500 dark:text-gray-300">{sortBy === 'time' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
+                        <th className="p-2 lg:pl-4 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500" onClick={() => handleSort('name')}>Name <span className="text-black dark:text-white rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500">{sortBy === 'name' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
+                        <th className="p-2 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500" onClick={() => handleSort('price')}>Price <span className="text-black dark:text-white rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500">{sortBy === 'price' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
+                        <th className="p-2 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500" onClick={() => handleSort('time')}>Time <span className="text-black dark:text-white rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500">{sortBy === 'time' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
                     </tr>
                 </thead>
                 <tbody>

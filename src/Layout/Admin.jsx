@@ -24,7 +24,7 @@ export default function AdminLayout() {
 
     try {
         if(user && user.email !== "beefood.contact@gmail.com") {
-            authenticateLogout('/admin')
+            authenticateLogout(user.id ,'/admin')
         }
     } catch(e) {
         console.log(e)
@@ -43,7 +43,7 @@ export default function AdminLayout() {
 
                     <h1 className="lg:text-3xl md:text-2xl text-xl">{user ? "Launchpad" : "Login as Admin"}</h1>
 
-                    {user ? <button className="text-red-400 ml-auto" onClick={() => authenticateLogout('/admin')}>
+                    {user ? <button className="text-red-400 ml-auto" onClick={() => authenticateLogout(user.id, '/admin')}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="lg:h-8 lg:w-8 md:h-7 md:w-7 w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
                         </svg>

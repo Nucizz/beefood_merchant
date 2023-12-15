@@ -1,4 +1,4 @@
-import { app } from '../firebase-config';
+import { app, getFCMToken } from '../firebase-config';
 import { getAuth, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword, sendPasswordResetEmail  } from 'firebase/auth'
 import { addDoc, collection, getDoc, getDocs, deleteDoc, doc, getFirestore, query, where, or, updateDoc, limit } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
@@ -110,7 +110,8 @@ export const authenticateLogin = async (email, password) => {
     )
 }
 
-export const authenticateLogout = async (redirect = '/login') => {
+export const authenticateLogout = async (id, redirect = '/login') => {
+    await setMerchantFCMToken(id, null)
     signOut(getAuth()).then(() => {
         window.location.href = redirect
     }).catch((e) => {
@@ -121,10 +122,12 @@ export const authenticateLogout = async (redirect = '/login') => {
 export const getMerchantData = async (email) => {
     const merchantDB = collection(getFirestore(), 'merchant')
     const snapshots = await getDocs(query(merchantDB, where('email', '==', email), limit(1)))
+    const FCMToken = await getFCMToken()
 
     if (!snapshots.empty) {
         const merchantData = snapshots.docs[0].data()
         merchantData.id = snapshots.docs[0].id
+        await setMerchantFCMToken(merchantData.id, FCMToken)
         merchantData.product = await getProduct(merchantData.id)
         const profilePictureRef = ref(getStorage(), merchantData.profilePicture)
         try {
@@ -185,5 +188,16 @@ export const updateMerhcantHalal = async (id) => {
     } catch(e) {
         console.log(e)
         return "Something went wrong."
+    }
+}
+
+export const setMerchantFCMToken = async (id, token) => {
+    const docRef = doc(getFirestore(), 'merchant', id)
+    try {
+        await updateDoc(docRef, {
+            FCMToken: token
+        })
+    } catch(e) {
+        console.log(e)
     }
 }

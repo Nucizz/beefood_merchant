@@ -1,12 +1,37 @@
 import { useState, useEffect } from "react";
 import { getTodayOrderList } from "../Javascript/OrderHandler";
 import { OrderDetails } from "./Order";
-import { ChangePhoto } from "../Class/Component";
-import { timeConverter } from "../Javascript/Global";
+import { ChangePhoto, Toast } from "../Class/Component";
+import { timeConverter, moneyConverter } from "../Javascript/Global";
+import { onMessageListener } from '../firebase-config.js';
 
 export default function DashboardLayout({merchanRef}) {
+    const [show, setShow] = useState(false);
+    const [notification, setNotification] = useState({title: '', body: ''})
+  
+    onMessageListener().then(payload => {
+        setShow(true)
+        setNotification({title: payload.notification.title, body: payload.notification.body})
+        console.log(payload)
+
+        if(payload.notification.title !== "New Order Receivied") {
+            const fetchTodayOrderList = async () => {
+                try {
+                    const todayOrderList = await getTodayOrderList(merchanRef.id)
+                    setOrder(todayOrderList)
+                } catch (e) {
+    
+                } finally {
+                    setIsLoading(false);
+                }
+            }
+            fetchTodayOrderList()
+        }
+
+    }).catch(err => console.log('failed: ', err))
+
     const [order, setOrder] = useState(null)
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true)
 
     const dummyOrderList = [
         { id: '3HrXQf1iQ0XsgHE2Op9b', name: 'John Doe', status: 'Processing', price: 24000, time: 1670237700000 },
@@ -24,7 +49,8 @@ export default function DashboardLayout({merchanRef}) {
     useEffect(() => {
         const fetchTodayOrderList = async () => {
             try {
-                const todayOrderList = await getTodayOrderList(merchanRef.id);
+                const todayOrderList = await getTodayOrderList(merchanRef.id)
+                
                 setOrder(dummyOrderList)
             } catch (e) {
 
@@ -49,13 +75,15 @@ export default function DashboardLayout({merchanRef}) {
 
             <OrderListLayout orderRef={order} />
 
+            { show ? <Toast message={notification} setShowRef={setShow} /> : null }
+
         </div>
     )
 }
 
 function GeneralInformation({merchanRef}) {
     return (
-        <div className="w-full rounded-lg py-4 bg-white dark:bg-slate-800 lg:px-8 lg:py-6 md:px-6 md:py-4 px-4 py-2 flex lg:flex-row flex-col lg:items-start items-center lg:gap-8 gap-4">
+        <div className="w-full rounded-lg bg-white dark:bg-slate-800 lg:px-8 lg:py-6 md:px-6 md:py-4 px-4 py-2 flex lg:flex-row flex-col lg:items-start items-center lg:gap-8 gap-4">
 
             <ChangePhoto photoRef={merchanRef.profilePicture} classSize={"w-36 h-36"} disabled={true} />
 
@@ -164,10 +192,10 @@ function OrderListLayout({ orderRef }) {
             <table className="w-full table-auto rounded-lg overflow-hidden xl:text-lg lg:text-base text-sm">
                 <thead className="bg-white dark:bg-slate-800 border-b ">
                     <tr>
-                        <th className="p-2 lg:pl-4 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500 dark:text-gray-300" onClick={() => handleSort('name')}>Name <span className="text-black dark:text-white rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500 dark:text-gray-300">{sortBy === 'name' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
-                        <th className="p-2 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500 dark:text-gray-300" onClick={() => handleSort('status')}>Status <span className="text-black dark:text-white rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500 dark:text-gray-300">{sortBy === 'status' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
-                        <th className="p-2 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500 dark:text-gray-300" onClick={() => handleSort('price')}>Price <span className="text-black dark:text-white rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500 dark:text-gray-300">{sortBy === 'price' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
-                        <th className="p-2 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500 dark:text-gray-300" onClick={() => handleSort('time')}>Time <span className="text-black dark:text-white rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500 dark:text-gray-300">{sortBy === 'time' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
+                        <th className="p-2 lg:pl-4 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500" onClick={() => handleSort('name')}>Name <span className="text-black rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500 dark:text-gray-300">{sortBy === 'name' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
+                        <th className="p-2 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500" onClick={() => handleSort('status')}>Status <span className="text-black rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500 dark:text-gray-300">{sortBy === 'status' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
+                        <th className="p-2 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500" onClick={() => handleSort('price')}>Price <span className="text-black rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500 dark:text-gray-300">{sortBy === 'price' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
+                        <th className="p-2 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500" onClick={() => handleSort('time')}>Time <span className="text-black rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500 dark:text-gray-300">{sortBy === 'time' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -176,7 +204,7 @@ function OrderListLayout({ orderRef }) {
                             <tr key={order.id} className="transition-all duration-200 hover:bg-gray-300 hover:text-white bg-white dark:bg-slate-800 dark:hover:bg-slate-700 " onClick={() => setSelectedOrder(order)}>
                                 <td className="p-2 cursor-pointer lg:pl-4 text-left text-black dark:text-white">{order.name}</td>
                                 <td className="p-2 cursor-pointer text-left text-black dark:text-white">{order.status}</td>
-                                <td className="p-2 cursor-pointer text-left text-black dark:text-white">{`Rp${order.price}`}</td>
+                                <td className="p-2 cursor-pointer text-left text-black dark:text-white">{moneyConverter(order.price)}</td>
                                 <td className="p-2 cursor-pointer text-left text-black dark:text-white">{timeConverter(order.time)}</td>
                             </tr>
                         ))

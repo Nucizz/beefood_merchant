@@ -1,20 +1,29 @@
 import { useState } from 'react';
-import { ChangePhoto, Accordion, TextField, DropdownField, LongTextField, TimeField } from '../Class/Component'
+import { ChangePhoto, Accordion, TextField, DropdownField, LongTextField, TimeField, Toast } from '../Class/Component'
 import { authenticateLogout, updateMerchantData, sendPasswordResetMail } from '../Javascript/MerchantHandler';
 import { CAMPUS_LOCATION } from '../Javascript/Global'
+import { onMessageListener } from '../firebase-config.js';
 
 export default function AccountLayout({merchanRef, setMerchantRef}) {
+    const [show, setShow] = useState(false);
+    const [notification, setNotification] = useState({title: '', body: ''})
+  
+    onMessageListener().then(payload => {
+      setShow(true)
+      setNotification({title: payload.notification.title, body: payload.notification.body})
+      console.log(payload)
+    }).catch(err => console.log('failed: ', err))
+
     return (
-        <div className="w-full">
+        <div className="w-full flex flex-col-reverse gap-4">
+
+            { show ? <Toast message={notification} setShowRef={setShow} /> : null }
+           
+            <SettingsList merchanRef={merchanRef} setMerchantRef={setMerchantRef} />
+
+            <ProfileInformation merchanRef={merchanRef} /> 
+
             <h1 className="mb-4 text-3xl font-bold leading-none tracking-tight text-black dark:text-white md:text-4xl lg:text-4xl">Account</h1>
-            
-            <div className="w-full flex flex-col-reverse lg:gap-16 gap-8">
-
-                <SettingsList merchanRef={merchanRef} setMerchantRef={setMerchantRef} />
-
-                <ProfileInformation merchanRef={merchanRef} /> 
-
-            </div>
 
         </div>
     );
@@ -24,7 +33,7 @@ function ProfileInformation({merchanRef}) {
     const [logoutConfirmation, setLogoutConfirmation] = useState(false);
 
     return (
-        <div className="w-full flex flex-col lg:flex-row gap-4 lg:gap-10 lg:items-start items-center lg:h-36">
+        <div className="w-full flex flex-col lg:flex-row gap-4 lg:gap-10 lg:items-start items-center lg:h-36 mb-8">
 
             <ChangePhoto photoRef={merchanRef.profilePicture} classSize={"w-36 h-36"} disabled={true} />
             
@@ -47,7 +56,7 @@ function ProfileInformation({merchanRef}) {
                         <p className="md:text-xl text-md font-semibold text-black dark:text-white">Are you sure you want to logout?</p>
                         <div className="flex flex-row justify-end gap-2">
                             <button onClick={() => setLogoutConfirmation(false)} className="px-4 bf-bg-color md:h-9 h-8 rounded-md font-medium text-white">Cancel</button>
-                            <button onClick={() => authenticateLogout()} className="px-4 transition-all duration-300 bg-red-500 hover:bg-red-600 md:h-9 h-8 rounded-md font-medium text-white">Logout</button>
+                            <button onClick={() => authenticateLogout(merchanRef.id, '/login')} className="px-4 transition-all duration-300 bg-red-500 hover:bg-red-600 md:h-9 h-8 rounded-md font-medium text-white">Logout</button>
                         </div>
                     </div>
                 </div>

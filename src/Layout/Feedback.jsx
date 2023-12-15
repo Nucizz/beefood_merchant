@@ -85,7 +85,7 @@ function FeedbackMainMenu({viewRef}) {
 
             <div className='w-full mt-2 text-gray-500 dark:text-gray-300 font-semibold lg:text-2xl md:text-xl text-lg text-center'>Follow our Instagram <a href='https://instagram.com/beefood_binus' className='bf-text-color cursor-pointer'>@beefood_binus</a></div>
 
-            <button className="mt-5 w-full bf-bg-color md:h-9 h-8 rounded-md font-medium text-white mt-5" type="button" onClick={() => {viewRef("FORM")}}>Give Feedback</button>
+            <button className="w-full bf-bg-color md:h-9 h-8 rounded-md font-medium text-white mt-5" type="button" onClick={() => {viewRef("FORM")}}>Give Feedback</button>
 
         </div>
     )

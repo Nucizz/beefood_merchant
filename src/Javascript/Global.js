@@ -1,4 +1,4 @@
-export const LINK = "https://beefood.com/"
+export const LINK = "https://merchant.beefood.com/"
 
 export const CAMPUS_LOCATION = [
     { campus: "Kemanggisan Anggrek", location: ["Kantin Payung", "Kantin Basement", "Foodcourt Lt.1", "Foodcourt Lt.5"] },
@@ -20,10 +20,10 @@ export const validatePhoneNumber = (input) => {
 
 export const validatePrice = (input) => {
     var lastInput = input;
-    var regExpPrice = /^Rp[0-9]*$/;
+    var regExpPrice = /^Rp [0-9]*$/;
 
-    if(!input.startsWith("Rp")) {
-        input = (input.length < 3) ? "Rp" : ("Rp" + input);
+    if(!input.startsWith("Rp ")) {
+        input = (input.length < 3) ? "Rp " : ("Rp " + input);
     } else if(!regExpPrice.test(input)) {
         input = lastInput.slice(0, -1)
     }
@@ -36,4 +36,14 @@ export const timeConverter = (UNIX_timestamp) => {
     const min = ('0' + a.getMinutes()).slice(-2)
     const sec = ('0' + a.getSeconds()).slice(-2)
     return hour + ':' + min + ':' + sec
+}
+
+export const moneyConverter = (value) => {
+    const roundedValue = Math.round(value * 100) / 100;
+    const formattedMoney = new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0,
+    }).format(roundedValue);
+    return formattedMoney;
 }

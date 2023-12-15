@@ -1,4 +1,4 @@
-import { timeConverter } from "../Javascript/Global"
+import { timeConverter, moneyConverter } from "../Javascript/Global"
 import { JustifiedInfo  } from "../Class/Component";
 import '../App.css';
 
@@ -12,7 +12,7 @@ export function OrderDetails({orderRef, setOrderRef}) {
                     <JustifiedInfo title={"ID"} content={orderRef.id} />
                     <JustifiedInfo title={"Name"} content={orderRef.name} />
                     <JustifiedInfo title={"Status"} content={orderRef.status} />
-                    <JustifiedInfo title={"Price"} content={`Rp${orderRef.price}`} />
+                    <JustifiedInfo title={"Price"} content={moneyConverter(orderRef.price)} />
                     <JustifiedInfo title={"Time"} content={timeConverter(orderRef.time)} />
                 </div>
 
