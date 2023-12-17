@@ -117,7 +117,7 @@ export default function App() {
             <ProtectedRoute allow={merchant}>
               <NavbarLayout activePage={"Dashboard"} />
               <div className="xl:px-12 xl:py-8 md:px-8 md:py-6 px-4 py-2 sm:ml-64 bg-gray-100 dark:bg-slate-950 min-h-screen relative">
-                <DashboardLayout merchanRef={merchant} />
+                <DashboardLayout merchanRef={merchant} setMerchantRef={setMerchant} />
               </div>
             </ProtectedRoute>
           }

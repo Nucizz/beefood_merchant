@@ -9,7 +9,7 @@ import {
 } from "../Javascript/Global";
 import { onMessageListener } from "../firebase-config.js";
 
-export default function DashboardLayout({ merchanRef }) {
+export default function DashboardLayout({ merchanRef, setMerchantRef }) {
     const [show, setShow] = useState(false);
     const [notification, setNotification] = useState({ title: "", body: "" });
     const [order, setOrder] = useState(null);
@@ -69,7 +69,7 @@ export default function DashboardLayout({ merchanRef }) {
 
             <ToDoListLayout orderRef={order} />
 
-            <OrderListLayout orderRef={order} setOrderRef={setOrder} />
+            <OrderListLayout orderRef={order} setOrderRef={setOrder} setMerchantRef={setMerchantRef} />
 
             {show ? <Toast message={notification} setShowRef={setShow} /> : null}
         </div>
@@ -194,7 +194,7 @@ function ToDoListLayout({ orderRef }) {
     );
 }
 
-function OrderListLayout({ orderRef, setOrderRef }) {
+function OrderListLayout({ orderRef, setOrderRef, setMerchantRef }) {
     const [sortBy, setSortBy] = useState("createTime");
     const [sortOrder, setSortOrder] = useState("desc");
     const [selectedOrder, setSelectedOrder] = useState(null);
@@ -304,7 +304,7 @@ function OrderListLayout({ orderRef, setOrderRef }) {
             </table>
 
             {selectedOrder ? (
-                <OrderDetails orderRef={selectedOrder} setOrderRef={setSelectedOrder} setOrderListRef={setOrderRef} />
+                <OrderDetails orderRef={selectedOrder} setOrderRef={setSelectedOrder} setOrderListRef={setOrderRef} setMerchantRef={setMerchantRef}/>
             ) : null}
         </div>
     );

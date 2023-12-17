@@ -276,12 +276,12 @@ export function Accordion({
 
 export function JustifiedInfo({ title, content }) {
   return (
-    <div className="flex flex-row text-black dark:text-white">
-      <div className="w-1/4 flex flex-row justify-between font-semibold">
+    <div className="flex flex-row text-black dark:text-white overflow-x-auto w-full">
+      <div className="w-2/5 flex flex-row justify-between font-semibold">
         <span>{title}</span>
         <span>:&nbsp;</span>
       </div>
-      <p className="w-3/4">{content}</p>
+      <p className="w-3/5">{content}</p>
     </div>
   );
 }

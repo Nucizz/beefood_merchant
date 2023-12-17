@@ -2,6 +2,7 @@ import {
     timeConverter,
     moneyConverter,
     statusConverter,
+    statusColorer,
 } from "../Javascript/Global";
 import { JustifiedInfo } from "../Class/Component";
 import { useState } from "react";
@@ -94,7 +95,7 @@ export function OrderDetails({ orderRef, setOrderRef, setOrderListRef, setMercha
 
     return (
         <div className="z-30 fixed inset-0 flex items-center justify-center bg-black/50">
-            <div className="md:ml-64 bg-white dark:bg-slate-800 md:p-4 p-3 rounded-md flex flex-col lg:gap-4 md:gap-3 gap-2 md:w-1/2 w-4/5">
+            <div className="md:ml-64 bg-gray-100 dark:bg-slate-900 md:p-4 p-3 rounded-md flex flex-col lg:gap-4 gap-3 md:w-3/5 w-4/5">
                 <div className="w-full flex flex-row justify-between items-center">
                     <h2 className="text-lg md:text-xl lg:text-2xl font-bold text-black dark:text-white">
                         Order Details
@@ -110,22 +111,10 @@ export function OrderDetails({ orderRef, setOrderRef, setOrderListRef, setMercha
                 <div className="flex flex-col lg:text-lg xl:text-xl">
                     <JustifiedInfo title={"ID"} content={orderRef.id} />
                     <JustifiedInfo title={"Name"} content={orderRef.name} />
+                    <JustifiedInfo title={"Payment Type"} content={orderRef.payment} />
                     <JustifiedInfo
-                        title={"Status"}
-                        content={statusConverter(orderRef.status)}
-                    />
-                    <JustifiedInfo
-                        title={"Price"}
-                        content={moneyConverter(orderRef.totalPrice)}
-                    />
-                    <JustifiedInfo title={"Payment"} content={orderRef.payment} />
-                    <JustifiedInfo
-                        title={"Time"}
+                        title={"Create Time"}
                         content={timeConverter(orderRef.createTime)}
-                    />
-                    <JustifiedInfo
-                        title={"Pickup"}
-                        content={timeConverter(orderRef.pickupTime)}
                     />
                 </div>
 
@@ -180,6 +169,23 @@ export function OrderDetails({ orderRef, setOrderRef, setOrderListRef, setMercha
                         )}
                     </tbody>
                 </table>
+
+                <div className="w-full flex flex-row items-center justify-between">
+
+                    <h1 className="text-xl font-bold leading-none tracking-tight text-black dark:text-white lg:text-4xl">
+                        {moneyConverter(orderRef.totalPrice)}
+                    </h1>
+
+                    <div className="flex flex-col justify-center items-end">
+                        <h2 className={"text-sm lg:text-xl font-bold " + statusColorer(orderRef.status)}>
+                            {statusConverter(orderRef.status)}
+                        </h2>
+                        <h2 className="text-md lg:text-xl text-black dark:text-white">
+                            {timeConverter(orderRef.pickupTime)}
+                        </h2>
+                    </div>
+
+                </div>
 
                 {setOrderListRef ? setStatusButton(orderRef.status) : null}
             </div>

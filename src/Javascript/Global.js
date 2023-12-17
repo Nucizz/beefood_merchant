@@ -72,3 +72,20 @@ export const statusConverter = (index) => {
             return "Undefined";
     }
 };
+
+export const statusColorer = (index) => {
+    switch (index) {
+        case 1:
+            return "text-amber-400";
+        case 2:
+            return "text-amber-600";
+        case 3:
+            return "text-green-600";
+        case 4:
+            return "text-blue-500";
+        case -1:
+            return "text-red-600";
+        default:
+            return "Undefined";
+    }
+};
