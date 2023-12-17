@@ -25,7 +25,7 @@ export const addProduct = async (merchantRef, name, description, price, image) =
     }   
 }
 
-export const getProduct = async (merchantId) => {
+export const getProductList = async (merchantId) => {
     const productList = []
     try {
         const merchantDocRef = doc(getFirestore(), 'merchant', merchantId)
@@ -54,7 +54,20 @@ export const getProduct = async (merchantId) => {
         console.error(e)
         return productList
     }
-}
+};
+
+export const getProduct = async (merchantId, productId) => {
+    try {
+        const merchantDocRef = doc(getFirestore(), 'merchant', merchantId)
+        const productRef = doc(merchantDocRef, 'product', productId);
+        const productData = await getDoc(productRef);
+
+        return productData.data();
+    } catch (e) {
+        console.error(e);
+        return null;
+    }
+};
 
 export const changeProductAvailbility = async (merchantId, productId) => {
     try {

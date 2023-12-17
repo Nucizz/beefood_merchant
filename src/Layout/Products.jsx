@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { ChangePhoto, LongTextField, TextField, Toast } from '../Class/Component'
-import { addProduct, changeProductAvailbility, deleteProduct, getProduct, updateProduct } from '../Javascript/ProductHandler'
+import { addProduct, changeProductAvailbility, deleteProduct, getProductList, updateProduct } from '../Javascript/ProductHandler'
 import { validatePrice, moneyConverter } from '../Javascript/Global'
 import BeeFood from '../Assets/Beefood Icon White.png'
 import { onMessageListener } from '../firebase-config.js';
@@ -172,7 +172,7 @@ function ProductDetails({setProductListRef, product, setSelectedProductRef, merc
                 setError("")
                 setEditable(false)
                 
-                const updatedProducts = await getProduct(merchanRef.id)
+                const updatedProducts = await getProductList(merchanRef.id)
                 merchanRef.product = updatedProducts
                 setProductListRef(updatedProducts)
             } else {
@@ -270,7 +270,7 @@ function AddProduct({setProductListRef, setAddProductOverlayRef, merchanRef, set
         } else {
             const res = await addProduct(merchanRef, name, description, parseFloat(price.slice(3)), thumbnail)
             if(res === "0") {
-                const updatedProducts = await getProduct(merchanRef.id)
+                const updatedProducts = await getProductList(merchanRef.id)
                 merchanRef.product = updatedProducts
                 setProductListRef(updatedProducts)
                 setAddProductOverlayRef(false)

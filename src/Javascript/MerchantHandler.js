@@ -2,7 +2,7 @@ import { app, getFCMToken } from '../firebase-config';
 import { getAuth, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword, sendPasswordResetEmail  } from 'firebase/auth'
 import { addDoc, collection, getDoc, getDocs, deleteDoc, doc, getFirestore, query, where, or, updateDoc, limit } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-import { getProduct } from './ProductHandler';
+import { getProductList } from './ProductHandler';
 
 export const authenticateRegisterToken = async (name, email, phone) => {
     const newMerchantRequestDB = collection(getFirestore(), 'newMerchantRequest')
@@ -128,9 +128,10 @@ export const getMerchantData = async (email) => {
         const merchantData = snapshots.docs[0].data()
         merchantData.id = snapshots.docs[0].id
         await setMerchantFCMToken(merchantData.id, FCMToken)
-        merchantData.product = await getProduct(merchantData.id)
+        merchantData.product = await getProductList(merchantData.id)
         const profilePictureRef = ref(getStorage(), merchantData.profilePicture)
         try {
+            console.log("FETCHING MERCHANT!")
             merchantData.profilePicture = await getDownloadURL(profilePictureRef)
         } catch{
             merchantData.profilePicture = null
@@ -199,5 +200,24 @@ export const setMerchantFCMToken = async (id, token) => {
         })
     } catch(e) {
         console.log(e)
+    }
+}
+
+export const updateMerchantStatistic = async (id, price) => {
+    const docRef = doc(getFirestore(), 'merchant', id)
+
+    try {
+        const queueData = await getDoc(docRef);
+        const merchantData = queueData.data()
+
+        await updateDoc(docRef, {
+            totalOrder: merchantData.totalOrder + 1,
+            totalEarning: merchantData.totalEarning + price
+        })
+
+        return await getMerchantData(merchantData.email)
+    } catch(e) {
+        console.log(e)
+        return null
     }
 }
