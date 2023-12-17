@@ -47,3 +47,20 @@ export const moneyConverter = (value) => {
     }).format(roundedValue);
     return formattedMoney;
 }
+
+export const statusConverter = (index) => {
+    switch (index) {
+        case 1:
+            return "Need Confirmation"
+        case 2:
+            return "Need Processing"
+        case 3:
+            return "Waiting Pickup"
+        case 4:
+            return "Finished"
+        case -1:
+            return "Cancelled"
+        default:
+            return "Undefined"
+    }
+}

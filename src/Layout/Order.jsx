@@ -1,6 +1,7 @@
-import { timeConverter, moneyConverter } from "../Javascript/Global"
+import { timeConverter, moneyConverter, statusConverter } from "../Javascript/Global"
 import { JustifiedInfo  } from "../Class/Component";
 import '../App.css';
+import { sendFCMMessage } from "../firebase-config";
 
 export function OrderDetails({orderRef, setOrderRef}) {
     return (
@@ -11,11 +12,13 @@ export function OrderDetails({orderRef, setOrderRef}) {
                 <div className="flex flex-col lg:text-lg xl:text-xl">
                     <JustifiedInfo title={"ID"} content={orderRef.id} />
                     <JustifiedInfo title={"Name"} content={orderRef.name} />
-                    <JustifiedInfo title={"Status"} content={orderRef.status} />
-                    <JustifiedInfo title={"Price"} content={moneyConverter(orderRef.price)} />
-                    <JustifiedInfo title={"Time"} content={timeConverter(orderRef.time)} />
+                    <JustifiedInfo title={"Status"} content={statusConverter(orderRef.status)} />
+                    <JustifiedInfo title={"Price"} content={moneyConverter(orderRef.totalPrice)} />
+                    <JustifiedInfo title={"Time"} content={timeConverter(orderRef.createTime)} />
                 </div>
 
+                <button onClick={() => sendFCMMessage("c6x6qsESftYXFQRshWShbo:APA91bFl-oRBGrJw2snweZzDrzIyJa5dWlNEcI-bovF_-4DCWJn0xJfXpPneMfAPBogLdCEc0jprCZaxNgW720c3yV1FGRRhlALG3HNJLZ1svq9UzJd_IB0N9qbTGar9k8E5zgISea2T",
+                "New Order Received", "Hello World")} className="px-4 transition-all duration-300 bf-bg-color md:h-9 h-8 rounded-md font-medium text-white">Test</button>
                 <button onClick={() => setOrderRef(null)} className="px-4 transition-all duration-300 bf-bg-color md:h-9 h-8 rounded-md font-medium text-white">Close</button>
 
             </div>

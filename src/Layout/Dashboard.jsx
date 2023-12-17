@@ -2,67 +2,54 @@ import { useState, useEffect } from "react";
 import { getTodayOrderList } from "../Javascript/OrderHandler";
 import { OrderDetails } from "./Order";
 import { ChangePhoto, Toast } from "../Class/Component";
-import { timeConverter, moneyConverter } from "../Javascript/Global";
+import { timeConverter, moneyConverter, statusConverter } from "../Javascript/Global";
 import { onMessageListener } from '../firebase-config.js';
 
 export default function DashboardLayout({merchanRef}) {
     const [show, setShow] = useState(false);
-    const [notification, setNotification] = useState({title: '', body: ''})
-  
-    onMessageListener().then(payload => {
-        setShow(true)
-        setNotification({title: payload.notification.title, body: payload.notification.body})
-        console.log(payload)
+    const [notification, setNotification] = useState({ title: '', body: '' });
+    const [order, setOrder] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
-        if(payload.notification.title !== "New Order Receivied") {
-            const fetchTodayOrderList = async () => {
-                try {
-                    const todayOrderList = await getTodayOrderList(merchanRef.id)
-                    setOrder(todayOrderList)
-                } catch (e) {
-    
-                } finally {
-                    setIsLoading(false);
-                }
-            }
-            fetchTodayOrderList()
+    const fetchTodayOrderList = async () => {
+        try {
+            setOrder(await getTodayOrderList(merchanRef.id))
+        } catch (e) {
+            console.log(e)
+        } finally {
+            setIsLoading(false)
         }
-
-    }).catch(err => console.log('failed: ', err))
-
-    const [order, setOrder] = useState(null)
-    const [isLoading, setIsLoading] = useState(true)
-
-    const dummyOrderList = [
-        { id: '3HrXQf1iQ0XsgHE2Op9b', name: 'John Doe', status: 'Processing', price: 24000, time: 1670237700000 },
-        { id: '4ZsOYv8aD6RwKcJ0Lm5x', name: 'Jane Smith', status: 'Delivered', price: 19000, time: 1670242200000 },
-        { id: '1GtUxL9pV3NnAcX5bH7o', name: 'Bob Johnson', status: 'Processing', price: 32500, time: 1670249100000 },
-        { id: '2PbDqR6cE8QjSgH1Oz9p', name: 'Alice Williams', status: 'Delivered', price: 15750, time: 1670253600000 },
-        { id: '9WjIuO4nH5YbV3A6oQ2x', name: 'Charlie Brown', status: 'Processing', price: 28400, time: 1670257500000 },
-        { id: '8AqBpX2eD7RrH3C0W1jK', name: 'Eva Martinez', status: 'Delivered', price: 22100, time: 1670261400000 },
-        { id: '7SsYhE3nW6OoL1F8wK1l', name: 'David Miller', status: 'Processing', price: 18950, time: 1670265300000 },
-        { id: '5LjJfQ4zI2A0T8C6eD8x', name: 'Grace Davis', status: 'Delivered', price: 36800, time: 1670272200000 },
-        { id: '6VvWmX3kY2ZpO1D4gH3v', name: 'Frank Turner', status: 'Processing', price: 14500, time: 1670276100000 },
-        { id: '0KcEgH8uV2BwP9Y3xZ4o', name: 'Sophie Johnson', status: 'Delivered', price: 30250, time: 1670280600000 },
-    ]
+    }
 
     useEffect(() => {
-        const fetchTodayOrderList = async () => {
-            try {
-                const todayOrderList = await getTodayOrderList(merchanRef.id)
-                
-                setOrder(dummyOrderList)
-            } catch (e) {
+        const handlePayload = async (payload) => {
+            setShow(true)
+            setNotification({ title: payload.notification.title, body: payload.notification.body })
+            console.log(payload)
 
-            } finally {
-                setIsLoading(false);
+            if (payload.notification.title === "New Order Received") {
+                await fetchTodayOrderList();
             }
         }
-        fetchTodayOrderList();
-    }, [merchanRef.id])
+
+        const fetchData = async () => {
+            try {
+                const payload = await onMessageListener();
+                await handlePayload(payload)
+            } catch (err) {
+                console.log('failed: ', err)
+            }
+        }
+
+        fetchData()
+    }, [])
+
+    useEffect(() => {
+        fetchTodayOrderList()
+    }, [])
 
     if (isLoading) {
-      return null
+        return null
     }
 
     return (
@@ -97,37 +84,50 @@ function GeneralInformation({merchanRef}) {
 }
 
 function ToDoListLayout({orderRef}) {
-    var needConfirmation = 0
-    var needProcessing = 0
-    var waitingPickup = 0
-    var finished = 0
-    var cancelled = 0
+    const [needConfirmation, setNeedConfirmation] = useState(0)
+    const [needProcessing, setNeedProcessing] = useState(0)
+    const [waitingPickup, setWaitingPickup] = useState(0)
+    const [finished, setFinished] = useState(0)
+    const [cancelled, setCancelled] = useState(0)
 
     useEffect(() => {
-        if(orderRef) {
-            for(const order of orderRef) {
+        let newNeedConfirmation = 0;
+        let newNeedProcessing = 0;
+        let newWaitingPickup = 0;
+        let newFinished = 0;
+        let newCancelled = 0;
+
+        if (orderRef) {
+            for (const order of orderRef) {
                 switch (order.status) {
                     case 1:
-                        needConfirmation++
-                        break
+                        newNeedConfirmation++;
+                        break;
                     case 2:
-                        needProcessing++
-                        break
+                        newNeedProcessing++;
+                        break;
                     case 3:
-                        waitingPickup++
-                        break
+                        newWaitingPickup++;
+                        break;
                     case 4:
-                        finished++
-                        break
+                        newFinished++;
+                        break;
                     case -1:
-                        cancelled++
-                        break
+                        newCancelled++;
+                        break;
                     default:
-                        break
+                        break;
                 }
             }
         }
-    }, [orderRef, needConfirmation, needProcessing, waitingPickup, finished, cancelled])
+
+        // Set the state with the new counts
+        setNeedConfirmation(newNeedConfirmation);
+        setNeedProcessing(newNeedProcessing);
+        setWaitingPickup(newWaitingPickup);
+        setFinished(newFinished);
+        setCancelled(newCancelled);
+    }, [orderRef])
 
 
     return (
@@ -194,8 +194,8 @@ function OrderListLayout({ orderRef }) {
                     <tr>
                         <th className="p-2 lg:pl-4 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500" onClick={() => handleSort('name')}>Name <span className="text-black rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500 dark:text-gray-300">{sortBy === 'name' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
                         <th className="p-2 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500" onClick={() => handleSort('status')}>Status <span className="text-black rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500 dark:text-gray-300">{sortBy === 'status' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
-                        <th className="p-2 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500" onClick={() => handleSort('price')}>Price <span className="text-black rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500 dark:text-gray-300">{sortBy === 'price' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
-                        <th className="p-2 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500" onClick={() => handleSort('time')}>Time <span className="text-black rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500 dark:text-gray-300">{sortBy === 'time' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
+                        <th className="p-2 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500" onClick={() => handleSort('totalPrice')}>Price <span className="text-black rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500 dark:text-gray-300">{sortBy === 'totalPrice' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
+                        <th className="p-2 text-left font-semibold text-black dark:text-white cursor-pointer group transition-all duration-300 hover:text-gray-500" onClick={() => handleSort('createTime')}>Time <span className="text-black rounded-full ml-2 transition-all duration-300 group-hover:text-gray-500 dark:text-gray-300">{sortBy === 'createTime' && (sortOrder === 'asc' ? '▲' : '▼')}</span></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -203,15 +203,15 @@ function OrderListLayout({ orderRef }) {
                         sortedOrderRef.map((order) => (
                             <tr key={order.id} className="transition-all duration-200 hover:bg-gray-300 hover:text-white bg-white dark:bg-slate-800 dark:hover:bg-slate-700 " onClick={() => setSelectedOrder(order)}>
                                 <td className="p-2 cursor-pointer lg:pl-4 text-left text-black dark:text-white">{order.name}</td>
-                                <td className="p-2 cursor-pointer text-left text-black dark:text-white">{order.status}</td>
-                                <td className="p-2 cursor-pointer text-left text-black dark:text-white">{moneyConverter(order.price)}</td>
-                                <td className="p-2 cursor-pointer text-left text-black dark:text-white">{timeConverter(order.time)}</td>
+                                <td className="p-2 cursor-pointer text-left text-black dark:text-white">{statusConverter(order.status)}</td>
+                                <td className="p-2 cursor-pointer text-left text-black dark:text-white">{moneyConverter(order.totalPrice)}</td>
+                                <td className="p-2 cursor-pointer text-left text-black dark:text-white">{timeConverter(order.createTime)}</td>
                             </tr>
                         ))
                         ) : (
                         <tr>
                             <td colSpan="5" className="p-2 text-center bg-white dark:bg-slate-800 text-black dark:text-white">
-                            No order available for now.
+                                No order available for now.
                             </td>
                         </tr>
                     )}
