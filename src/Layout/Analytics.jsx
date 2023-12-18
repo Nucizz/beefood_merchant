@@ -18,15 +18,19 @@ export default function AnalyticsLayout({ merchanRef, setMerchantRef }) {
         try {
             const newOrder = await getOrderList(merchanRef.id, date);
             setOrder(() => {
+                const finishedOrder = [];
                 var newPrice = 0;
+                var newFinished = 0;
                 newOrder.forEach((item) => {
-                    if(item.status === 4) {
+                    if (item.status === 4) {
                         newPrice += item.totalPrice;
+                        newFinished++;
+                        finishedOrder.push(item);
                     }
                 });
                 setDailyEarning(newPrice);
-                setDailyOrder(newOrder.length);
-                return newOrder;
+                setDailyOrder(newFinished);
+                return finishedOrder;
             });
         } catch (e) {
             console.log(e);
@@ -44,7 +48,11 @@ export default function AnalyticsLayout({ merchanRef, setMerchantRef }) {
             });
             console.log(payload);
 
-            if ((payload.notification.title === "New Order Received" || payload.notification.title === "Order Finished") && date === new Date()) {
+            if (
+                (payload.notification.title === "New Order Received" ||
+                    payload.notification.title === "Order Finished") &&
+                date === new Date()
+            ) {
                 await fetchOrderList(date);
             }
         };
@@ -75,9 +83,18 @@ export default function AnalyticsLayout({ merchanRef, setMerchantRef }) {
                 Analytics
             </h1>
 
-            <MerchantSummary merchanRef={merchanRef} dailyEarningRef={dailyEarning} dailyOrderRef={dailyOrder} />
+            <MerchantSummary
+                merchanRef={merchanRef}
+                dailyEarningRef={dailyEarning}
+                dailyOrderRef={dailyOrder}
+            />
 
-            <TransactionListLayout orderRef={order} dateRef={date} setDateRef={setDate} setMerchantRef={setMerchantRef} />
+            <TransactionListLayout
+                orderRef={order}
+                dateRef={date}
+                setDateRef={setDate}
+                setMerchantRef={setMerchantRef}
+            />
 
             {show && <Toast message={notification} setShowRef={setShow} />}
         </div>
@@ -94,14 +111,16 @@ function MerchantSummary({ merchanRef, dailyEarningRef, dailyOrderRef }) {
                     {(viewAllTime ? "All Time" : "D-Day") + " Earnings"}
                 </span>
                 <span className="xl:text-6xl lg:text-5xl text-4xl font-bold text-left text-black dark:text-white">
-                    {moneyConverter(viewAllTime ? merchanRef.totalEarning : dailyEarningRef)}
+                    {moneyConverter(
+                        viewAllTime ? merchanRef.totalEarning : dailyEarningRef
+                    )}
                 </span>
             </div>
 
             <ol className="lg:w-3/5 w-full flex flex-row justify-between">
                 <li className="flex flex-col justify-evenly items-center lg:w-1/3 gap-2">
                     <span className="xl:text-xl lg:text-lg text-md font-semibold text-gray-500 dark:text-gray-300 text-left">
-                        {(viewAllTime ? "All Time" : "D-Day") + " Orders"}
+                        {(viewAllTime ? "All Time" : "D-Day") + " Finished"}
                     </span>
                     <span className="xl:text-4xl lg:text-3xl text-2xl font-bold text-left text-black dark:text-white">
                         {viewAllTime ? merchanRef.totalOrder : dailyOrderRef}
@@ -207,7 +226,12 @@ function DateList({ setDateRef, dateRef }) {
     );
 }
 
-function TransactionListLayout({ orderRef, dateRef, setDateRef, setMerchantRef }) {
+function TransactionListLayout({
+    orderRef,
+    dateRef,
+    setDateRef,
+    setMerchantRef,
+}) {
     const [sortBy, setSortBy] = useState("time");
     const [sortOrder, setSortOrder] = useState("desc");
     const [selectedOrder, setSelectedOrder] = useState(null);
@@ -285,7 +309,9 @@ function TransactionListLayout({ orderRef, dateRef, setDateRef, setMerchantRef }
                                 <td className="p-2 cursor-pointer lg:pl-4 text-left text-black dark:text-white">
                                     {order.name}
                                 </td>
-                                <td className="p-2 cursor-pointer text-left text-black dark:text-white">{moneyConverter(order.totalPrice)}</td>
+                                <td className="p-2 cursor-pointer text-left text-black dark:text-white">
+                                    {moneyConverter(order.totalPrice)}
+                                </td>
                                 <td className="p-2 cursor-pointer text-left text-black dark:text-white">
                                     {timeConverter(order.createTime)}
                                 </td>
@@ -304,7 +330,13 @@ function TransactionListLayout({ orderRef, dateRef, setDateRef, setMerchantRef }
                 </tbody>
             </table>
 
-            {selectedOrder ? <OrderDetails orderRef={selectedOrder} setOrderRef={setSelectedOrder} setMerchantRef={setMerchantRef} /> : null}
+            {selectedOrder ? (
+                <OrderDetails
+                    orderRef={selectedOrder}
+                    setOrderRef={setSelectedOrder}
+                    setMerchantRef={setMerchantRef}
+                />
+            ) : null}
         </div>
     );
 }

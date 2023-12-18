@@ -10,7 +10,12 @@ import "../App.css";
 import { sendFCMMessage } from "../firebase-config";
 import { getOrderList, updateOrderStatus } from "../Javascript/OrderHandler";
 
-export function OrderDetails({ orderRef, setOrderRef, setOrderListRef, setMerchantRef = null }) {
+export function OrderDetails({
+    orderRef,
+    setOrderRef,
+    setOrderListRef,
+    setMerchantRef = null,
+}) {
     const [sortBy, setSortBy] = useState("productReferenceID");
     const [sortOrder, setSortOrder] = useState("desc");
 
@@ -37,19 +42,35 @@ export function OrderDetails({ orderRef, setOrderRef, setOrderListRef, setMercha
         : [];
 
     const handleStatusChange = async (status) => {
-        if(orderRef.userFCMToken && orderRef.userFCMToken !== "") {
+        if (orderRef.userFCMToken && orderRef.userFCMToken !== "") {
             switch (status) {
                 case -1:
-                    await sendFCMMessage(orderRef.userFCMToken, "Your order is cancelled!", "The merchant didn't confirm your order.")
+                    await sendFCMMessage(
+                        orderRef.userFCMToken,
+                        "Your order is cancelled!",
+                        "The merchant didn't confirm your order."
+                    );
                     break;
                 case 2:
-                    await sendFCMMessage(orderRef.userFCMToken, "Your order is on process!", "We got you, our best chef is now preparing your order.")
+                    await sendFCMMessage(
+                        orderRef.userFCMToken,
+                        "Your order is on process!",
+                        "We got you, our best chef is now preparing your order."
+                    );
                     break;
                 case 3:
-                    await sendFCMMessage(orderRef.userFCMToken, "Your order is ready for pickup!", "Food's getting cold, go pick it up now.")
+                    await sendFCMMessage(
+                        orderRef.userFCMToken,
+                        "Your order is ready for pickup!",
+                        "Food's getting cold, go pick it up now."
+                    );
                     break;
                 case 4:
-                    await sendFCMMessage(orderRef.userFCMToken, "Your order is finished!", "How's your food? Tell us about your experience.")
+                    await sendFCMMessage(
+                        orderRef.userFCMToken,
+                        "Your order is finished!",
+                        "How's your food? Tell us about your experience."
+                    );
                     break;
                 default:
                     break;
@@ -59,7 +80,7 @@ export function OrderDetails({ orderRef, setOrderRef, setOrderListRef, setMercha
         await updateOrderStatus(orderRef, status, setMerchantRef);
         setOrderListRef(await getOrderList(orderRef.merchantReferenceID));
         setOrderRef(null);
-    }
+    };
 
     const setStatusButton = (status) => {
         const buttonStyle =
@@ -68,23 +89,35 @@ export function OrderDetails({ orderRef, setOrderRef, setOrderListRef, setMercha
             case 1:
                 return (
                     <div className="w-full flex flex-row gap-5 items-center justify-between">
-                        <button onClick={async () => await handleStatusChange(-1)} className={"w-1/2 bg-red-500 hover:bg-red-600 " + buttonStyle}>
+                        <button
+                            onClick={async () => await handleStatusChange(-1)}
+                            className={"w-1/2 bg-red-500 hover:bg-red-600 " + buttonStyle}
+                        >
                             Reject Order
                         </button>
-                        <button onClick={async () => await handleStatusChange(2)} className={"w-1/2 bf-bg-color " + buttonStyle}>
+                        <button
+                            onClick={async () => await handleStatusChange(2)}
+                            className={"w-1/2 bf-bg-color " + buttonStyle}
+                        >
                             Confirm Order
                         </button>
                     </div>
                 );
             case 2:
                 return (
-                    <button onClick={async () => await handleStatusChange(3)} className={"w-full bf-bg-color " + buttonStyle}>
+                    <button
+                        onClick={async () => await handleStatusChange(3)}
+                        className={"w-full bf-bg-color " + buttonStyle}
+                    >
                         Ready to Pickup
                     </button>
                 );
             case 3:
                 return (
-                    <button onClick={async () => await handleStatusChange(4)} className={"w-full bf-bg-color " + buttonStyle}>
+                    <button
+                        onClick={async () => await handleStatusChange(4)}
+                        className={"w-full bf-bg-color " + buttonStyle}
+                    >
                         Finish Order
                     </button>
                 );
@@ -171,20 +204,22 @@ export function OrderDetails({ orderRef, setOrderRef, setOrderListRef, setMercha
                 </table>
 
                 <div className="w-full flex flex-row items-center justify-between">
-
                     <h1 className="text-xl font-bold leading-none tracking-tight text-black dark:text-white lg:text-4xl">
                         {moneyConverter(orderRef.totalPrice)}
                     </h1>
 
                     <div className="flex flex-col justify-center items-end">
-                        <h2 className={"text-sm lg:text-xl font-bold " + statusColorer(orderRef.status)}>
+                        <h2
+                            className={
+                                "text-sm lg:text-xl font-bold " + statusColorer(orderRef.status)
+                            }
+                        >
                             {statusConverter(orderRef.status)}
                         </h2>
                         <h2 className="text-md lg:text-xl text-black dark:text-white">
                             {timeConverter(orderRef.pickupTime)}
                         </h2>
                     </div>
-
                 </div>
 
                 {setOrderListRef ? setStatusButton(orderRef.status) : null}

@@ -6,6 +6,7 @@ import {
     timeConverter,
     moneyConverter,
     statusConverter,
+    statusColorer,
 } from "../Javascript/Global";
 import { onMessageListener } from "../firebase-config.js";
 
@@ -34,7 +35,10 @@ export default function DashboardLayout({ merchanRef, setMerchantRef }) {
             });
             console.log(payload);
 
-            if (payload.notification.title === "New Order Received" || payload.notification.title === "Order Finished") {
+            if (
+                payload.notification.title === "New Order Received" ||
+                payload.notification.title === "Order Finished"
+            ) {
                 await fetchTodayOrderList();
             }
         };
@@ -69,7 +73,11 @@ export default function DashboardLayout({ merchanRef, setMerchantRef }) {
 
             <ToDoListLayout orderRef={order} />
 
-            <OrderListLayout orderRef={order} setOrderRef={setOrder} setMerchantRef={setMerchantRef} />
+            <OrderListLayout
+                orderRef={order}
+                setOrderRef={setOrder}
+                setMerchantRef={setMerchantRef}
+            />
 
             {show ? <Toast message={notification} setShowRef={setShow} /> : null}
         </div>
@@ -279,7 +287,12 @@ function OrderListLayout({ orderRef, setOrderRef, setMerchantRef }) {
                                 <td className="p-2 cursor-pointer lg:pl-4 text-left text-black dark:text-white">
                                     {order.name}
                                 </td>
-                                <td className="p-2 cursor-pointer text-left text-black dark:text-white">
+                                <td
+                                    className={
+                                        "p-2 cursor-pointer text-left " +
+                                        statusColorer(order.status)
+                                    }
+                                >
                                     {statusConverter(order.status)}
                                 </td>
                                 <td className="p-2 cursor-pointer text-left text-black dark:text-white">
@@ -304,7 +317,12 @@ function OrderListLayout({ orderRef, setOrderRef, setMerchantRef }) {
             </table>
 
             {selectedOrder ? (
-                <OrderDetails orderRef={selectedOrder} setOrderRef={setSelectedOrder} setOrderListRef={setOrderRef} setMerchantRef={setMerchantRef}/>
+                <OrderDetails
+                    orderRef={selectedOrder}
+                    setOrderRef={setSelectedOrder}
+                    setOrderListRef={setOrderRef}
+                    setMerchantRef={setMerchantRef}
+                />
             ) : null}
         </div>
     );

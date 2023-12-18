@@ -7,7 +7,7 @@ import {
     Timestamp,
     getDoc,
     doc,
-    updateDoc
+    updateDoc,
 } from "firebase/firestore";
 import { getProduct } from "./ProductHandler";
 import { updateMerchantStatistic } from "./MerchantHandler";
@@ -53,7 +53,9 @@ export const getOrderList = async (merchantId, date = null) => {
                 }
 
                 orderData.orderItems = await getOrderItems(merchantId, orderData.id);
-                orderData.userFCMToken = await getUserFCMToken(orderData.userReferenceID)
+                orderData.userFCMToken = await getUserFCMToken(
+                    orderData.userReferenceID
+                );
 
                 result.push(orderData);
             }
@@ -75,7 +77,10 @@ export const getOrderItems = async (merchantId, orderId) => {
                 const orderItemData = doc.data();
                 orderItemData.id = doc.id;
 
-                orderItemData.product = await getProduct(merchantId, orderItemData.productReferenceID);
+                orderItemData.product = await getProduct(
+                    merchantId,
+                    orderItemData.productReferenceID
+                );
 
                 orderItemList.push(orderItemData);
             }
@@ -87,31 +92,41 @@ export const getOrderItems = async (merchantId, orderId) => {
     }
 };
 
-export const updateOrderStatus = async (orderRef, statusIndex, setMerchantRef) => {
-    try{
+export const updateOrderStatus = async (
+    orderRef,
+    statusIndex,
+    setMerchantRef
+) => {
+    try {
         const orderDocRef = doc(getFirestore(), "order", orderRef.id);
 
-        if(statusIndex === 4) {
-            setMerchantRef(await updateMerchantStatistic(orderRef.merchantReferenceID, orderRef.totalPrice, setMerchantRef))
+        if (statusIndex === 4) {
+            setMerchantRef(
+                await updateMerchantStatistic(
+                    orderRef.merchantReferenceID,
+                    orderRef.totalPrice,
+                    setMerchantRef
+                )
+            );
         }
 
         await updateDoc(orderDocRef, {
-            status: statusIndex
-        })
-    } catch(e) {
+            status: statusIndex,
+        });
+    } catch (e) {
         console.log(e);
         return null;
     }
-}
+};
 
 const getUserFCMToken = async (userId) => {
     try {
         const userDocRef = doc(getFirestore(), "user", userId);
         const queueData = await getDoc(userDocRef);
         const userData = queueData.data();
-        return userData.FCMToken
-    } catch(e) {
+        return userData.FCMToken;
+    } catch (e) {
         console.log(e);
         return null;
     }
-}
+};

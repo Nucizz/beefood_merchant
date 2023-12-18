@@ -18,8 +18,8 @@
     transition: 0.3s ease-out;
 }
 
-.bg-pattern{
-    background-image: linear-gradient(to bottom, #F99801, #FFBF01);
+.bg-pattern {
+    background-image: linear-gradient(to bottom, #f99801, #ffbf01);
 }
 
 .bg-pattern-overlay {
