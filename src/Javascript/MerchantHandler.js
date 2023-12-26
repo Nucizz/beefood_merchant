@@ -139,11 +139,17 @@ export const authenticateLogin = async (email, password) => {
     await signInWithEmailAndPassword(getAuth(app), email, password);
 };
 
-export const authenticateLogout = async (id, redirect = "/login") => {
-    await setMerchantFCMToken(id, null);
+export const authenticateLogout = async (id, setUserRef, redirect = "/login") => {
+    try {
+        await setMerchantFCMToken(id, null);
+    } catch {
+        console.log("This account doesn't have FCM Token needs!")
+    }
+    
     signOut(getAuth())
         .then(() => {
             window.location.href = redirect;
+            setUserRef(null);
         })
         .catch((e) => {
             window.alert("SERVER ERROR!");

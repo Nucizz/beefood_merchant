@@ -32,7 +32,7 @@ export function AdminMerchant({ page }) {
         if (!user) {
             window.location.href = "/admin";
         } else if (user.email !== "beefood.contact@gmail.com") {
-            authenticateLogout(user.id, "/admin");
+            authenticateLogout(user.id, setUser, "/admin");
         }
     } catch (e) {
         console.log(e);
@@ -58,7 +58,7 @@ export function AdminMerchant({ page }) {
 
                     <button
                         className="text-red-400 ml-auto"
-                        onClick={() => authenticateLogout(user.id, "/admin")}
+                        onClick={() => authenticateLogout(user.id, setUser, "/admin")}
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
