@@ -57,8 +57,8 @@ export function AdminMerchant({ page }) {
                     <h1 className="lg:text-3xl md:text-2xl text-xl">{page}</h1>
 
                     <button
-                        className="text-red-400 ml-auto"
-                        onClick={() => authenticateLogout(user.id, "/admin")}
+                        className="text-gray-500 dark:text-gray-300 ml-auto"
+                        onClick={() => (window.location.href = "/admin")}
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -66,12 +66,12 @@ export function AdminMerchant({ page }) {
                             viewBox="0 0 24 24"
                             stroke-width="1.5"
                             stroke="currentColor"
-                            class="lg:h-8 lg:w-8 md:h-7 md:w-7 w-6 h-6"
+                            class="w-6 h-6"
                         >
                             <path
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
-                                d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
+                                d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
                             />
                         </svg>
                     </button>
@@ -271,7 +271,7 @@ function VerifyHalal() {
                             ? "Revoke Halal Verification"
                             : "Give Halal Verification"}
                     </button>
-                    <a
+                    <span
                         className="w-full font-medium bf-text-color hover:cursor-pointer text-center"
                         onClick={() => {
                             setMerchant(null);
@@ -279,7 +279,7 @@ function VerifyHalal() {
                         }}
                     >
                         Verify Other Merchant
-                    </a>
+                    </span>
                 </>
             )}
         </form>
