@@ -2,18 +2,19 @@ import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 // KEY
+console.log(process.env)
 const FIREBASE_CONFIG = {
-  apiKey: process.env.FIREBASE_CONFIG_API_KEY,
-  authDomain: process.env.FIREBASE_CONFIG_AUTH_DOMAIN,
-  projectId: process.env.FIREBASE_CONFIG_PROJECT_ID,
-  storageBucket: process.env.FIREBASE_CONFIG_STORAGE_BUCKET,
-  messagingSenderId: process.env.FIREBASE_CONFIG_MESSAGING_SENDER_ID,
-  appId: process.env.FIREBASE_CONFIG_APP_ID,
-  measurementId: process.env.FIREBASE_CONFIG_MEASUREMENT_ID,
+  apiKey: process.env.REACT_APP_FIREBASE_CONFIG_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_CONFIG_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_CONFIG_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_CONFIG_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_CONFIG_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_CONFIG_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_CONFIG_MEASUREMENT_ID,
 };
 
-const MESSAGING_KEY = process.env.MESSAGING_KEY;
-const SERVER_MESSAGING_KEY = process.env.SERVER_MESSAGING_KEY;
+const MESSAGING_KEY = process.env.REACT_APP_MESSAGING_KEY;
+const SERVER_MESSAGING_KEY = process.env.REACT_APP_SERVER_MESSAGING_KEY;
 
 // APP
 export const app = initializeApp(FIREBASE_CONFIG);
