@@ -37,7 +37,7 @@ export default function AccountLayout({ merchanRef, setMerchantRef }) {
 
             <SettingsList merchanRef={merchanRef} setMerchantRef={setMerchantRef} />
 
-            <ProfileInformation merchanRef={merchanRef} />
+            <ProfileInformation merchanRef={merchanRef} setMerchantRef={setMerchantRef} />
 
             <h1 className="mb-4 text-3xl font-bold leading-none tracking-tight text-black dark:text-white md:text-4xl lg:text-4xl">
                 Account
@@ -46,7 +46,7 @@ export default function AccountLayout({ merchanRef, setMerchantRef }) {
     );
 }
 
-function ProfileInformation({ merchanRef }) {
+function ProfileInformation({ merchanRef, setMerchantRef }) {
     const [logoutConfirmation, setLogoutConfirmation] = useState(false);
 
     return (
@@ -104,7 +104,7 @@ function ProfileInformation({ merchanRef }) {
                                 Cancel
                             </button>
                             <button
-                                onClick={() => authenticateLogout(merchanRef.id, "/login")}
+                                onClick={() => authenticateLogout(merchanRef.id, setMerchantRef, "/login")}
                                 className="px-4 transition-all duration-300 bg-red-500 hover:bg-red-600 md:h-9 h-8 rounded-md font-medium text-white"
                             >
                                 Logout

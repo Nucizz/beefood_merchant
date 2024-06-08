@@ -32,7 +32,7 @@ export function AdminMerchant({ page }) {
         if (!user) {
             window.location.href = "/admin";
         } else if (user.email !== "beefood.contact@gmail.com") {
-            authenticateLogout(user.id, "/admin");
+            authenticateLogout(user.id, setUser, "/admin");
         }
     } catch (e) {
         console.log(e);

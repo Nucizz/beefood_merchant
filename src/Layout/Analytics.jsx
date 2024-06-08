@@ -21,13 +21,15 @@ export default function AnalyticsLayout({ merchanRef, setMerchantRef }) {
                 const finishedOrder = [];
                 var newPrice = 0;
                 var newFinished = 0;
-                newOrder.forEach((item) => {
-                    if (item.status === 4) {
-                        newPrice += item.totalPrice;
-                        newFinished++;
-                        finishedOrder.push(item);
-                    }
-                });
+                if(newOrder) {
+                    newOrder.forEach((item) => {
+                        if (item.status === 4) {
+                            newPrice += item.totalPrice;
+                            newFinished++;
+                            finishedOrder.push(item);
+                        }
+                    });
+                }
                 setDailyEarning(newPrice);
                 setDailyOrder(newFinished);
                 return finishedOrder;

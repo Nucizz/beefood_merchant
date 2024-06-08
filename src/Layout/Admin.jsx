@@ -27,7 +27,7 @@ export default function AdminLayout() {
 
     try {
         if (user && user.email !== "beefood.contact@gmail.com") {
-            authenticateLogout(user.id, "/admin");
+            authenticateLogout(user.id, setUser, "/admin");
         }
     } catch (e) {
         console.log(e);
@@ -56,7 +56,7 @@ export default function AdminLayout() {
                     {user ? (
                         <button
                             className="text-red-400 ml-auto"
-                            onClick={() => authenticateLogout(user.id, "/admin")}
+                            onClick={() => authenticateLogout(user.id, setUser, "/admin")}
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -76,7 +76,7 @@ export default function AdminLayout() {
                     ) : null}
                 </div>
 
-                {user ? <AdminLaunchpad /> : <AdminLoginForm setUserRef={setUser} />}
+                {user ? <AdminLaunchpad setUserRef={setUser} /> : <AdminLoginForm setUserRef={setUser} />}
             </div>
         </div>
     );
