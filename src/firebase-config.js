@@ -2,7 +2,6 @@ import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 // KEY
-console.log(process.env)
 const FIREBASE_CONFIG = {
   apiKey: process.env.REACT_APP_FIREBASE_CONFIG_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_CONFIG_AUTH_DOMAIN,
