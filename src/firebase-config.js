@@ -25,7 +25,7 @@ export const getFCMToken = async () => {
   try {
     const currentToken = await getToken(messaging, { vapidKey: MESSAGING_KEY });
     if (currentToken) {
-      console.log("CLIENT TOKEN: ", currentToken);
+      console.log("FCM registration token updated.");
       return currentToken;
     } else {
       console.log(
